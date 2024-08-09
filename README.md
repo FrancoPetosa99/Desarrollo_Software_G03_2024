@@ -4,7 +4,7 @@
 
 <div style="display: flex; align-items: center;">
   <h1 style="margin-left: 10px;">UTN FRLP</h1>
-  <img src="ruta/a/la/imagen.png" alt="Texto alternativo" width="100" />
+  <img src="./logo.png" alt="Texto alternativo" width="100" />
 </div>
 
 Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la UTN FRLP para la materia Desarrollo de Software. La aplicación tiene como objetivo [incluir una breve descripción del propósito del proyecto, como el problema que resuelve o el valor que agrega].
