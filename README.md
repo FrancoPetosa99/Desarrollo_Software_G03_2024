@@ -22,3 +22,7 @@ Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Info
 3. Sofía Goszko
 4. Aldo Fleitas
 5. Svend Nor
+
+## Profesores
+1. Emilio Watemberg
+2. Paula Giudici
