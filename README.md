@@ -1,7 +1,11 @@
 # Desarrollo_Software_G03_2024
 
-| ## UTN-FRLP | ![Logo del Proyecto](./logo.png) |
-|----------------------------------|-------------------------|
+<table>
+  <tr>
+    <td><h1>Nombre del Proyecto</h1></td>
+    <td><img src="./logo.png" alt="Logo del Proyecto" width="50"></td>
+  </tr>
+</table>
 
 # Proyecto: **[Nombre de la Aplicación]**
 
