@@ -3,7 +3,7 @@
 # Proyecto: **[Nombre de la Aplicación]**
 
 <div style="display: flex; align-items: center;">
-  <h2 style="margin-left: 10px;">UTN FRLP</h2>
+  <p style="margin-left: 10px;">UTN FRLP</p>
   <img src="./logo.png" alt="Logo" width="100" />
 </div>
 
