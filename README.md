@@ -1,8 +1,9 @@
-# UTN-FRLP
-  
-<img src="./logo.png" alt="Logo" width="200" />
-
 # Desarrollo_Software_G03_2024
+
+<div style="display: flex; align-items: center;">
+  <h1 style="margin-left: 10px;">UTN-FRLP</h1>
+  <img src="./logo.png" alt="Logo" width="50" />
+</div>
 
 # Proyecto: **[Nombre de la Aplicación]**
 
