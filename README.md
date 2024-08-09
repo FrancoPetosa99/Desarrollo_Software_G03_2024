@@ -1,11 +1,10 @@
+# UTN-FRLP
+  
+<img src="./logo.png" alt="Logo" width="200" />
+
 # Desarrollo_Software_G03_2024
 
 # Proyecto: **[Nombre de la Aplicación]**
-
-<div style="display: flex; align-items: center;">
-  <p style="margin-left: 10px;">UTN FRLP</p>
-  <img src="./logo.png" alt="Logo" width="100" />
-</div>
 
 Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la UTN FRLP para la materia Desarrollo de Software. La aplicación tiene como objetivo [incluir una breve descripción del propósito del proyecto, como el problema que resuelve o el valor que agrega].
 
