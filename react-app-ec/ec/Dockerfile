@@ -12,16 +12,17 @@ COPY . .
 RUN npm install
 
 # 5. Construye la aplicación (incluye la compilación de TypeScript y el build de Vite)
-RUN npm run build
+# RUN npm run build
 
 # 6. Expone el puerto en el que correrá la aplicación
 EXPOSE 4173
 
 # 7. Instala un servidor estático para servir la aplicación
-RUN npm install -g serve
+# RUN npm install -g serve
 
 # 8. Comando para correr la aplicación con 'serve'
-CMD ["serve", "-s", "dist"]
+# CMD ["serve", "-s", "dist"]
+CMD ["npm", "run", "dev"]
 
 # docker build -t [nombre de la imagen] . construir una imagen basada en un DockerFile 
 # docker run -it -p [puerto local]:[puerto interno del contenedor] [nombre de la imagen] /bin/sh correr la imagen del proyecto en modo interactivo
