@@ -3,11 +3,9 @@ import Layout from '../components/Layout';
 
 function Login() {
   return (
-        <>
             <Layout>
                 <h1>Login</h1>
             </Layout>
-        </>
     );
 };
 
