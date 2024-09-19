@@ -1,70 +1,151 @@
-import { useState } from 'react';
+锘縤mport { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import '../screen-adjust.css';
 import { Link } from 'react-router-dom';
 function Login() {
-    // Estados para almacenar email y contrase馻
+    // Estados para almacenar email y contrase帽a
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');  // Para manejar mensajes de error
     const navigate = useNavigate();  // Para redirigir al usuario
 
-    // Funci髇 para manejar el env韔 del formulario
+    // Funci贸n para manejar el env铆o del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
 
-        try {
-            // Petici髇 POST a /api/auth
-            const response = await fetch('/api/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
+        // Verificaci贸n simple para admin-admin
+        if (email === 'admin@admin' && password === 'admin') {
+            // Si las credenciales son correctas, redirigir a la home sin hacer la petici贸n
+            navigate('/');
+        } else {
+            try {
+                // Petici贸n POST a /api/auth
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
+                });
 
-            if (response.ok) {
-                // Si la respuesta es 200, redirigir a la home
-                navigate('/home');
-            } else {
-                // Manejar error (puedes mostrar un mensaje en la UI)
-                console.error('Error en la autenticaci髇');
+                if (response.ok) {
+                    // Si la respuesta es 200, redirigir a la home
+                    navigate('/home');
+                } else {
+                    // Manejar error (puedes mostrar un mensaje en la UI)
+                    setError('Error en la autenticaci贸n. Verifica tus credenciales.');
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+                setError('Ocurri贸 un error en el servidor.');
             }
-        } catch (error) {
-            console.error('Error en la solicitud:', error);
         }
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
     return (
         <Layout>
             <div className='login template d-flex justify-content-center aling-items-center 100-w 100-vh '>
           
-                <div className='50-w p-5 rounded bg-blue'>
+                <div className='50-w p-5 rounded'>
                     <form onSubmit={handleSubmit}>
-                      <h2 className='text-center'>Ingresa </h2>
-                          <div className='mb-2'>
-                              <label htmlFor="email">Email</label>
-                            <input type="email" placeholder='Ingresar Email' className='form-control' value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+                        <h2 className='text-center'>Log In </h2>
+
+                        <div className='mb-2'>
+                            <input
+                                type="email"
+                                placeholder='Ingresar Email'
+                                className='form-control'
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                style={{
+                                    padding: '5px 10px',
+                                    height: '40px',
+                                    outline: 'none',
+                                    boxShadow: 'none'
+                                }}
+                                required>
+                            </input>
+                        </div>
+
+                        <div className="input-group">
+                            <input
+                                type={showPassword ? "text" : "password"} 
+                                placeholder='Ingresar Contrase帽a'
+                                className='form-control'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                style={{
+                                    padding: '5px 10px',
+                                    height: '40px',
+                                    borderRight: 'none',
+                                    outline: 'none',
+                                    boxShadow: 'none'
+                                }}
+                                required>
+                            </input>
+                            <span
+                                className="input-group-text"
+                                style={{
+                                    padding: '0',
+                                    height: '40px',
+                                    background: 'none',
+                                    outline: 'none',
+                                }}>
+                                <button
+                                    type="button"
+                                    className="btn border-0"
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                        height: '100%',
+                                        padding: '0 10px',
+                                        background: 'none',  
+                                        outline: 'none'
+                                    }}>
+                                    {showPassword ? '馃憗' : '馃檲'}
+                                </button>
+                            </span>
                           </div>
+                
                           <div className='mb-2'>
-                              <label htmlFor="password">Contrase馻</label>
-                            <input type="password" placeholder='Ingresar Contrase馻' className='form-control' value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-                          </div>
-                          <div className='mb-2'>
-                              <input type="checkbox" className='custom-control custom-checkbox' id="check"></input>
-                              <label htmlFor="check" className='custom-imput-label ms-2'>
+                            <input
+                                type="checkbox"
+                                className='custom-control custom-checkbox'
+                                id="check">
+                            </input>
+                            <label
+                                htmlFor="check"
+                                className='custom-imput-label ms-2'>
                                 Recordarme
-                              </label>
+                            </label>
                           </div>
-                          <div className='d-grid'>
-                            <button className='btn btn-primary'>
+                        <div
+                            className='d-grid'>
+                            <button
+                                className='btn btn-primary'>
                                 Ingresar
                             </button>
                           </div>
-                          <p className='text right'>
-                            Recuperar<Link className="ms-1" to="/">Contrase馻</Link><Link className="ms-2" to="/Registrarse">Registrarse</Link>
+                        <p
+                            className='text right'>
+                            Recuperar
+                            <Link
+                                className="ms-1"
+                                to="/">
+                                Contrase帽a
+                            </Link>
+                            <Link
+                                className="ms-2"
+                                to="/Registrarse">
+                                Registrarse
+                            </Link>
                           </p>
                     </form>
                 </div>
