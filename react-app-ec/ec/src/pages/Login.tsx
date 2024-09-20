@@ -1,7 +1,7 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import '../screen-adjust.css';
+import './screen-adjust.css';
 import { Link } from 'react-router-dom';
 function Login() {
     // Estados para almacenar email y contraseña
