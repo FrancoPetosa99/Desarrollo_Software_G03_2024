@@ -1,4 +1,11 @@
-﻿.form-group {
+﻿.titulo {
+    margin-left: 40px;
+    margin-right: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.form-group {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -59,22 +66,33 @@
 }
 
 
-.respuesta {
-    align-items: center;
+.bloque-respuesta {
     gap: 10px;
     margin-bottom: 10px;
     padding: 0px;
-    background-color: #f9f9f9; /* Color de fondo normal */
     border-radius: 5px;
+    background-color: white; /* Fondo neutral por defecto */
 }
 
-    .respuesta.correcta {
-        background-color: #28A745; /* Color de fondo verde cuando es correcta */
+    .bloque-respuesta.respuesta-correcta {
+        background-color: forestgreen/*#28A745*/; /* Color de fondo verde cuando es correcta */
         color: white;
     }
 
+    .bloque-respuesta.respuesta-incorrecta {
+        background-color: #f9f9f9; /* Fondo neutral cuando es incorrecta */
+        color: black;
+    }
+
+.input-respuesta {
+    display:inline;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
 .btn-correcta {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
     color: black;
     border: 1px solid #ccc;
     padding: 5px 10px;
@@ -83,10 +101,30 @@
     transition: background-color 0.3s ease;
 }
 
-    .btn-correcta.correcta {
-        background-color: #28A745; /* Color verde cuando la respuesta es correcta */
+    .btn-correcta.marcada-correcta {
+        background-color: #28A745; /* Color verde cuando se marca como correcta */
         color: white;
     }
+
+    .btn-correcta.marcada-incorrecta {
+        background-color: #f0f0f0; /* Fondo neutral cuando no está marcada como correcta */
+        color: black;
+    }
+
+.btn-quitar-respuesta {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-quitar-respuesta:hover {
+        background-color: #c82333; /* Un rojo más oscuro cuando el botón de quitar es hover */
+    }
+
 
 .boton-agregar {
     display: inline-block; 
@@ -101,7 +139,7 @@
 }
 
     .boton-agregar:hover {
-        transform: scale(1.05); /
+        transform: scale(1.05); 
     }
 
 .boton-fondo {
@@ -111,4 +149,25 @@
     margin-right: 50px;
     margin-top: 20px;
     margin-bottom: 10px;
+    transition: transform 0.3s;
 }
+
+.btn-agregar-pregunta {
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+    .btn-agregar-pregunta:hover {
+        transform: scale(1.05);
+        /
+    }
+
+.btn-guardar {
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+    .btn-guardar:hover {
+        transform: scale(1.05);
+        /
+    }

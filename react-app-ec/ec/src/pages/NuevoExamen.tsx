@@ -1,23 +1,42 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
 import './NuevoExamen.css';
-
-
+import check from '../icons/check.png';
+import uncheck from '../icons/uncheck.png';
 function NuevoExamen() {
-    const [titulo, setTitulo] = useState('');
+    const [formulario, setFormulario] = useState({
+        titulo: '',
+        tema: '',
+        tiempo: '',
+        fecha: new Date().toISOString().split('T')[0] 
+    });;
     const [texto, setTexto] = useState('');
     const maxCaracteres = 600;
-    const [preguntas, setPreguntas] = useState([{ texto: '', respuestas: ['', ''] }]);
+
+    const [preguntas, setPreguntas] = useState([
+        { texto: '', respuestas: ['', ''], respuestasCorrectas: [0] }
+    ]);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormulario((prevFormulario) => ({
+            ...prevFormulario,
+            [name]: value
+        }));
+    };
+
+    const handleChangeTextbox = (e) => {
         setTexto(e.target.value);
         e.target.style.height = 'auto'; 
         e.target.style.height = `${e.target.scrollHeight}px`; 
     };
 
     const agregarPregunta = () => {
-        setPreguntas([...preguntas, { texto: '', respuestas: ['', ''] }]);
-    };    
+    if (preguntas.length < 10) { 
+        setPreguntas([...preguntas, { texto: '', respuestas: ['', ''], respuestasCorrectas: [0] }]);
+    }
+    };   
+    
 
     const manejarTextoPregunta = (index, value) => {
         const nuevasPreguntas = [...preguntas];
@@ -41,13 +60,31 @@ function NuevoExamen() {
 
     const marcarComoCorrecta = (indexPregunta, indexRespuesta) => {
         const nuevasPreguntas = [...preguntas];
-        nuevasPreguntas[indexPregunta].respuestaCorrecta = indexRespuesta;
+        const respuestasCorrectas = nuevasPreguntas[indexPregunta].respuestasCorrectas;
+
+        if (respuestasCorrectas.includes(indexRespuesta)) {
+            nuevasPreguntas[indexPregunta].respuestasCorrectas = respuestasCorrectas.filter(
+                (respIndex) => respIndex !== indexRespuesta
+            );
+        } else {
+            
+            nuevasPreguntas[indexPregunta].respuestasCorrectas.push(indexRespuesta);
+        }
+
         setPreguntas(nuevasPreguntas);
     };
 
+    
+
+    
     const quitarRespuesta = (indexPregunta, indexRespuesta) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].respuestas.splice(indexRespuesta, 1);
+
+        nuevasPreguntas[indexPregunta].respuestasCorrectas = nuevasPreguntas[indexPregunta].respuestasCorrectas.filter(
+            (respIndex) => respIndex !== indexRespuesta
+        );
+
         setPreguntas(nuevasPreguntas);
     };
 
@@ -58,7 +95,7 @@ function NuevoExamen() {
 
     return (
         <Layout>
-            <h1 className="form-group" >Crea tu Examen</h1> 
+            <h1 className="titulo" >Crea tu Examen</h1> 
 
             <div className='form-group'>
                 <div className='mb-1'>
@@ -66,9 +103,11 @@ function NuevoExamen() {
                     <input
                         type="text"
                         id="titulo"
+                        name="titulo"
+                        value={formulario.titulo}
                         placeholder='Ingresar Título'
                         className='form-control'
-                        onChange={(e) => setTitulo(e.target.value)}
+                        onChange={handleChange}
                         required
                 />
                 </div>
@@ -77,9 +116,11 @@ function NuevoExamen() {
                     <input
                         type="text"
                         id="tema"
+                        name="tema"
+                        value={formulario.tema}
                         placeholder='Ingresar Tema'
                         className='form-control'
-                        onChange={(e) => setTitulo(e.target.value)}
+                        onChange={handleChange}
                         required
                     />
                 </div>
@@ -88,11 +129,14 @@ function NuevoExamen() {
                     <input
                         type="time"
                         id="tiempo"
+                        name="tiempo"
+                        value={formulario.tiempo}
                         className='form-control'
                         min="00:00"  
                         max="23:59" 
                         pattern="[0-2][0-3]:[0-5][0-9]"  
-                        placeholder="00:00"
+                        placeholder="00:00 hs"
+                        onChange={handleChange}
                         required
                     />
                 </div>
@@ -101,10 +145,11 @@ function NuevoExamen() {
                     <input
                         type="date"
                         id="fecha"
+                        name="fecha"
+                        value={formulario.fecha}
                         placeholder='Ingresar Tema'
                         className='form-control'
-                        onChange={(e) => setTitulo(e.target.value)}
-                        required
+                        onChange={handleChange}
                     />
                 </div>
 
@@ -122,7 +167,7 @@ function NuevoExamen() {
                         placeholder="Ingresa tu pregunta"
                         maxLength={maxCaracteres}
                         value={texto}
-                        onChange={handleChange}
+                        onChange={handleChangeTextbox}
                         />
 
                     <span className="char-limit">
@@ -141,59 +186,62 @@ function NuevoExamen() {
                             required
                             />
                         </span>
-                    <div className='boton-eliminar'>
-                        <button
+                        <div className='boton-eliminar'>
+                            {indexPregunta > 0 && (
+                            <button
                                 type="button"
                                 style={{
                                     fontSize: '20px',
                                 }}
                                 onClick={() => eliminarPregunta(indexPregunta)}  
-                            >x
-                        </button>
+                                >❌
+                                </button>
+                            )}
                      </div>
                         
-                </div>
-                    {pregunta.respuestas.map((respuesta, indexRespuesta) => (
-                        <div
-                            key={indexRespuesta}
-                            className={`respuesta ${pregunta.respuestaCorrecta === indexRespuesta ? "correcta" : ""}`}
-                        >
-                            <label htmlFor={`respuesta${indexRespuesta + 1}`}>
-                                Respuesta {indexRespuesta + 1}
-                            </label>
-                            <input
-                                type="text"
-                                id={`respuesta${indexRespuesta + 1}`}
-                                placeholder="Ingresar Respuesta"
-                                className="form-control"
-                                value={respuesta}
-                                onChange={(e) =>
-                                    manejarTextoRespuesta(indexPregunta, indexRespuesta, e.target.value)
-                                }
-                                required
-                            />
-                        <button
-                            type="button"
-                            className={`btn-correcta ${pregunta.respuestaCorrecta === indexRespuesta ? "correcta" : ""
-                                }`}
-                            onClick={() => marcarComoCorrecta(indexPregunta, indexRespuesta)}
-                        >
-                            {pregunta.respuestaCorrecta === indexRespuesta
-                                ? "✔️"
-                                : "❌"}
-                        </button>
-                        {indexRespuesta >= 2 && (
-                            <button
-                                type="button"
-                                className="btn-quitar-respuesta"
-                                onClick={() => quitarRespuesta(indexPregunta, indexRespuesta)}
-                            >
-                                quitar
-                            </button>
-                        )}
-                        
-                        </div>
-                ))}
+                    </div>
+                {pregunta.respuestas.map((respuesta, indexRespuesta) => (
+    <div
+        key={indexRespuesta}
+        className={`bloque-respuesta respuesta-${indexRespuesta} ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "respuesta-correcta" : "respuesta-incorrecta"}`}>
+        <label htmlFor={`respuesta${indexRespuesta + 1}`}>
+                Respuesta {indexRespuesta + 1}
+        </label>
+        <div className='contenido-respuesta'>
+            
+            <input
+                type="text"
+                id={`respuesta${indexRespuesta + 1}`}
+                placeholder="Ingresar Respuesta"
+                className="input-respuesta"
+                value={respuesta}
+                onChange={(e) =>
+                    manejarTextoRespuesta(indexPregunta, indexRespuesta, e.target.value)
+                }
+                required
+            />
+            <span>
+                <button
+                    type="button"
+                    className={`btn-correcta btn-correcta-${indexRespuesta} ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "marcada-correcta" : "marcada-incorrecta"}`}
+                    onClick={() => marcarComoCorrecta(indexPregunta, indexRespuesta)}
+                    >
+                    {pregunta.respuestasCorrectas.includes(indexRespuesta) ? "✔️" : "❌"}
+                </button>
+            </span>
+            {indexRespuesta >= 2 && (
+                <button
+                    type="button"
+                    className={`btn-quitar-respuesta btn-quitar-${indexRespuesta}`}
+                    onClick={() => quitarRespuesta(indexPregunta, indexRespuesta)}
+                >
+                    quitar
+                </button>
+            )}
+        </div>
+    </div>
+))}
+
                     <div className='boton-agregar'>
                         {pregunta.respuestas.length < 4 && (
                             <button
@@ -215,7 +263,7 @@ function NuevoExamen() {
                 {preguntas.length < 10 && (
                     <button
                         type="button"
-                        className="btn"
+                        className="btn-agregar-pregunta"
                         style={{
                             height: '40px',
                             padding: '0 20px',
@@ -223,7 +271,7 @@ function NuevoExamen() {
                             color: 'white',
                             border: '1px solid black',
                             outline: 'none',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                         }}
                         onClick={agregarPregunta}
                     >
@@ -232,7 +280,7 @@ function NuevoExamen() {
                 )}
                 <button
                     type="button"
-                    className="btn"
+                    className="btn-guardar"
                     style={{
                         height: '40px', 
                         padding: '0 20px',
@@ -240,7 +288,7 @@ function NuevoExamen() {
                         color: 'white', 
                         border: '1px solid black', 
                         outline: 'none', 
-                        cursor: 'pointer' 
+                        cursor: 'pointer',
                     }}>Guardar Examen
                 </button>
             </div>
