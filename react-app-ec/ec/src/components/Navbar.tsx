@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/collapse';
 import 'bootstrap/js/dist/offcanvas';
 import { Link } from 'react-router-dom';
+import logo from '../Logo-ec.png';
+import logo2 from '../Logo2-ec.png';
 
 function Navbar() {
 
@@ -11,13 +13,16 @@ function Navbar() {
   return (
     <nav style={{ width: '100%'}} className="navbar navbar-dark bg-dark  navbar-expand-lg">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Easy Choice</Link>
+        <div>
+            <img style={{ width: '50px', height: '50px' }} src={logo2} alt="Logo2" />
+            <Link className="navbar-brand fw-bold" to="/">Easy Choice</Link>
+        </div>
         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="offcanvas offcanvas-end text-bg-dark" tabIndex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
           <div className="offcanvas-header">
-            <img style={{ width: '100px', height: '100px' }} src='../../public/logo.png' />
+            <img style={{ width: '100px', height: '100px' }} src={logo} alt="Logo" />
             <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">

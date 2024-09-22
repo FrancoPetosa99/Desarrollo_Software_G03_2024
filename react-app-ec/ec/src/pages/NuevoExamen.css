@@ -1,4 +1,5 @@
-﻿.titulo {
+﻿
+.titulo {
     margin-left: 40px;
     margin-right: 30px;
     margin-top: 20px;
@@ -18,7 +19,6 @@
 
 .consigna {
     gap: 20px;
-    width: 80%;
     max-width: 900px;
     margin-left: 40px;
     margin-right: 40px;
@@ -33,114 +33,118 @@
     margin-bottom: 20px;
 }
 
-.pregunta {
-    height: auto;
-    min-height: 50px;
-    max-width: 800px;
-    font-size: 14px;
-    padding: 10px;
-    resize: none;
-    overflow: hidden;
-    width: 80%;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+        .pregunta-input {
+            height: auto;
+            width: 80%;
+            min-height: 50px;
+            max-width: 800px;
+            padding: 10px;
+            resize: none;
+            overflow: hidden;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
 
-.char-limit {
-    right: 19px; 
-    bottom: -215px;
-    color: gray;
-    pointer-events: none; 
-    padding: 2px; 
-    font-size: 9px;
-}
+        .char-limit {
+            right: 19px; 
+            bottom: -215px;
+            color: gray;
+            pointer-events: none; 
+            padding: 2px; 
+            font-size: 9px;
+        }
 
 .puntaje {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: relative;
-    right: 40px;
-    bottom: -40px; 
+    right: 35px;
+    bottom: -10px;
     padding: 0px 0px;
     max-width: 10px;
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 12px;
+    width: 30px;
 }
+
+    .puntaje input {
+        border: 1px solid #ccc;
+        border-radius: 3px
+    }
 
 
 .bloque-respuesta {
     gap: 10px;
     margin-bottom: 10px;
     padding: 0px;
-    border-radius: 5px;
-    background-color: white; /* Fondo neutral por defecto */
+    border-radius: 0px;
 }
 
-    .bloque-respuesta.respuesta-correcta {
-        background-color: forestgreen/*#28A745*/; /* Color de fondo verde cuando es correcta */
-        color: white;
-    }
-
-    .bloque-respuesta.respuesta-incorrecta {
-        background-color: #f9f9f9; /* Fondo neutral cuando es incorrecta */
-        color: black;
-    }
-
 .input-respuesta {
-    display:inline;
+    display: inline;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
+    width: 70%;
 }
 
-.btn-correcta {
-    background-color: #f0f0f0;
-    color: black;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .input-correcta {
+            background-color: mediumseagreen;
+            color: black;
+        }
 
-    .btn-correcta.marcada-correcta {
-        background-color: #28A745; /* Color verde cuando se marca como correcta */
-        color: white;
-    }
+        .boton-correcta {
+            color: black;
+            border: 0px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .btn-correcta.marcada-incorrecta {
-        background-color: #f0f0f0; /* Fondo neutral cuando no está marcada como correcta */
-        color: black;
-    }
+        .boton-quitar-respuesta {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.btn-quitar-respuesta {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-    .btn-quitar-respuesta:hover {
-        background-color: #c82333; /* Un rojo más oscuro cuando el botón de quitar es hover */
-    }
+            .boton-quitar-respuesta:hover {
+                background-color: #c82333; 
+            }
 
 
-.boton-agregar {
-    display: inline-block; 
-    padding: 0px 0px; 
-    width: auto; 
-    background-color: #5d5d5d; 
-    color: black; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: transform 0.3s; 
-}
+        .boton-agregar-respuesta { 
+            padding: 0px 0px; 
+            width: 122px; 
+            background-color: #5d5d5d; 
+            color: black; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: transform 0.3s; 
+        }
 
-    .boton-agregar:hover {
-        transform: scale(1.05); 
-    }
+            .boton-agregar-respuesta:hover {
+                transform: scale(1.05); 
+            }
+
+        .boton-eliminar-pregunta {
+            padding: 0px 0px;
+            border: 0px;
+            border-radius: 0px;
+            transition: transform 0.3s;
+        }
+
+            .boton-eliminar-pregunta:hover {
+                transform: scale(1.05);
+            }
 
 .boton-fondo {
     display: flex;
@@ -152,22 +156,26 @@
     transition: transform 0.3s;
 }
 
-.btn-agregar-pregunta {
+.boton-agregar-pregunta {
+    font-weight: 600;
     border-radius: 5px;
     transition: transform 0.3s;
 }
 
-    .btn-agregar-pregunta:hover {
+    .boton-agregar-pregunta:hover {
         transform: scale(1.05);
-        /
     }
 
-.btn-guardar {
+.boton-guardar {
+    font-weight: 600;
     border-radius: 5px;
     transition: transform 0.3s;
 }
 
-    .btn-guardar:hover {
+    .boton-guardar:hover {
         transform: scale(1.05);
-        /
     }
+
+.is-invalid {
+    border: 1px solid red; /* Bordes rojos para campos no completados */
+}

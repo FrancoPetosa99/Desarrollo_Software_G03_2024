@@ -4,19 +4,22 @@ import './NuevoExamen.css';
 import check from '../icons/check.png';
 import uncheck from '../icons/uncheck.png';
 function NuevoExamen() {
+    // Inicializando el formulario con los valores necesarios
     const [formulario, setFormulario] = useState({
         titulo: '',
         tema: '',
         tiempo: '',
-        fecha: new Date().toISOString().split('T')[0] 
-    });;
-    const [texto, setTexto] = useState('');
+        fecha: new Date().toISOString().split('T')[0] // Fecha inicial actual
+    });
+
     const maxCaracteres = 600;
 
+    // Preguntas con sus respuestas y respuestasCorrectas
     const [preguntas, setPreguntas] = useState([
         { texto: '', respuestas: ['', ''], respuestasCorrectas: [0] }
     ]);
 
+    // Función para manejar cambios en los inputs generales (título, tema, etc.)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormulario((prevFormulario) => ({
@@ -25,31 +28,42 @@ function NuevoExamen() {
         }));
     };
 
-    const handleChangeTextbox = (e) => {
-        setTexto(e.target.value);
-        e.target.style.height = 'auto'; 
-        e.target.style.height = `${e.target.scrollHeight}px`; 
+    const manejarPuntaje = (e) => {
+        let value = e.target.value;
+        value = value.replace(',', '.');
+        if (parseFloat(value) > 1) {
+            value = '1.00';
+        }
+        e.target.value = value; 
     };
 
+    // Agregar una nueva pregunta asegurando que no haya más de 10 preguntas
     const agregarPregunta = () => {
-    if (preguntas.length < 10) { 
-        setPreguntas([...preguntas, { texto: '', respuestas: ['', ''], respuestasCorrectas: [0] }]);
-    }
-    };   
-    
-
-    const manejarTextoPregunta = (index, value) => {
-        const nuevasPreguntas = [...preguntas];
-        nuevasPreguntas[index].texto = value;
-        setPreguntas(nuevasPreguntas);
+        if (preguntas.length < 10) {
+            setPreguntas([...preguntas, { texto: '', respuestas: ['', ''], respuestasCorrectas: [0] }]);
+        }
     };
 
+    // Manejar cambios en el texto de la pregunta
+    const manejarTextoPregunta = (indexPregunta, e) => {
+        const { value } = e.target;
+        const nuevasPreguntas = [...preguntas];
+        nuevasPreguntas[indexPregunta].texto = value;
+        setPreguntas(nuevasPreguntas);
+
+        // Ajustar altura del textarea
+        e.target.style.height = 'auto'; // Reiniciar altura
+        e.target.style.height = `${e.target.scrollHeight}px`; // Ajustar altura
+    };
+
+    // Manejar cambios en el texto de las respuestas
     const manejarTextoRespuesta = (indexPregunta, indexRespuesta, value) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].respuestas[indexRespuesta] = value;
         setPreguntas(nuevasPreguntas);
     };
 
+    // Agregar una respuesta adicional, asegurando que no haya más de 4 respuestas por pregunta
     const agregarRespuesta = (index) => {
         const nuevasPreguntas = [...preguntas];
         if (nuevasPreguntas[index].respuestas.length < 4) {
@@ -58,6 +72,7 @@ function NuevoExamen() {
         }
     };
 
+    // Marcar una respuesta como correcta (se permite más de una)
     const marcarComoCorrecta = (indexPregunta, indexRespuesta) => {
         const nuevasPreguntas = [...preguntas];
         const respuestasCorrectas = nuevasPreguntas[indexPregunta].respuestasCorrectas;
@@ -67,16 +82,13 @@ function NuevoExamen() {
                 (respIndex) => respIndex !== indexRespuesta
             );
         } else {
-            
             nuevasPreguntas[indexPregunta].respuestasCorrectas.push(indexRespuesta);
         }
 
         setPreguntas(nuevasPreguntas);
     };
 
-    
-
-    
+    // Quitar una respuesta de la lista, y removerla de las respuestas correctas si está marcada
     const quitarRespuesta = (indexPregunta, indexRespuesta) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].respuestas.splice(indexRespuesta, 1);
@@ -88,10 +100,36 @@ function NuevoExamen() {
         setPreguntas(nuevasPreguntas);
     };
 
+    // Eliminar una pregunta del cuestionario
     const eliminarPregunta = (index) => {
-        const nuevasPreguntas = preguntas.filter((_, i) => i !== index);  
-        setPreguntas(nuevasPreguntas);  
+        const nuevasPreguntas = preguntas.filter((_, i) => i !== index);
+        setPreguntas(nuevasPreguntas);
     };
+
+    const guardarExamen = () => {
+        // Obtener todos los campos requeridos
+        const camposRequeridos = document.querySelectorAll('input[required], textarea[required]');
+        let todosCompletos = true;
+
+        // Verificar si todos los campos requeridos están completados
+        camposRequeridos.forEach(campo => {
+            if (!campo.value) {
+                todosCompletos = false;
+                campo.classList.add('is-invalid'); // Opcional: agregar clase para mostrar error
+            } else {
+                campo.classList.remove('is-invalid'); // Eliminar clase si el campo está completo
+            }
+        });
+
+        if (todosCompletos) {
+            // Aquí puedes realizar la acción de guardar el examen
+            console.log("Todos los campos están completos. Guardando examen...");
+            // Agrega tu lógica de guardado aquí
+        } else {
+            console.log("Por favor, completa todos los campos requeridos.");
+        }
+    };
+
 
     return (
         <Layout>
@@ -107,6 +145,7 @@ function NuevoExamen() {
                         value={formulario.titulo}
                         placeholder='Ingresar Título'
                         className='form-control'
+                        maxLength={25}
                         onChange={handleChange}
                         required
                 />
@@ -120,6 +159,7 @@ function NuevoExamen() {
                         value={formulario.tema}
                         placeholder='Ingresar Tema'
                         className='form-control'
+                        maxLength={25}
                         onChange={handleChange}
                         required
                     />
@@ -152,10 +192,8 @@ function NuevoExamen() {
                         onChange={handleChange}
                     />
                 </div>
-
-                
-                
             </div>
+
             {preguntas.map((pregunta, indexPregunta) => (
                 <div className='consigna' key={indexPregunta}>
                     <label htmlFor={`pregunta ${indexPregunta}`}>Pregunta {indexPregunta + 1}</label>
@@ -163,15 +201,16 @@ function NuevoExamen() {
 
                     <textarea
                         id={`pregunta${indexPregunta}`}
-                        className='pregunta'
+                        className='pregunta-input'
                         placeholder="Ingresa tu pregunta"
                         maxLength={maxCaracteres}
-                        value={texto}
-                        onChange={handleChangeTextbox}
+                        value={pregunta.texto}
+                        onChange={(e) => manejarTextoPregunta(indexPregunta, e)}
+                        required
                         />
 
                     <span className="char-limit">
-                        {texto.length}/{maxCaracteres}
+                        {pregunta.texto.length}/{maxCaracteres}
                         </span>
 
                     <span className="puntaje">
@@ -180,21 +219,21 @@ function NuevoExamen() {
                             type="text"
                             id="puntaje"
                             min="0,00"
-                            max="10,00"
-                            pattern="[0-1][0-9],[0-9][0-9]"
+                            max="1,00"
+                            pattern="[0-1],[0-9][0-9]"
                             placeholder="0,00"
+                            style={{ width:"30px"}}
+                            onChange={manejarPuntaje}
                             required
                             />
                         </span>
-                        <div className='boton-eliminar'>
+                        <div className='boton-eliminar-pregunta'>
                             {indexPregunta > 0 && (
                             <button
                                 type="button"
-                                style={{
-                                    fontSize: '20px',
-                                }}
+                                style={{border: "black",background: "none"}}
                                 onClick={() => eliminarPregunta(indexPregunta)}  
-                                >❌
+                                >⛔
                                 </button>
                             )}
                      </div>
@@ -210,21 +249,21 @@ function NuevoExamen() {
         <div className='contenido-respuesta'>
             
             <input
-                type="text"
                 id={`respuesta${indexRespuesta + 1}`}
                 placeholder="Ingresar Respuesta"
-                className="input-respuesta"
+                maxLength={50}
+                className={`input-respuesta ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "input-correcta" : ""}`}
                 value={respuesta}
-                onChange={(e) =>
-                    manejarTextoRespuesta(indexPregunta, indexRespuesta, e.target.value)
-                }
+                onChange={(e) =>manejarTextoRespuesta(indexPregunta, indexRespuesta, e.target.value)}
+                data-correcta={pregunta.respuestasCorrectas.includes(indexRespuesta)}
                 required
             />
             <span>
                 <button
                     type="button"
-                    className={`btn-correcta btn-correcta-${indexRespuesta} ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "marcada-correcta" : "marcada-incorrecta"}`}
+                    className={`boton-correcta boton-correcta-${indexRespuesta} ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "marcada-correcta" : "marcada-incorrecta"}`}
                     onClick={() => marcarComoCorrecta(indexPregunta, indexRespuesta)}
+                    style={{border: "black",background: "none"}}
                     >
                     {pregunta.respuestasCorrectas.includes(indexRespuesta) ? "✔️" : "❌"}
                 </button>
@@ -232,7 +271,7 @@ function NuevoExamen() {
             {indexRespuesta >= 2 && (
                 <button
                     type="button"
-                    className={`btn-quitar-respuesta btn-quitar-${indexRespuesta}`}
+                    className={`boton-quitar-respuesta boton-quitar-respuesta${indexRespuesta}`}
                     onClick={() => quitarRespuesta(indexPregunta, indexRespuesta)}
                 >
                     quitar
@@ -242,7 +281,7 @@ function NuevoExamen() {
     </div>
 ))}
 
-                    <div className='boton-agregar'>
+                    <div className='boton-agregar-respuesta'>
                         {pregunta.respuestas.length < 4 && (
                             <button
                                 type="button"
@@ -263,7 +302,7 @@ function NuevoExamen() {
                 {preguntas.length < 10 && (
                     <button
                         type="button"
-                        className="btn-agregar-pregunta"
+                        className="boton-agregar-pregunta"
                         style={{
                             height: '40px',
                             padding: '0 20px',
@@ -280,7 +319,7 @@ function NuevoExamen() {
                 )}
                 <button
                     type="button"
-                    className="btn-guardar"
+                    className="boton-guardar"
                     style={{
                         height: '40px', 
                         padding: '0 20px',
@@ -289,7 +328,9 @@ function NuevoExamen() {
                         border: '1px solid black', 
                         outline: 'none', 
                         cursor: 'pointer',
-                    }}>Guardar Examen
+                    }}
+                    onClick={guardarExamen}
+                >Guardar Examen
                 </button>
             </div>
 
