@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.3</version>
-		<relativePath/>
+		<version>3.3.4</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.easychoice</groupId>
-	<artifactId>api</artifactId>
+	<groupId>com.api</groupId>
+	<artifactId>easychoice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>easy choice api</name>
-	<description>REST API</description>
+	<name>easychoice</name>
+	<description>API REST</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -34,21 +34,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>javax.persistence-api</artifactId>
-			<version>2.2</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -57,7 +50,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
 
 	<build>
 		<plugins>

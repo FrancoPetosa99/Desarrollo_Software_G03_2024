@@ -1,14 +1,13 @@
-package com.easychoice.api;
+package com.api.easychoice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EasyChoiceApiApplicationTests {
+class EasychoiceApplicationTests {
 
 	@Test
 	void contextLoads() {
-		
 	}
 
 }
