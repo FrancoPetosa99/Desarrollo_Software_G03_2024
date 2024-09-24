@@ -116,6 +116,8 @@ h1 {
     .boton-eliminar {
         border: none;
         background: none;
+        margin-top: -40px;
+        margin-right: -10px;
         transition: transform 0.3s;
     }
 
