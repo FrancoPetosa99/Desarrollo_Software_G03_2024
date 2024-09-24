@@ -21,7 +21,7 @@ function NuevoExamen() {
     ]);
 
     // Función para manejar cambios en los inputs generales (título, tema, etc.)
-    const handleChange = (e) => {
+    const handleChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
         setFormulario((prevFormulario) => ({
             ...prevFormulario,
@@ -29,7 +29,7 @@ function NuevoExamen() {
         }));
     };
 
-    const manejarPuntaje = (e) => {
+    const manejarPuntaje = (e: { target: { value: any; }; }) => {
         let value = e.target.value;
         value = value.replace(',', '.');
         if (parseFloat(value) > 1) {
@@ -46,7 +46,7 @@ function NuevoExamen() {
     };
 
     // Manejar cambios en el texto de la pregunta
-    const manejarTextoPregunta = (indexPregunta, e) => {
+    const manejarTextoPregunta = (indexPregunta: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = e.target;
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].texto = value;
@@ -58,14 +58,14 @@ function NuevoExamen() {
     };
 
     // Manejar cambios en el texto de las respuestas
-    const manejarTextoRespuesta = (indexPregunta, indexRespuesta, value) => {
+    const manejarTextoRespuesta = (indexPregunta: number, indexRespuesta: number, value: string) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].respuestas[indexRespuesta] = value;
         setPreguntas(nuevasPreguntas);
     };
 
     // Agregar una respuesta adicional, asegurando que no haya más de 4 respuestas por pregunta
-    const agregarRespuesta = (index) => {
+    const agregarRespuesta = (index: number) => {
         const nuevasPreguntas = [...preguntas];
         if (nuevasPreguntas[index].respuestas.length < 4) {
             nuevasPreguntas[index].respuestas.push('');
@@ -74,7 +74,7 @@ function NuevoExamen() {
     };
 
     // Marcar una respuesta como correcta (se permite más de una)
-    const marcarComoCorrecta = (indexPregunta, indexRespuesta) => {
+    const marcarComoCorrecta = (indexPregunta: number, indexRespuesta: number) => {
         const nuevasPreguntas = [...preguntas];
         const respuestasCorrectas = nuevasPreguntas[indexPregunta].respuestasCorrectas;
 
@@ -90,7 +90,7 @@ function NuevoExamen() {
     };
 
     // Quitar una respuesta de la lista, y removerla de las respuestas correctas si está marcada
-    const quitarRespuesta = (indexPregunta, indexRespuesta) => {
+    const quitarRespuesta = (indexPregunta: number, indexRespuesta: number) => {
         const nuevasPreguntas = [...preguntas];
         nuevasPreguntas[indexPregunta].respuestas.splice(indexRespuesta, 1);
 
@@ -102,7 +102,7 @@ function NuevoExamen() {
     };
 
     // Eliminar una pregunta del cuestionario
-    const eliminarPregunta = (index) => {
+    const eliminarPregunta = (index: number) => {
         const nuevasPreguntas = preguntas.filter((_, i) => i !== index);
         setPreguntas(nuevasPreguntas);
     };

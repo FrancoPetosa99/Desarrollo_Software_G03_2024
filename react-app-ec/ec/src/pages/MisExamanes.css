@@ -62,24 +62,25 @@ h1 {
     justify-items: center;
     width: 70%;
     margin: 0 auto 0 auto;
+    transition: all 0.5s ease;
 }
 
-    .examen {
-        background-image: url('../images/fondoGenerico.png');
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 15px;
-        height: 200px;
-        min-width: 350px;
-        max-width: 400px;
-        border: 1px solid #333;
-        border-radius: 6px;
-        box-sizing: border-box;
-        overflow: hidden;
-        box-shadow: 6px 8px 10px #444;
-        transition: box-shadow 0.5s ease;
-    }
+.examen {
+    background-image: url('../images/fondoGenerico.png');
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    height: 200px;
+    min-width: 350px;
+    max-width: 400px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 6px 8px 10px #444;
+    transition: box-shadow 0.5s ease, transform 0.3s ease, opacity 0.3s ease;
+}
         
         .examen.habilitado {
             box-shadow: 6px 8px 10px rgb(0, 183, 0);

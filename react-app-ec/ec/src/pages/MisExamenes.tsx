@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
 import './MisExamanes.css';
 import fondoGenerico from "../images/fondoGenerico.jpg"
@@ -7,7 +8,6 @@ import fondoGears from "../images/fondoGears.png"
 import fondoDavid from "../images/david.jpg"
 
 function PanelExamenes() {
-    // Estado inicial de los exámenes, con algunos ejemplos
     const [examenes, setExamenes] = useState([
         {
             id: 1,
@@ -25,7 +25,7 @@ function PanelExamenes() {
             tema: 'Renacimiento',
             tiempo: '45 min',
             fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
+            habilitado: true,
             imagen: fondoDavid,
         },
         {
@@ -43,11 +43,10 @@ function PanelExamenes() {
             tema: 'Generico',
             tiempo: '20 min',
             fecha: new Date().toISOString().split('T')[0],
-            habilitado: true,
+            habilitado: false,
             imagen: fondoGenerico,
         }
     ]);
-
 
     const navigate = useNavigate();
 
@@ -56,8 +55,8 @@ function PanelExamenes() {
     const [filtroTema, setFiltroTema] = useState('');
 
     // Maneja los cambios en los filtros
-    const manejarFiltroTitulo = (e) => setFiltroTitulo(e.target.value);
-    const manejarFiltroTema = (e) => setFiltroTema(e.target.value);
+    const manejarFiltroTitulo = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTitulo(e.target.value);
+    const manejarFiltroTema = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTema(e.target.value);
 
     // Filtrar exámenes por título y tema
     const examenesFiltrados = examenes.filter(examen =>
@@ -65,26 +64,25 @@ function PanelExamenes() {
         examen.tema.toLowerCase().includes(filtroTema.toLowerCase())
     );
 
-    const advertencia = (id) => {
+    const advertencia = (id: number) => {
         const confirmar = window.confirm("¿Estás seguro de que deseas eliminar este examen?");
         if (confirmar) {
             eliminarExamen(id);
         }
     };
 
-    const eliminarExamen = (id) => {
+    const eliminarExamen = (id: number) => {
         setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id));
     };
 
     // Funciones para manejar botones de los exámenes
-    const editarExamen = (id) => {
+    const editarExamen = (id: number) => {
     };
 
-    const copiarLinkExamen = (id) => {
-        console.log('Copiando link del examen con ID:', id);
+    const copiarLinkExamen = (id: number) => {
     };
 
-    const cambiarEstadoExamen = (id, habilitado) => {
+    const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
         const nuevosExamenes = examenes.map(examen =>
             examen.id === id ? { ...examen, habilitado: !habilitado } : examen
         );
@@ -122,13 +120,13 @@ function PanelExamenes() {
                     </button>
                 </div>
  
-                <div className="lista-examenes"
-                    style={{
-                        backgroundImage: `url(${examenes.imagen})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}>
+                <TransitionGroup className="lista-examenes">
                     {examenesFiltrados.map((examen) => (
+                        <CSSTransition
+                            key={examen.id}
+                            timeout={300}
+                            classNames="examen"
+                        >
                         <div
                             key={examen.id}
                             className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
@@ -154,9 +152,10 @@ function PanelExamenes() {
                                     {examen.habilitado ? 'Finalizar' : 'Iniciar'}
                                 </button>
                             </div>
-                        </div>
+                            </div>
+                        </CSSTransition>
                     ))}
-                </div>
+                </TransitionGroup>
             </div>
         </Layout>
     );
