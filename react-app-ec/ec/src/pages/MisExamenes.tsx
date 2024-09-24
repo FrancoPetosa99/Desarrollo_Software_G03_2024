@@ -2,7 +2,6 @@
 import { Navigate, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import './MisExamanes.css';
-import fondo from "(../images/fondoGenerico.png";
 function PanelExamenes() {
     // Estado inicial de los exámenes, con algunos ejemplos
     const [examenes, setExamenes] = useState([
