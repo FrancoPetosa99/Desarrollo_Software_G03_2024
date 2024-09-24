@@ -2,6 +2,10 @@
 import { Navigate, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import './MisExamanes.css';
+import fondoGenerico from "../images/fondoGenerico.jpg"
+import fondoGears from "../images/fondoGears.png"
+import fondoDavid from "../images/david.jpg"
+
 function PanelExamenes() {
     // Estado inicial de los exámenes, con algunos ejemplos
     const [examenes, setExamenes] = useState([
@@ -12,16 +16,17 @@ function PanelExamenes() {
             tiempo: '30 min',
             fecha: new Date().toISOString().split('T')[0],
             habilitado: true,
-            imagen: 'url(../images/fondoGenerico.png)'
+            imagen: fondoGenerico,
+
         },
         {
             id: 2,
-            titulo: 'Examen de Historia',
-            tema: 'Revolución Francesa',
+            titulo: 'Examen de Arte',
+            tema: 'Renacimiento',
             tiempo: '45 min',
             fecha: new Date().toISOString().split('T')[0],
             habilitado: false,
-            imagen: 'url(../images/fondoGenerico.png)'
+            imagen: fondoDavid,
         },
         {
             id: 3,
@@ -30,7 +35,7 @@ function PanelExamenes() {
             tiempo: '40 min',
             fecha: new Date().toISOString().split('T')[0],
             habilitado: false,
-            imagen: 'url(../images/fondoGears.png)'
+            imagen: fondoGears,
         },
         {
             id: 4,
@@ -39,7 +44,7 @@ function PanelExamenes() {
             tiempo: '20 min',
             fecha: new Date().toISOString().split('T')[0],
             habilitado: true,
-            imagen: '../images/fondoGenerico.png'
+            imagen: fondoGenerico,
         }
     ]);
 
@@ -119,7 +124,7 @@ function PanelExamenes() {
  
                 <div className="lista-examenes"
                     style={{
-                        backgroundImage: "url(${fondo})",
+                        backgroundImage: `url(${examenes.imagen})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}>
@@ -128,7 +133,7 @@ function PanelExamenes() {
                             key={examen.id}
                             className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
                             style={{
-                                backgroundImage: "url(${fondo})",
+                                backgroundImage: `url(${examen.imagen})`,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                             }}
