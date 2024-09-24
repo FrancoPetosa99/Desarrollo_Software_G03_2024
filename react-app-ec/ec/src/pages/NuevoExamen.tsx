@@ -9,6 +9,7 @@ function NuevoExamen() {
         titulo: '',
         tema: '',
         tiempo: '',
+        habilitado: false,
         fecha: new Date().toISOString().split('T')[0] // Fecha inicial actual
     });
 
@@ -258,7 +259,7 @@ function NuevoExamen() {
                 data-correcta={pregunta.respuestasCorrectas.includes(indexRespuesta)}
                 required
             />
-            <span>
+            <div className="botones-respuesta">
                 <button
                     type="button"
                     className={`boton-correcta boton-correcta-${indexRespuesta} ${pregunta.respuestasCorrectas.includes(indexRespuesta) ? "marcada-correcta" : "marcada-incorrecta"}`}
@@ -267,7 +268,6 @@ function NuevoExamen() {
                     >
                     {pregunta.respuestasCorrectas.includes(indexRespuesta) ? "✔️" : "❌"}
                 </button>
-            </span>
             {indexRespuesta >= 2 && (
                 <button
                     type="button"
@@ -275,8 +275,9 @@ function NuevoExamen() {
                     onClick={() => quitarRespuesta(indexPregunta, indexRespuesta)}
                 >
                     quitar
-                </button>
+                </button>  
             )}
+            </div>
         </div>
     </div>
 ))}
@@ -308,7 +309,7 @@ function NuevoExamen() {
                             padding: '0 20px',
                             backgroundColor: '#007BFF',
                             color: 'white',
-                            border: '1px solid black',
+                            border: '0px',
                             outline: 'none',
                             cursor: 'pointer',
                         }}
@@ -325,7 +326,7 @@ function NuevoExamen() {
                         padding: '0 20px',
                         backgroundColor: '#28A745',
                         color: 'white', 
-                        border: '1px solid black', 
+                        border: '0px', 
                         outline: 'none', 
                         cursor: 'pointer',
                     }}

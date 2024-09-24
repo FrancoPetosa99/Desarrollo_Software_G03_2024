@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import NuevoExamen from './pages/NuevoExamen';
 import Login from './pages/Login';
 import Registrarse from './pages/Registrarse';
-import ExamenTemplate from './pages/ExamenTemplate';
+import MisExamenes from './pages/MisExamenes';
 
 
 function App() {
@@ -12,11 +12,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/examen/:id" element={<ExamenTemplate />} />
+        <Route path="/mis-examenes" element={<MisExamenes />} />
         <Route path="/nuevo-examen" element={<NuevoExamen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registrarse" element={<Registrarse />} />
-        <Route path="*" element={<h1>404 - Not Found</h1>} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </Router>
   );

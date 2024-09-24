@@ -1,12 +1,14 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import check from '../icons/check.png';
-import uncheck from '../icons/uncheck.png';
 function Home() {
-  return (
+    return (
         <>
             <Layout>
-                <h1>Home</h1>
+                <div style={{ backgroundImage: "url(./fondoGenerico.jpg)" }}>
+                   
+                
+                    <h1>Home</h1>
+                </div>
             </Layout>
         </>
     );

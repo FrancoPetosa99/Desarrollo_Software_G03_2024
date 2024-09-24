@@ -1,0 +1,180 @@
+
+.mis-examenes{
+    margin: 40px;
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: left;
+    color: #333;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+    .filtros {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        margin-bottom: 20px;
+    }
+
+        .filtros input {
+            width: 49%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .filtros input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+    .botonNuevoExamen {
+        border: 0px;
+        border-radius: 3px;
+        max-height: 50px;
+        width: 150px;
+        background-color: #28A745;
+        font-weight: 600;
+        color: white;
+        transition: transform 0.3s;
+    }
+
+        .botonNuevoExamen:hover {
+            transform: scale(1.1);
+        }
+
+.lista-examenes {
+    background-image: url('../images/fondoGenerico.png');
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    gap: 40px;
+    justify-content: center;
+    justify-items: center;
+    width: 70%;
+    margin: 0 auto 0 auto;
+}
+
+    .examen {
+        background-image: url('../images/fondoGenerico.png');
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
+        height: 200px;
+        min-width: 350px;
+        max-width: 400px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        overflow: hidden;
+        box-shadow: 6px 8px 10px rgb(0, 0, 0, 0,40);
+    }
+        
+        .examen.habilitado {
+            box-shadow: 6px 8px 10px rgb(0, 183, 0);
+        }
+
+.examen-grupo-info{
+    display: inline flex;
+    justify-content: space-between;
+}
+
+    .examen-info{
+        width: 90%;
+        margin: 10px;
+    }   
+
+    .examen h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .examen h6 {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .boton-eliminar {
+        border: none;
+        background: none;
+        transition: transform 0.3s;
+    }
+
+    .boton-eliminar:hover {
+        transform: scale(1.3);
+    }
+
+    .examen-grupo-boton{
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .examen-grupo-boton button {
+        padding: 4px 12px;
+        margin-left: 10px;
+        font-size: 14px;
+        font-weight: 450;
+        border-radius: 4px;
+        transition: transform 0.3s;
+    }
+
+        .examen-grupo-boton button:nth-child(1) {
+            background-color: #ffc107;
+        }
+
+        .examen-grupo-boton button:nth-child(2) {
+            background-color: #17a2b8;
+        }
+
+        .examen-grupo-boton button:nth-child(3).iniciar {
+            background-color: #28A745;
+        }
+
+        .examen-grupo-boton button:nth-child(3).finalizar {
+            background-color: #c71515;
+        }
+
+        .examen button:hover {
+            transform: scale(1.1);
+        }
+
+@media (max-width: 768px) {
+
+    .filtros {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+        .filtros input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    
+    .botonNuevoExamen{
+        margin-top: 40px;
+    }
+
+    .lista-examenes {
+        flex-direction: column;
+        justify-items: center;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+}
+
+

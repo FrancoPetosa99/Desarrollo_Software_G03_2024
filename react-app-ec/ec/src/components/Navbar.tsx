@@ -28,7 +28,7 @@ function Navbar() {
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/nuevo-examen">Nuevo Examen</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/mis-examenes">Mis Examenes</Link></li>
               <li className="nav-item"><Link className="nav-link" to="/registrarse">Registrarse</Link></li>
               { !isAuthenticated && <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li> }
             </ul>
