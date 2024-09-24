@@ -25,6 +25,7 @@ EXPOSE 4173
 CMD ["npm", "run", "dev"]
 
 # docker build -t [nombre de la imagen] . construir una imagen basada en un DockerFile 
+# docker run -p [puerto local]:[puerto contenedor] --name [nombre del contenedir] [nombre de la imagen]
 # docker run -it -p [puerto local]:[puerto interno del contenedor] [nombre de la imagen] /bin/sh correr la imagen del proyecto en modo interactivo
 # docker ps -a listar todos los contenedores activos
 # docker rm -f $(docker ps -a -q) eliminar todos los contenedores
