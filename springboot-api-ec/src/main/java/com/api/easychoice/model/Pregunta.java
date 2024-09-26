@@ -1,6 +1,7 @@
 package com.api.easychoice.model;
 
 import java.util.List;
+import java.util.ArrayList;
 import com.api.easychoice.model.Examen;
 import com.api.easychoice.model.Opcion;
 import com.api.easychoice.utils.UUIDGenerator;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name = "Preguntas")
@@ -31,7 +33,8 @@ public class Pregunta {
     private Examen examen;
 
     // una Pregunta posee muchas opciones
-    @OneToMany(mappedBy = "pregunta")
+    // si se destruye la Pregunta tambien se destruyen sus opciones
+    @OneToMany(mappedBy = "pregunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Opcion> opciones;
 
     public Pregunta() {
@@ -39,18 +42,16 @@ public class Pregunta {
     }
 
     // Constructor
-    public Pregunta(String enunciado, float puntaje) {
+    public Pregunta(String enunciado, float puntaje, Examen examen) {
         this(); 
         this.enunciado = enunciado;
         this.puntaje = puntaje;
+        this.examen = examen;
+        this.opciones = new ArrayList<Opcion>();
     }
 
-    public Opcion getRespuestaCorrecta() {
-
-        // logica para recuperar la respuesta correcta
-
-        // devolver respuesta al cliente
-        return new Opcion();
+    public void nuevaOpcion(Opcion opcion) {
+        opciones.add(opcion);
     }
 
 }

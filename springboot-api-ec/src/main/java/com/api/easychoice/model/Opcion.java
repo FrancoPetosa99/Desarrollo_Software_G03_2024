@@ -41,9 +41,10 @@ public class Opcion {
     }
 
     // Constructor
-    public Opcion(String respuesta, boolean correcta) {
+    public Opcion(String respuesta, boolean correcta, Pregunta pregunta) {
         this(); 
         this.respuesta = respuesta;
         this.correcta = correcta;
+        this.pregunta = pregunta;
     }
 }
