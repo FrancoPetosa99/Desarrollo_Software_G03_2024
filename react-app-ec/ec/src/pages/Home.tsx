@@ -6,8 +6,17 @@ function Home() {
     return (
         <>
             <Layout>
-                <div style={{ backgroundImage: `url(${fondo})` }}>
-                    Hello World
+                <div
+                    style={{
+                        width: "100vw",  
+                        height: "100vh", 
+                        backgroundImage: `url(${fondo})`,
+                        backgroundSize: "cover",  
+                        backgroundPosition: "center", 
+                        backgroundRepeat: "no-repeat", 
+                    }}
+                >
+                    HOME
                 </div>
             </Layout>
         </>

@@ -55,14 +55,15 @@ h1 {
 .lista-examenes {
     background-image: url('../images/fondoGenerico.png');
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     gap: 40px;
     justify-content: center;
     justify-items: center;
-    width: 70%;
+    width: 50%;
     margin: 0 auto 0 auto;
     transition: all 0.5s ease;
+    background-color: grey;
 }
 
 .examen {
@@ -73,7 +74,6 @@ h1 {
     padding: 15px;
     height: 200px;
     min-width: 350px;
-    max-width: 400px;
     border: 1px solid #333;
     border-radius: 6px;
     box-sizing: border-box;
@@ -190,3 +190,14 @@ h1 {
 }
 
 
+@media (max-width: 1129px) and (min-width: 769px) {
+    .lista-examenes {
+        flex-direction: column;
+        justify-items: center;
+        width: 50%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0px;
+        box-sizing: border-box;
+    }
+}

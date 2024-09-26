@@ -45,6 +45,42 @@ function PanelExamenes() {
             fecha: new Date().toISOString().split('T')[0],
             habilitado: false,
             imagen: fondoGenerico,
+        },
+        {
+            id: 5,
+            titulo: 'Examen Generico',
+            tema: 'Generico',
+            tiempo: '20 min',
+            fecha: new Date().toISOString().split('T')[0],
+            habilitado: false,
+            imagen: fondoGenerico,
+        },
+        {
+            id: 6,
+            titulo: 'Examen Generico',
+            tema: 'Generico',
+            tiempo: '20 min',
+            fecha: new Date().toISOString().split('T')[0],
+            habilitado: false,
+            imagen: fondoGenerico,
+        },
+        {
+            id: 7,
+            titulo: 'Examen Generico',
+            tema: 'Generico',
+            tiempo: '20 min',
+            fecha: new Date().toISOString().split('T')[0],
+            habilitado: false,
+            imagen: fondoGenerico,
+        },
+        {
+            id: 8,
+            titulo: 'Examen Generico',
+            tema: 'Generico',
+            tiempo: '20 min',
+            fecha: new Date().toISOString().split('T')[0],
+            habilitado: false,
+            imagen: fondoGenerico,
         }
     ]);
 
