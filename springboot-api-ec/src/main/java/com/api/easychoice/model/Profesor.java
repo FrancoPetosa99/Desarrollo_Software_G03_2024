@@ -1,11 +1,15 @@
 package com.api.easychoice.model;
 
+
 import com.api.easychoice.utils.UUIDGenerator;
+import com.api.easychoice.model.Examen;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "Profesores")
@@ -25,6 +29,11 @@ public class Profesor {
 
     @Column(name = "password")
     private String password;
+
+    // un Profesor posee muchos Examenes
+    @OneToMany(mappedBy = "profesor")
+    private List<Examen> examenes;
+    
 
     public Profesor() {
         this.id = new UUIDGenerator().generate(); 

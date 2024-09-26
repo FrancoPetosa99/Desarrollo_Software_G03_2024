@@ -1,10 +1,15 @@
 package com.api.easychoice.model;
 
+import java.util.List;
+
 import com.api.easychoice.utils.UUIDGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "Preguntas")
@@ -18,6 +23,15 @@ public class Pregunta {
 
     @Column(name = "puntaje")
     private float puntaje;
+
+    // Una Pregunta posee un Examen
+    @ManyToOne
+    @JoinColumn(name = "examen_id", nullable = false)
+    private Examen examen;
+
+    // una Pregunta posee muchas opciones
+    @OneToMany(mappedBy = "pregunta")
+    private List<Opcion> opciones;
 
     public Pregunta() {
         this.id = new UUIDGenerator().generate(); 
@@ -37,5 +51,5 @@ public class Pregunta {
         // devolver respuesta al cliente
         return new Opcion();
     }
-    
+
 }
