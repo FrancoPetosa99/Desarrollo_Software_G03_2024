@@ -1,8 +1,6 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
 import './NuevoExamen.css';
-import check from '../icons/check.png';
-import uncheck from '../icons/uncheck.png';
 function NuevoExamen() {
     // Inicializando el formulario con los valores necesarios
     const [formulario, setFormulario] = useState({
@@ -288,7 +286,7 @@ function NuevoExamen() {
                                 type="button"
                                 className="btn"
                                 style={{
-                                    color: 'white',
+                                    color: 'black',
                                     fontSize: '12px'
                                 }}
                                 onClick={() => agregarRespuesta(indexPregunta)}
@@ -307,7 +305,7 @@ function NuevoExamen() {
                         style={{
                             height: '40px',
                             padding: '0 20px',
-                            backgroundColor: '#007BFF',
+                            backgroundColor: '#19575F',
                             color: 'white',
                             border: '0px',
                             outline: 'none',
@@ -324,7 +322,7 @@ function NuevoExamen() {
                     style={{
                         height: '40px', 
                         padding: '0 20px',
-                        backgroundColor: '#28A745',
+                        backgroundColor: '#1A525B',
                         color: 'white', 
                         border: '0px', 
                         outline: 'none', 
