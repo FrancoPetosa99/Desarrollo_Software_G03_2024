@@ -4,7 +4,6 @@ package com.api.easychoice.model;
 import com.api.easychoice.utils.UUIDGenerator;
 import com.api.easychoice.model.Examen;
 import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;

@@ -2,7 +2,6 @@ package com.api.easychoice.model;
 
 import java.util.List;
 import com.api.easychoice.model.AlumnoExamen;
-
 import com.api.easychoice.utils.UUIDGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
