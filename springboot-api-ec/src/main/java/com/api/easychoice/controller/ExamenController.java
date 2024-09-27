@@ -7,12 +7,8 @@ import java.util.stream.Collectors;
 
 import com.api.easychoice.dto.examen.ExamenDTO;
 import com.api.easychoice.dto.examen.NuevoExamenDTO;
-import com.api.easychoice.dto.OpcionDTO;
-import com.api.easychoice.dto.PreguntaDTO;
 import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
-import com.api.easychoice.model.Opcion;
-import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.service.ExamenService;
 import com.api.easychoice.service.ProfesorService;
