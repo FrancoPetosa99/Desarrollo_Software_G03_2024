@@ -4,13 +4,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.api.easychoice.dto.ExamenDTO;
-import com.api.easychoice.dto.OpcionDTO;
-import com.api.easychoice.dto.PreguntaDTO;
+
+import com.api.easychoice.dto.examen.ExamenDTO;
+import com.api.easychoice.dto.examen.NuevoExamenDTO;
 import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
-import com.api.easychoice.model.Opcion;
-import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.service.ExamenService;
 import com.api.easychoice.service.ProfesorService;
@@ -34,25 +32,26 @@ public class ExamenController {
     @GetMapping("/profesores/{id}")
     public ResponseEntity<Object> getExamenesByProfesorId(@PathVariable String id) {
 
-        
         // invocar servicio para obtener los examenes
         List<Examen> examenes = examenService.getExamenByProfesorId(id);
 
-        ExamenMapper examenMapper = new ExamenMapper();
+        // instanciar un mapper de examenes
+        ExamenMapper mapperToExamDTO = new ExamenMapper();
         
-        List<ExamenDTO> examenesDTO = examenes
-                                    .stream()
-                                    .map(exam -> examenMapper.getByProfesorId(exam))
-                                    .collect(Collectors.toList());
+        // mappear los examenes a una lista de dtos
+        List<ExamenDTO> listaExamenes = examenes
+                                        .stream()
+                                        .map(examen -> mapperToExamDTO.getByProfesorId(examen))
+                                        .collect(Collectors.toList());
 
         // devolver respuesta al cliente
         return ResponseEntity
         .status(200)
-        .body(examenesDTO);
+        .body(listaExamenes);
     }
 
     @PostMapping()
-    public ResponseEntity<Object> crearExamen(@RequestBody ExamenDTO examenDTO) {
+    public ResponseEntity<Object> crearExamen(@RequestBody NuevoExamenDTO examenDTO) {
 
         String profesorId = examenDTO.getProfesorId();
         Profesor profesor = profesorService.getProfesorById(profesorId);
@@ -64,39 +63,11 @@ public class ExamenController {
             .body("No existe profesor con id: " + profesorId);
         }
         
-        // instanciar un examen
-        Examen examen = new Examen(
-            examenDTO.getTitulo(),
-            examenDTO.getTema(),
-            examenDTO.getFechaLimite(),
-            examenDTO.getTiempoLimite(),
-            profesor
-        );
+        // instanciar un mapper de examenes para crear un nuevo Examen
+        ExamenMapper mapperToExam = new ExamenMapper(); 
+        Examen examen = mapperToExam.nuevoExamen(examenDTO, profesor);
 
-        // crear preguntas para el examen
-        for (PreguntaDTO preguntaDTO : examenDTO.getPreguntas()) {
-
-            Pregunta pregunta = new Pregunta(
-                preguntaDTO.getEnunciado(),
-                preguntaDTO.getPuntaje(),
-                examen
-            );
-
-            examen.nuevaPregunta(pregunta);
-
-            // crear opciones para cada pregunta
-            for (OpcionDTO opcionDTO : preguntaDTO.getOpciones()) {
-                Opcion opcion = new Opcion(
-                    opcionDTO.getRespuesta(),
-                    opcionDTO.getCorrecta(),
-                    pregunta
-                );
-
-                pregunta.nuevaOpcion(opcion);
-            }
-        }
-
-        // invocar al servicio para crear un examen
+        // invocar al servicio para crear un Examen
         examenService.crearExamen(examen);
 
         // devolver respuesta al cliente
