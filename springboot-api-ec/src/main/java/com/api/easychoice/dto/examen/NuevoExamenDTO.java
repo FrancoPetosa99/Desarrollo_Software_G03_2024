@@ -1,10 +1,11 @@
-package com.api.easychoice.dto;
+package com.api.easychoice.dto.examen;
 
 import java.util.List;
 import com.api.easychoice.dto.PreguntaDTO;
+import com.api.easychoice.dto.examen.ExamenDTO;
 
 
-public class ExamenDTO {
+public class NuevoExamenDTO extends ExamenDTO {
 
     private String titulo;
     private String tema;
@@ -14,7 +15,7 @@ public class ExamenDTO {
     private List<PreguntaDTO> preguntas;
 
     // Constructor - se implementa en la creacion de un nuevo examen
-    public ExamenDTO(
+    public NuevoExamenDTO(
             String titulo, 
             String tema, 
             String fechaLimite, 
@@ -23,21 +24,10 @@ public class ExamenDTO {
             String profesorId
         ) {
 
-        this.titulo = titulo;
-        this.tema = tema;
-        this.fechaLimite = fechaLimite;
-        this.tiempoLimite = tiempoLimite;
+        super(titulo, tema, fechaLimite, tiempoLimite);
         this.profesorId = profesorId;
         this.preguntas = preguntas;
-
-    }
-
-    // Constructor - se implementa para inicializar un constructor
-    public ExamenDTO() {
-        this.titulo = "";
-        this.tema = "";
-        this.fechaLimite = "";
-        this.tiempoLimite = 0;
+        
     }
 
     public String getTitulo() {
