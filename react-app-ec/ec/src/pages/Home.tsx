@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import Layout from '../components/Layout';
+import { Link } from "react-router-dom";
 import logo from '../Logo-ec.png';
 import logo2 from '../Logo2-ec.png';
 
@@ -95,8 +96,11 @@ const CTASection = () => (
         <p style={styles.ctaText}>
             Únete a miles de educadores que ya están aprovechando los beneficios de los exámenes en línea
         </p>
-        <button style={styles.ctaButton}>Crea tu cuenta gratis</button>
-    </section>
+        <Link to="/Registrarse">
+            <button style={styles.ctaButton}>
+                Crea tu cuenta gratis
+            </button>
+        </Link></section>
 );
 
 const Footer = () => (
@@ -129,7 +133,7 @@ const FooterColumn = ({ title, links }) => (
         <h4 style={styles.footerColumnTitle}>{title}</h4>
         <ul style={styles.footerColumnList}>
             {links.map((link, index) => (
-                <li key={index}><a href="#" style={styles.footerLink}>{link}</a></li>
+                <li key={index}><a href="" style={styles.footerLink}>{link}</a></li>
             ))}
         </ul>
     </div>
@@ -244,14 +248,14 @@ const styles = {
     },
     benefitsList: {
         flex: 1,
-        backgroundColor: '#EBF8FF',
+        backgroundColor: '#EEF7EE',
         padding: '2rem',
         borderRadius: '8px',
     },
     benefitsListTitle: {
         fontSize: '1.5rem',
         marginBottom: '1rem',
-        color: '#2B6CB0',
+        color: '#4CCEC4',
     },
     benefitsListItems: {
         listStyleType: 'none',
@@ -265,7 +269,7 @@ const styles = {
     benefitBullet: {
         width: '10px',
         height: '10px',
-        backgroundColor: '#F6E05E',
+        backgroundColor: '#FED16A',
         borderRadius: '50%',
         marginRight: '1rem',
     },
@@ -274,7 +278,7 @@ const styles = {
     },
     ctaSection: {
         padding: '4rem 2rem',
-        backgroundColor: '#f7fafc',
+        backgroundColor: '#EEF7EE',
         textAlign: 'center',
     },
     ctaTitle: {

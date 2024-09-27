@@ -1,15 +1,14 @@
 ﻿import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import './screen-adjust.css';
-import { Link } from 'react-router-dom';
+import './Login.css';
 function Login() {
     // Estados para almacenar email y contraseña
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');  // Para manejar mensajes de error
-    const navigate = useNavigate();  // Para redirigir al usuario
+    const [error, setError] = useState('');  
+    const navigate = useNavigate();
 
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
@@ -50,106 +49,60 @@ function Login() {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     return (
         <Layout>
             <div className='login template d-flex justify-content-center aling-items-center 100-w 100-vh '>
-          
-                <div className='50-w p-5 rounded'>
-                    <form onSubmit={handleSubmit}>
-                        <h2 className='text-center'>Log In </h2>
-
-                        <div className='mb-2'>
-                            <input
-                                type="email"
-                                placeholder='Ingresar Email'
-                                className='form-control'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                style={{
-                                    padding: '5px 10px',
-                                    height: '40px',
-                                    outline: 'none',
-                                    boxShadow: 'none'
-                                }}
-                                required>
-                            </input>
-                        </div>
-
-                        <div className="input-group">
-                            <input
-                                type={showPassword ? "text" : "password"} 
-                                placeholder='Ingresar Contraseña'
-                                className='form-control'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                style={{
-                                    padding: '5px 10px',
-                                    height: '40px',
-                                    borderRight: 'none',
-                                    outline: 'none',
-                                    boxShadow: 'none'
-                                }}
-                                required>
-                            </input>
-                            <span
-                                className="input-group-text"
-                                style={{
-                                    padding: '0',
-                                    height: '40px',
-                                    background: 'none',
-                                    outline: 'none',
-                                }}>
-                                <button
-                                    type="button"
-                                    className="btn border-0"
-                                    onClick={togglePasswordVisibility}
-                                    style={{
-                                        height: '100%',
-                                        padding: '0 10px',
-                                        background: 'none',  
-                                        outline: 'none'
-                                    }}>
-                                    {showPassword ? '👁' : '🙈'}
-                                </button>
-                            </span>
-                          </div>
-                
-                          <div className='mb-2'>
-                            <input
-                                type="checkbox"
-                                className='custom-control custom-checkbox'
-                                id="check">
-                            </input>
-                            <label
-                                htmlFor="check"
-                                className='custom-imput-label ms-2'>
-                                Recordarme
-                            </label>
-                          </div>
-                        <div
-                            className='d-grid'>
-                            <button
-                                className='btn btn-primary'>
-                                Ingresar
-                            </button>
-                          </div>
-                        <p
-                            className='text right'>
-                            Recuperar
-                            <Link
-                                className="ms-1"
-                                to="/">
-                                Contraseña
-                            </Link>
-                            <Link
-                                className="ms-2"
-                                to="/Registrarse">
-                                Registrarse
-                            </Link>
-                          </p>
-                    </form>
+            <form className="form_main" onSubmit={handleSubmit}>
+                <p className="heading">Login</p>
+                <div className="inputContainer">
+                    <svg
+                        viewBox="0 0 16 16"
+                        fill="#2e2e2e"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inputIcon"
+                    >
+                        <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z" />
+                    </svg>
+                    <input
+                        placeholder="Email"
+                        value={email}
+                        className="inputField"
+                        type="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
                 </div>
-          
+
+                <div className="inputContainer">
+                    <svg
+                        viewBox="0 0 16 16"
+                        fill="#2e2e2e"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="inputIcon"
+                    >
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+                    </svg>
+                    <input
+                        placeholder="Contraseña"
+                        value={password}
+                        className="inputField"
+                        type="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+
+                <button id="button"
+                >Submit</button>
+                <div className="signupContainer">
+                    <p>No tenes cuenta?</p>
+                    <a href="/Registrarse">Registrate</a>
+                </div>
+                </form>
             </div>
         </Layout>
     );
