@@ -78,4 +78,8 @@ public class Examen {
         return tiempoLimite;
     }
 
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
 }

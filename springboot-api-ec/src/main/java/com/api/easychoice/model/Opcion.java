@@ -47,4 +47,12 @@ public class Opcion {
         this.correcta = correcta;
         this.pregunta = pregunta;
     }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public boolean getCorrecta() {
+        return correcta;
+    }
 }

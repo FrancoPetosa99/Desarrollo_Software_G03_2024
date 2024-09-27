@@ -54,4 +54,16 @@ public class Pregunta {
         opciones.add(opcion);
     }
 
+    public String getEnunciado() {
+        return enunciado;
+    }
+
+    public float getPuntaje() {
+        return puntaje;
+    }
+
+    public List<Opcion> getOpciones() {
+        return opciones;
+    }
+
 }

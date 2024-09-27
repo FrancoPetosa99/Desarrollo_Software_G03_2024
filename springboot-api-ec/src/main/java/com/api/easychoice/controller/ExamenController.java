@@ -3,9 +3,11 @@ package com.api.easychoice.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.stream.Collectors;
 import com.api.easychoice.dto.ExamenDTO;
 import com.api.easychoice.dto.OpcionDTO;
 import com.api.easychoice.dto.PreguntaDTO;
+import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
 import com.api.easychoice.model.Opcion;
 import com.api.easychoice.model.Pregunta;
@@ -32,13 +34,21 @@ public class ExamenController {
     @GetMapping("/profesores/{id}")
     public ResponseEntity<Object> getExamenesByProfesorId(@PathVariable String id) {
 
+        
         // invocar servicio para obtener los examenes
         List<Examen> examenes = examenService.getExamenByProfesorId(id);
+
+        ExamenMapper examenMapper = new ExamenMapper();
         
+        List<ExamenDTO> examenesDTO = examenes
+                                    .stream()
+                                    .map(exam -> examenMapper.getByProfesorId(exam))
+                                    .collect(Collectors.toList());
+
         // devolver respuesta al cliente
         return ResponseEntity
         .status(200)
-        .body(examenes);
+        .body(examenesDTO);
     }
 
     @PostMapping()
