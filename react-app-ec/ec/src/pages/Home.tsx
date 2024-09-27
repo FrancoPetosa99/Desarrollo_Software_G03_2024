@@ -3,6 +3,13 @@ import Layout from '../components/Layout';
 import { Link } from "react-router-dom";
 import logo from '../Logo-ec.png';
 import logo2 from '../Logo2-ec.png';
+import x from '../icons/x.svg';
+import facebook from '../icons/facebook.svg';
+import instagram from '../icons/instagram.svg';
+import linkedin from '../icons/linkedin.svg';
+import check from '../icons/check.svg'
+import time from '../icons/time.svg'
+import analitics from '../icons/analisis.svg'
 
 const App = () => {
     return (
@@ -42,21 +49,25 @@ const FeaturesSection = () => (
             <FeatureCard
                 title="Exámenes personalizados"
                 description="Crea exámenes adaptados a tus necesidades específicas"
+                image={check}
             />
             <FeatureCard
                 title="Ahorro de tiempo"
                 description="Genera exámenes en minutos, no en horas"
+                image={time}
             />
             <FeatureCard
                 title="Análisis detallado"
                 description="Obtén insights valiosos sobre el rendimiento de los estudiantes"
+                image={analitics}
             />
         </div>
     </section>
 );
 
-const FeatureCard = ({ title, description }) => (
+const FeatureCard = ({ title, description, image }) => (
     <div style={styles.featureCard}>
+        <img src={image} alt={title} style={styles.featureImage} />
         <h3 style={styles.featureTitle}>{title}</h3>
         <p style={styles.featureDescription}>{description}</p>
     </div>
@@ -118,10 +129,18 @@ const Footer = () => (
                     <span style={styles.footerLogoText}>© 2023 Easy Choice. Todos los derechos reservados.</span>
                 </div>
                 <div style={styles.socialLinks}>
-                    <a href="#" style={styles.socialLink}><img src="/placeholder.svg?height=24&width=24" alt="Twitter" /></a>
-                    <a href="#" style={styles.socialLink}><img src="/placeholder.svg?height=24&width=24" alt="Facebook" /></a>
-                    <a href="#" style={styles.socialLink}><img src="/placeholder.svg?height=24&width=24" alt="LinkedIn" /></a>
-                    <a href="#" style={styles.socialLink}><img src="/placeholder.svg?height=24&width=24" alt="Instagram" /></a>
+                    <a href="https://twitter.com" style={styles.socialLink}>
+                        <img src={x} alt="Twitter" height="24" width="24" />
+                    </a>
+                    <a href="https://facebook.com" style={styles.socialLink}>
+                        <img src={facebook} alt="Facebook" height="24" width="24" />
+                    </a>
+                    <a href="https://linkedin.com" style={styles.socialLink}>
+                        <img src={linkedin} alt="LinkedIn" height="24" width="24" />
+                    </a>
+                    <a href="https://instagram.com" style={styles.socialLink}>
+                        <img src={instagram} alt="Instagram" height="24" width="24" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -144,31 +163,8 @@ const styles = {
         fontFamily: 'Arial, sans-serif',
         color: '#333',
     },
-    header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem',
-        backgroundColor: '#fff',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    },
-    logo: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-    logoImage: {
-        width: '40px',
-        height: '40px',
-    },
-    logoText: {
-        marginLeft: '0.5rem',
-        fontSize: '1.2rem',
-        fontWeight: 'bold',
-        color: '#2C7A7B',
-    },
-
     ctaButton: {
-        padding: '0.5rem 1rem',
+        padding: '1rem 2rem',
         backgroundColor: '#1A525B',
         color: '#fff',
         border: 'none',
@@ -186,11 +182,11 @@ const styles = {
         flex: 1,
     },
     heroTitle: {
-        fontSize: '2.5rem',
+        fontSize: '3rem',
         marginBottom: '1rem',
     },
     heroText: {
-        fontSize: '1.2rem',
+        fontSize: '1.4rem',
         marginBottom: '2rem',
     },
     heroImageContainer: {
@@ -207,7 +203,7 @@ const styles = {
         backgroundColor: '#EEF7EE',
     },
     sectionTitle: {
-        fontSize: '2rem',
+        fontSize: '3rem',
         textAlign: 'center',
         marginBottom: '2rem',
         color: '#19575F',
@@ -221,25 +217,34 @@ const styles = {
         padding: '2rem',
         backgroundColor: '#fff',
         borderRadius: '8px',
+        textAlign: 'center',
+        maxHeight: '330px',
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
     },
     featureTitle: {
-        fontSize: '1.2rem',
-        marginBottom: '1rem',
-        color: '#2C7A7B',
+        fontSize: '1.7rem',
+        marginBottom: '2rem',
+        color: '#1A525B',
     },
     featureDescription: {
         color: '#4A5568',
     },
+    featureImage: {
+        width: '70%',
+        height: '30%',
+        marginBottom: '40px',
+        borderRadius: '8px',
+    },
     benefitsSection: {
-        padding: '4rem 2rem',
+        padding: '4rem 10rem',
     },
     benefitsContent: {
         display: 'flex',
         alignItems: 'center',
-        gap: '2rem',
+        gap: '1rem',
     },
     benefitsImageContainer: {
+        marginLeft: '20rem',
         flex: 1,
     },
     benefitsImage: {
