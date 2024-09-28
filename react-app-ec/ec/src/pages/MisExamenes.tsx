@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
@@ -8,7 +8,7 @@ import fondoGears from "../images/fondoGears.png"
 import fondoDavid from "../images/david.jpg"
 
 function PanelExamenes() {
-    const [examenes, setExamenes] = useState([
+    const [examenes, setExamenes] = useState([ 
         {
             id: 1,
             titulo: 'Examen de Matemática',
@@ -17,7 +17,6 @@ function PanelExamenes() {
             fecha: new Date().toISOString().split('T')[0],
             habilitado: true,
             imagen: fondoGenerico,
-
         },
         {
             id: 2,
@@ -73,16 +72,29 @@ function PanelExamenes() {
             habilitado: false,
             imagen: fondoGenerico,
         },
-        {
-            id: 8,
-            titulo: 'Examen Generico',
-            tema: 'Generico',
-            tiempo: '20 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGenerico,
-        }
-    ]);
+    
+]);
+    const [loading, setLoading] = useState(true);
+    const endpoint = "https://f2d7-186-138-223-158.ngrok-free.app/api/examenes/profesores/525d71b0-50d9-4971-9b5b-9b147bbd4003";
+    useEffect(() => {
+        const obtenerExamenes = async () => {
+            try {
+                const response = await fetch(endpoint);
+                if (!response.ok) {
+                    throw new Error('Error al obtener los exámenes');
+                }
+                const data = await response.json();
+                setExamenes(data);
+                setLoading(false); // Deja de cargar cuando se obtienen los datos
+            } catch (error) {
+                console.error('Error al obtener los exámenes:', error);
+                setLoading(false);
+            }
+        };
+
+        obtenerExamenes(); // Llamada a la función dentro del useEffect
+    }, []); // [] para ejecutar solo una vez al montar el componente
+
 
     const navigate = useNavigate();
 
@@ -129,6 +141,9 @@ function PanelExamenes() {
         navigate('/nuevo-examen');
     };
 
+    if (loading) {
+        return <div>Cargando exámenes...</div>; // Muestra un mensaje de carga
+    }
     return (
         <Layout>
             <div className="mis-examenes">
@@ -157,11 +172,12 @@ function PanelExamenes() {
                 </div>
  
                 <TransitionGroup className="lista-examenes">
-                    {examenesFiltrados.map((examen) => (
+                    {examenesFiltrados.map((examen, index) => (
                         <CSSTransition
                             key={examen.id}
                             timeout={300}
                             classNames="examen"
+                            key={index}
                         >
                         <div
                             key={examen.id}
