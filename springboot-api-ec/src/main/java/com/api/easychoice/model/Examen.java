@@ -62,6 +62,10 @@ public class Examen {
         preguntas.add(pregunta);
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getTitulo() {
         return titulo;
     }

@@ -10,7 +10,7 @@ public class NuevoExamenDTO extends ExamenDTO {
     private String profesorId;
     private List<PreguntaDTO> preguntas;
 
-    // Constructor - se implementa en la creacion de un nuevo examen
+    // Constructor - se implementa en la petición para crear nuevo examen
     public NuevoExamenDTO(
             String titulo, 
             String tema, 

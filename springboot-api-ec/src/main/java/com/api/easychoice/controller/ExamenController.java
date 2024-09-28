@@ -4,16 +4,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.api.easychoice.dto.examen.ExamenDTO;
 import com.api.easychoice.dto.examen.NuevoExamenDTO;
 import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
+import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.service.ExamenService;
 import com.api.easychoice.service.ProfesorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/examenes")
+@CrossOrigin(origins = "*") // Permite todos los orígenes
 public class ExamenController {
 
     @Autowired
@@ -48,6 +50,18 @@ public class ExamenController {
         return ResponseEntity
         .status(200)
         .body(listaExamenes);
+    }
+
+    @GetMapping("/{id}/preguntas")
+    public ResponseEntity<Object> getPreguntasByExamenId(@PathVariable String id) {
+
+        // invocar servicio para obtener los examenes
+        List<Pregunta> preguntas = examenService.getPreguntas(id);
+
+        // devolver respuesta al cliente
+        return ResponseEntity
+        .status(200)
+        .body(preguntas);
     }
 
     @PostMapping()

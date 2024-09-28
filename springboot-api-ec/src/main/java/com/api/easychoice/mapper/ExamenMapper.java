@@ -16,12 +16,14 @@ public class ExamenMapper {
     public ExamenDTO getByProfesorId(Examen examen){
 
         // instanciar un DTO de Examen
-        ExamenDTO dto = new ExamenDTO(
-            examen.getTitulo(),
-            examen.getTema(),
-            examen.getFechaLimite(),
-            examen.getTiempoLimite()
-        );
+        ExamenDTO dto = new ExamenDTO();
+
+        // setear los atributos del dto
+        dto.setTitulo(examen.getTitulo());
+        dto.setTema(examen.getTema());
+        dto.setFechaLimite(examen.getFechaLimite());
+        dto.setTiempoLimite(examen.getTiempoLimite());
+        dto.setId(examen.getId());
 
         return dto;
     }
