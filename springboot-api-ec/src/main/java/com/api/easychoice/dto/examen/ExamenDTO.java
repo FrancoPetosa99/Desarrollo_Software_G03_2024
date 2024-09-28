@@ -2,10 +2,13 @@ package com.api.easychoice.dto.examen;
 
 public class ExamenDTO {
 
+    private String id;
     private String titulo;
     private String tema;
     private String fechaLimite;
     private int tiempoLimite;
+    
+    public ExamenDTO() { };
 
     // Constructor
     public ExamenDTO(
@@ -19,6 +22,10 @@ public class ExamenDTO {
         this.tema = tema;
         this.fechaLimite = fechaLimite;
         this.tiempoLimite = tiempoLimite;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitulo() {
@@ -51,6 +58,10 @@ public class ExamenDTO {
 
     public void setTiempoLimite(int tiempoLimite) {
         this.tiempoLimite = tiempoLimite;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
