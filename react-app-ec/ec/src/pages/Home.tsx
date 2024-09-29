@@ -34,7 +34,9 @@ const HeroSection = () => (
                 Usar un creador de exámenes online te permitirá automatizar este proceso, ahorrar
                 tiempo y obtener los resultados al término de la prueba.
             </p>
-            <button style={styles.ctaButton}>Crea tu cuenta</button>
+            <Link to="/Registrarse">
+                <button style={styles.ctaButton}>Crea tu cuenta</button>
+            </Link>
         </div>
         <div style={styles.heroImageContainer}>
             <img src={logo} alt="Online Exam Illustration" style={styles.heroImage} />
