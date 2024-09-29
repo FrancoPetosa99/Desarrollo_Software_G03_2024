@@ -103,6 +103,7 @@
 
 .botones-respuesta{
     display:flex;
+    align-content: center;
     gap: 10px;
 }
 
@@ -168,6 +169,38 @@
                 transform: scale(1.2);
             }
 
+        .container {
+            display: flex;
+            align-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+            .container input {
+                display: none;
+            }
+
+            .container svg {
+                transform: scale(0.8);
+                overflow: visible;
+            }
+
+        .path {
+            fill: none;
+            stroke: #19575F;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+            stroke-dasharray: 241 9999999;
+            stroke-dashoffset: 0;
+        }
+
+        .container input:checked ~ svg .path {
+            stroke-dasharray: 70.5096664428711 9999999;
+            stroke-dashoffset: -262.2723388671875;
+        }
+
 .boton-fondo {
     display: flex;
     justify-content: space-between;
@@ -176,9 +209,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
     transition: transform 0.3s;
-}
+}        
+
 .boton-fondo > * {
-    margin: 10px; /
+    margin: 10px; 
 }
 .boton-agregar-pregunta {
     font-weight: 600;

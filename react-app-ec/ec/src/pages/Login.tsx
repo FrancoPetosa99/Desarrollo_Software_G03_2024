@@ -46,14 +46,10 @@ function Login() {
         }
     };
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
     return (
         <Layout>
             <div className='login template d-flex justify-content-center aling-items-center 100-w 100-vh '>
-            <form className="form_main" onSubmit={handleSubmit}>
+            <form className="form_main_login" onSubmit={handleSubmit}>
                 <p className="heading">Login</p>
                 <div className="inputContainer">
                     <svg
@@ -97,7 +93,7 @@ function Login() {
                 </div>
 
                 <button id="button"
-                >Submit</button>
+                >Acceder</button>
                 <div className="signupContainer">
                     <p>No tenes cuenta?</p>
                     <a href="/Registrarse">Registrate</a>
