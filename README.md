@@ -5,7 +5,7 @@
 
 # Proyecto: **Easy Choice**
 
-Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la UTN FRLP para la materia Desarrollo de Software. 
+Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la Universidad Tecnológica Nacional - Regional La Plata, para la materia Desarrollo de Software. 
 
 Easy Choice es una plataforma en línea diseñada para facilitar la creación y administración de exámenes. 
 
