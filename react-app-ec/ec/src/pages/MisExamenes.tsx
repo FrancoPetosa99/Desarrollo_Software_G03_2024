@@ -7,8 +7,10 @@ import './MisExamanes.css';
 import fondoGenerico from "../images/fondoGenerico.jpg"
 import fondoGears from "../images/fondoGears.png"
 import fondoDavid from "../images/david.jpg"
+import getBaseUrl from '../utils/getBaseUrl.js';
 
 function PanelExamenes() {
+    const baseUrl = getBaseUrl(); 
     const [examenes, setExamenes] = useState([ 
         {
             id: 1,
@@ -76,7 +78,7 @@ function PanelExamenes() {
     
 ]);
     const [loading, setLoading] = useState(true);
-    const endpoint = "https://f2d7-186-138-223-158.ngrok-free.app/api/examenes/profesores/525d71b0-50d9-4971-9b5b-9b147bbd4003";
+    const endpoint = baseUrl;
     useEffect(() => {
         const obtenerExamenes = async () => {
             try {
