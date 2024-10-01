@@ -10,7 +10,7 @@ public class ExamenDTO {
     private String titulo;
     private String tema;
     private String fechaLimite;
-    private int tiempoLimite;
+    private int tiempoLimite; //minutos
     
     public ExamenDTO() { };
 

@@ -9,11 +9,16 @@ import com.api.easychoice.model.Opcion;
 import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 
+/* 
+ convierte objetos tipo entidad a tipo dto
+*/
+
 public class ExamenMapper {
 
     public ExamenMapper() { }
 
     public ExamenDTO getByProfesorId(Examen examen){
+        //llega un objeto tipo examen y se convierte en un tipo dto
 
         // instanciar un DTO de Examen
         ExamenDTO dto = new ExamenDTO();
@@ -29,6 +34,9 @@ public class ExamenMapper {
     }
 
     public Examen nuevoExamen(NuevoExamenDTO dto, Profesor profesor) {
+        /*Convierte un objeto NuevoExamenDTO (recibido desde el cliente) en un objeto 
+        Examen, listo para ser guardado en la base de datos.
+        */
 
         // instanciar un examen
         Examen examen = new Examen(

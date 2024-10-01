@@ -26,6 +26,7 @@ public class ProfesorController {
         return profesorService.getProfesores();
     }
 
+    //muetra el profesor con ese id
     @GetMapping("/{id}")
     public Profesor getProfesorById(@PathVariable String id) {
         Profesor profesor = profesorService.getProfesorById(id);
