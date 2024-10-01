@@ -1,9 +1,10 @@
 # Desarrollo_Software_G03_2024
 
-| <h1>UTN-FRLP</h1>| <img src="./logo.png" alt="Logo del Proyecto" width="100"> |
-|-------------------------|----------------------------------|
+<img src="./logo-easy-choice.png" alt="Logo del Proyecto" width="350"> |
 
-# Proyecto: **Easy Choice**
+
+# Proyecto: **Easy Choice** 
+
 
 Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la Universidad Tecnológica Nacional - Regional La Plata, para la materia Desarrollo de Software. 
 
