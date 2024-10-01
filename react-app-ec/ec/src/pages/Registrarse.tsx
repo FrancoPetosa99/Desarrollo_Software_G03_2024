@@ -19,7 +19,11 @@ function Registrarse() {
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
-            try {
+        if (password !== confirmPassword) {
+            setPasswordError('Las contraseñas no coinciden');
+            return;  // Evitar que se continúe con el envío
+        }
+        try {
                 // Petición POST a /api/auth
                 const response = await fetch('/api/auth', {
                     method: 'POST',
@@ -119,7 +123,9 @@ function Registrarse() {
                                 required>
                             </input>
                         </div>
+                        {passwordError && <p className="error">{passwordError}</p>}
                         <button id="button"
+                            onChange={handleSubmit}
                         >Registrarse
                         </button>
                         <div className="signupContainer">

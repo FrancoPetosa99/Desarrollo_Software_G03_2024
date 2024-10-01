@@ -1,3 +1,16 @@
+.warning{
+
+    display: flex;
+    justify-self: center;
+
+    width: 20%;
+    height: 20%;
+    overflow-wrap: anywhere;
+    flex-wrap: wrap;    
+    
+}
+
+
 body {
     background-color: #EEF7EE;
 }

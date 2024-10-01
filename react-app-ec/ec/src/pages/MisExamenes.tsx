@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
+import DialogBox from '../components/Dialbox';
 import './MisExamanes.css';
 import fondoGenerico from "../images/fondoGenerico.jpg"
 import fondoGears from "../images/fondoGears.png"
@@ -112,16 +113,24 @@ function PanelExamenes() {
         examen.tema.toLowerCase().includes(filtroTema.toLowerCase())
     );
 
-    const advertencia = (id: number) => {
-        const confirmar = window.confirm("¿Estás seguro de que deseas eliminar este examen?");
-        if (confirmar) {
-            eliminarExamen(id);
-        }
-    };
+        const [showDialog, setShowDialog] = useState(false);
 
-    const eliminarExamen = (id: number) => {
-        setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id));
-    };
+        const handleDeleteClick = () => {
+            setShowDialog(true); // Mostrar el cuadro de diálogo
+        };
+
+        const handleConfirm = (result) => {
+            if (result) {
+                console.log("Usuario confirmó la acción");
+            }
+            setShowDialog(false) // Ocultar el cuadro de diálogo
+        };
+
+        const handleCancel = () => {
+            console.log("Acción cancelada");
+            setShowDialog(false); // Ocultar el cuadro de diálogo
+        };
+
 
     // Funciones para manejar botones de los exámenes
     const editarExamen = (id: number) => {
@@ -172,12 +181,19 @@ function PanelExamenes() {
                 </div>
  
                 <TransitionGroup className="lista-examenes">
+                    {showDialog && (
+                        <DialogBox
+                            title="Eliminar Examen"
+                            message="Esta accion no se puede deshacer"
+                            onConfirm={handleConfirm}
+                            onCancel={handleCancel}
+                        />
+                    )}
                     {examenesFiltrados.map((examen, index) => (
                         <CSSTransition
                             key={examen.id}
                             timeout={300}
                             classNames="examen"
-                            key={index}
                         >
                         <div
                             key={examen.id}
@@ -193,7 +209,7 @@ function PanelExamenes() {
                                     <h3>{examen.titulo}</h3>
                                     <h6>{examen.tema}</h6>
                                 </div>
-                                <button className="boton-eliminar" onClick={() => advertencia(examen.id)}>❌</button>
+                                    <button className="boton-eliminar" >❌</button>
                             </div>
                             <div className="examen-grupo-boton">
                                 <button onClick={() => editarExamen(examen.id)}>Editar</button>

@@ -190,6 +190,7 @@ const styles = {
     heroText: {
         fontSize: '1.4rem',
         marginBottom: '2rem',
+        textAlign: 'justify',
     },
     heroImageContainer: {
         flex: 1,
