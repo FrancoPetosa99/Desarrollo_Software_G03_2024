@@ -1,4 +1,8 @@
 package com.api.easychoice.dto.examen;
+/*
+  contenedor para los datos que se enviarán entre el cliente y el servidor en relación 
+  con un examen
+ */
 
 public class ExamenDTO {
 
