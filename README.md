@@ -5,16 +5,19 @@
 
 # Proyecto: **Easy Choice**
 
-Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la UTN FRLP para la materia Desarrollo de Software. La aplicación tiene como objetivo [incluir una breve descripción del propósito del proyecto, como el problema que resuelve o el valor que agrega].
+Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Información de la UTN FRLP para la materia Desarrollo de Software. 
 
-## Tabla de Contenidos
+Easy Choice es una plataforma en línea diseñada para facilitar la creación y administración de exámenes. 
 
-- [Instalación](#instalación)
-- [Uso](#uso)
-- [Características](#características)
-- [Contribuir](#contribuir)
-- [Licencia](#licencia)
-- [Contacto](#contacto)
+Esta herramienta intuitiva permite a los profesores crear exámenes personalizados que los estudiantes pueden resolver de manera sencilla y rápida.
+
+## Características
+
+- Interfaz de usuario intuitiva: Los profesores pueden registrarse fácilmente y acceder a su panel de control.
+- Creación de exámenes: Los docentes pueden diseñar exámenes con diferentes tipos de preguntas (multiple choice, verdadero/falso, etc.).
+- Acceso para estudiantes: Los alumnos pueden ingresar a los exámenes a través de un enlace único proporcionado por el profesor.
+- Seguimiento de resultados: Los profesores pueden revisar y analizar los resultados de los exámenes de sus estudiantes de manera efectiva.
+
 
 ## Integrates
 1. Petosa Ayala Franco
@@ -28,4 +31,4 @@ Este proyecto es desarrollado por estudiantes de Ingeniería en Sistemas de Info
 1. Emilio Watemberg
 2. Paula Giudici
 
-CAMBIO
+
