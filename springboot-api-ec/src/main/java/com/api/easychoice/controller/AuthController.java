@@ -1,6 +1,7 @@
 package com.api.easychoice.controller;
 
 import com.api.easychoice.dto.AuthDTO;
+import com.api.easychoice.model.Profesor;
 import com.api.easychoice.response.ErrorResponse;
 import com.api.easychoice.response.ResponseHttp;
 import com.api.easychoice.response.SuccessResponse;
@@ -27,5 +28,20 @@ public class AuthController {
         return ResponseEntity
         .status(201)
         .body("Token");
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> loginProfesor(@RequestBody AuthDTO authDTO) {
+        
+        Profesor profesor = authService.loginProfesor(authDTO.getEmail(), authDTO.getPassword());
+
+        if (profesor != null) {
+            // Retornar una respuesta exitosa con información del profesor
+            return ResponseEntity.ok("Login exitoso, bienvenido " + profesor.getNombre());
+        } else {
+            // Retornar una respuesta de error (credenciales inválidas)
+            return ResponseEntity.status(401).body("Email o contraseña incorrectos");
+        }
     }
 }
