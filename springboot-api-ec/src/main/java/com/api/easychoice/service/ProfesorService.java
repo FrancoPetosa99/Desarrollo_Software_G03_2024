@@ -25,4 +25,8 @@ public class ProfesorService {
     public Profesor getProfesorById(String id) {
         return profesorRepository.findById(id).orElse(null);
     }
+
+    public Profesor getProfesorByEmail(String id) {
+        return profesorRepository.findByEmail(id).orElse(null);
+    }
 }

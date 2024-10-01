@@ -1,6 +1,5 @@
 package com.api.easychoice.model;
 
-
 import com.api.easychoice.utils.UUIDGenerator;
 import com.api.easychoice.model.Examen;
 import java.util.List;
