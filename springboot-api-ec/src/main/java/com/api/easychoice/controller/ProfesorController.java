@@ -4,6 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.service.ProfesorService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +20,10 @@ public class ProfesorController {
     @Autowired
     private ProfesorService profesorService;
     
+    //muestra los profesores
     @GetMapping
-    public String getProfesores() {
-        return "Lista de profesores";
+    public List<Profesor> getProfesores() {
+        return profesorService.getProfesores();
     }
 
     @GetMapping("/{id}")
