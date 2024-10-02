@@ -24,6 +24,7 @@ EXPOSE 4173
 # CMD ["serve", "-s", "dist"]
 CMD ["npm", "run", "dev"]
 
+# docker rmi [id de la imagen]
 # docker build -t [nombre de la imagen] . construir una imagen basada en un DockerFile 
 # docker run -p [puerto local]:[puerto contenedor] --name [nombre del contenedir] [nombre de la imagen]
 # docker run -it -p [puerto local]:[puerto interno del contenedor] [nombre de la imagen] /bin/sh correr la imagen del proyecto en modo interactivo
