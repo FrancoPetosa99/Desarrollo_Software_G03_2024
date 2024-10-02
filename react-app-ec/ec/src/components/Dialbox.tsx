@@ -1,6 +1,6 @@
 import React from 'react'
-
-const DialogBox = ({ title, message, onConfirm, onCancel }) => {
+import './Dialbox.css'
+const DialogBox = ({ title, message, confirmar, cancelar, onConfirm, onCancel }) => {
   return (
     <div className="dialog-overlay">
       <div className="dialog-box">
@@ -31,13 +31,13 @@ const DialogBox = ({ title, message, onConfirm, onCancel }) => {
             className="confirm-button"
             onClick={() => onConfirm(true)}
           >
-            Deactivate
+            {confirmar}
           </button>
           <button
             className="cancel-button"
             onClick={() => onCancel(false)}
           >
-            Cancel
+            {cancelar }
           </button>
         </div>
       </div>

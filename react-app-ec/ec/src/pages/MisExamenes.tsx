@@ -4,13 +4,12 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
 import DialogBox from '../components/Dialbox';
 import './MisExamanes.css';
-import fondoGenerico from "../images/fondoGenerico.jpg"
-import fondoGears from "../images/fondoGears.png"
-import fondoDavid from "../images/david.jpg"
+import fondoGenerico from "../images/fondoGenerico.jpg";
+import fondoGears from "../images/fondoGears.png";
+import fondoDavid from "../images/david.jpg";
 import getBaseUrl from '../utils/getBaseUrl.js';
 
 function PanelExamenes() {
-    const baseUrl = getBaseUrl(); 
     const [examenes, setExamenes] = useState([ 
         {
             id: 1,
@@ -76,11 +75,20 @@ function PanelExamenes() {
             imagen: fondoGenerico,
         },
     
-]);
+    ]);
+
     const [loading, setLoading] = useState(true);
-    const endpoint = baseUrl;
+    const [error, setError] = useState('');
+    const endpoint = getBaseUrl();
+
     useEffect(() => {
         const obtenerExamenes = async () => {
+            const professorId = localStorage.getItem('professorId');
+
+            if (!professorId) {
+                setError('No se encontró el ID del profesor.');
+                return;
+            }
             try {
                 const response = await fetch(endpoint);
                 if (!response.ok) {
@@ -115,24 +123,29 @@ function PanelExamenes() {
         examen.tema.toLowerCase().includes(filtroTema.toLowerCase())
     );
 
-        const [showDialog, setShowDialog] = useState(false);
+    const [showDialog, setShowDialog] = useState({ id: null, visible: false });
 
-        const handleDeleteClick = () => {
-            setShowDialog(true); // Mostrar el cuadro de diálogo
+
+        const handleDeleteClick = (id) => {
+            setShowDialog({ id, visible: true });; // Mostrar el cuadro de diálogo
         };
 
-        const handleConfirm = (result) => {
-            if (result) {
-                console.log("Usuario confirmó la acción");
-            }
-            setShowDialog(false) // Ocultar el cuadro de diálogo
+        const handleConfirm = (id: number) => {
+            eliminarExamen(id);
+            console.log(`Examen con ID ${id} eliminado.`);
+            setShowDialog({ id: null, visible: false });; // Ocultar el cuadro de diálogo
         };
 
         const handleCancel = () => {
-            console.log("Acción cancelada");
-            setShowDialog(false); // Ocultar el cuadro de diálogo
+            setShowDialog({ id: null, visible: false }); // Cancelar el cuadro de diálogo
         };
 
+        // Ejemplo de función para eliminar el examen
+        const eliminarExamen = (id: number) => {
+            setExamenes((prevExamenes) =>
+                prevExamenes.filter((examen) => examen.id !== id)
+            );
+        };
 
     // Funciones para manejar botones de los exámenes
     const editarExamen = (id: number) => {
@@ -152,9 +165,6 @@ function PanelExamenes() {
         navigate('/nuevo-examen');
     };
 
-    if (loading) {
-        return <div>Cargando exámenes...</div>; // Muestra un mensaje de carga
-    }
     return (
         <Layout>
             <div className="mis-examenes">
@@ -181,22 +191,17 @@ function PanelExamenes() {
                         Nuevo Examen
                     </button>
                 </div>
- 
+                {error && <p>{error}</p>}
+
                 <TransitionGroup className="lista-examenes">
-                    {showDialog && (
-                        <DialogBox
-                            title="Eliminar Examen"
-                            message="Esta accion no se puede deshacer"
-                            onConfirm={handleConfirm}
-                            onCancel={handleCancel}
-                        />
-                    )}
+                    
                     {examenesFiltrados.map((examen, index) => (
                         <CSSTransition
                             key={examen.id}
                             timeout={300}
                             classNames="examen"
                         >
+
                         <div
                             key={examen.id}
                             className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
@@ -205,13 +210,23 @@ function PanelExamenes() {
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                             }}
-                        >
+                            >
+                            {showDialog.visible && showDialog.id === examen.id && (
+                                <DialogBox
+                                    title="Eliminar Examen"
+                                    message="Esta acción no se puede deshacer"
+                                    confirmar="Eliminar"
+                                    cancelar="Cancelar"
+                                    onConfirm={() => handleConfirm(examen.id)}
+                                    onCancel={handleCancel}
+                                />
+                            )}
                             <div className="examen-grupo-info">
                                 <div className="examen-info">
                                     <h3>{examen.titulo}</h3>
                                     <h6>{examen.tema}</h6>
                                 </div>
-                                    <button className="boton-eliminar" >❌</button>
+                                    <button className="boton-eliminar" onClick={() => handleDeleteClick(examen.id)}>❌</button>
                             </div>
                             <div className="examen-grupo-boton">
                                 <button onClick={() => editarExamen(examen.id)}>Editar</button>
@@ -223,7 +238,9 @@ function PanelExamenes() {
                                 </button>
                             </div>
                             </div>
+
                         </CSSTransition>
+
                     ))}
                 </TransitionGroup>
             </div>
