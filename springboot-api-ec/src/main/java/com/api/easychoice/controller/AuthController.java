@@ -38,10 +38,12 @@ public class AuthController {
 
         if (profesor != null) {
             // Retornar una respuesta exitosa con información del profesor
-            return ResponseEntity.ok("Login exitoso, bienvenido " + profesor.getNombre());
+            //return ResponseEntity.ok("Login exitoso, bienvenido " + profesor.getNombre());
+            return ResponseEntity.ok(profesor.getId());
         } else {
             // Retornar una respuesta de error (credenciales inválidas)
-            return ResponseEntity.status(401).body("Email o contraseña incorrectos");
+            //return ResponseEntity.status(401).body("Email o contraseña incorrectos");
+            return ResponseEntity.status(401).build();
         }
     }
 }
