@@ -20,12 +20,15 @@ public class AuthController {
     @PostMapping("/credentials")
     public ResponseEntity<Object> loginByCredentials(@RequestBody AuthDTO authDTO) {
 
+
+        String email= authDTO.getEmail();
+        String password= authDTO.getPassword();
+
+        String profesorId = authService.loginByCredentials(email, password);
         
-
-
         // devolver respuesta al cliente
-        return ResponseEntity
+        return ResponseEntity 
         .status(201)
-        .body("Token");
+        .body(profesorId);
     }
 }
