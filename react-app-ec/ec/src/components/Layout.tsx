@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
-
+import { AuthProvider } from '../utils/AuthContext';
 function Layout({ children }) {
 
   const styles = {
@@ -10,9 +10,11 @@ function Layout({ children }) {
   };
 
   return (
-    <div style={styles}>
-        <Navbar />
-        { children }
+      <div style={styles}>
+          <AuthProvider>
+            <Navbar />
+                  {children}
+          </AuthProvider>
     </div>
   );
 }

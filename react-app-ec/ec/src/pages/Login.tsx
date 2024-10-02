@@ -2,6 +2,8 @@
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import './Login.css';
+import { useAuth } from '../utils/AuthContext';
+import getBaseUrl from '../utils/getBaseUrl.js';
 function Login() {
     // Estados para almacenar email y contraseña
     const [email, setEmail] = useState('');
@@ -9,19 +11,15 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');  
     const navigate = useNavigate();
+    const endpoint = getBaseUrl();
 
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
-
-        // Verificación simple para admin-admin
-        if (email === 'admin@admin' && password === 'admin') {
-            // Si las credenciales son correctas, redirigir a la home sin hacer la petición
-            navigate('/');
-        } else {
+        const { setIsAuthenticated } = useAuth();
             try {
                 // Petición POST a /api/auth
-                const response = await fetch('/api/auth', {
+                const response = await fetch(endpoint + '/api/login/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,18 +31,26 @@ function Login() {
                 });
 
                 if (response.ok) {
-                    // Si la respuesta es 200, redirigir a la home
-                    navigate('/home');
+                    const data = await response.json();
+                    setIsAuthenticated(true);
+                    // Suponiendo que el ID del profesor viene en 'data.professorId'
+                    const professorId = data.professorId;
+
+                    // Guarda el ID en el localStorage (puede ser sessionStorage también)
+                    localStorage.setItem('professorId', professorId);
+
+                    // Redirigir al dashboard o exámenes
+                    navigate('/misExamenes');
                 } else {
-                    // Manejar error (puedes mostrar un mensaje en la UI)
-                    setError('Error en la autenticación. Verifica tus credenciales.');
+                    const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
+                    localStorage.setItem('professorId', professorId);
+                    setError('Credenciales incorrectas.');
                 }
             } catch (error) {
                 console.error('Error en la solicitud:', error);
                 setError('Ocurrió un error en el servidor.');
             }
-        }
-    };
+        };
 
     return (
         <Layout>

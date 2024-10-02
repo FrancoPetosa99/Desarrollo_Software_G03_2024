@@ -6,7 +6,6 @@ import Login from './pages/Login';
 import Registrarse from './pages/Registrarse';
 import MisExamenes from './pages/MisExamenes';
 
-
 function App() {
   return (
     <Router>

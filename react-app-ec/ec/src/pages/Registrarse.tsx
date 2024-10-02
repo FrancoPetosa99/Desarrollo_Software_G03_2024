@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import './screen-adjust.css';
 import { Link } from 'react-router-dom';
 import './Registrarse.css';
+import getBaseUrl from '../utils/getBaseUrl.js';
 function Registrarse() {
     // Estados para almacenar datos de registracion
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ function Registrarse() {
     const navigate = useNavigate();  // Para redirigir al usuario
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-
+   
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
@@ -24,8 +25,9 @@ function Registrarse() {
             return;  // Evitar que se continúe con el envío
         }
         try {
-                // Petición POST a /api/auth
-                const response = await fetch('/api/auth', {
+            // Petición POST a /api/auth
+                const endpoint = getBaseUrl();
+                const response = await fetch(endpoint + '/api/auth/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

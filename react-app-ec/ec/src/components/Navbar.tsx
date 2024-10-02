@@ -5,10 +5,10 @@ import 'bootstrap/js/dist/offcanvas';
 import { Link } from 'react-router-dom';
 import logo from '../Logo-ec.png';
 import logo2 from '../Logo2-ec.png';
-
+import { useAuth } from '../utils/AuthContext';
 function Navbar() {
 
-  const [ isAuthenticated, setIsAuthenticated ] = useState(false);
+    const { isAuthenticated } = useAuth();
 
   return (
       <nav style={{
@@ -33,10 +33,9 @@ function Navbar() {
           </div>
           <div className="offcanvas-body" >
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3" >
-              <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/mis-examenes">Mis Examenes</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/registrarse">Registrarse</Link></li>
-              { !isAuthenticated && <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li> }
+                          <li className="nav-item"><Link className="nav-link" to="/mis-examenes" style={{ color: 'white' }}>Mis Examenes</Link></li>
+                          {!isAuthenticated && <li className="nav-item"><Link className="nav-link" to="/registrarse" style={{ color: 'white' }}>Registrarse</Link></li> }
+                          {!isAuthenticated && <li className="nav-item"><Link className="nav-link" to="/login" style={{ color: 'white' }}>Login</Link></li> }
             </ul>
           </div>
         </div>

@@ -1,17 +1,18 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
 import './NuevoExamen.css';
+import getBaseUrl from '../utils/getBaseUrl.js';
 function NuevoExamen() {
     // Inicializando el formulario con los valores necesarios
     const [formulario, setFormulario] = useState({
-        profesorId: "",
+        profesorId: "99649b61-1839-4541-bf6d-659aafb57595",
         titulo: '',
         tema: '',
         tiempoLimite: 0,
         //habilitado: false
         fechaLimite: new Date().toISOString().split('T')[0] // Fecha inicial actual
     });
-
+    const endpoint = getBaseUrl();
     const maxCaracteres = 600;
 
     // Preguntas con sus respuestas y respuestasCorrectas
@@ -140,11 +141,10 @@ function NuevoExamen() {
                     }))
                 }))
             };
-            console.log(examenData)
             try {
                 // Realizar la solicitud POST con fetch
-                console.log( examenData)
-                const response = await fetch('https://tu-endpoint.com/api/examenes', {
+                const profesorId = localStorage.getItem('professorId');
+                const response = await fetch(endpoint + '/api/examenes/' + profesorId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Indica que se enviará JSON
