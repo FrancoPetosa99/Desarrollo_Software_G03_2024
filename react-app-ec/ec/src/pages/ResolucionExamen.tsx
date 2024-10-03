@@ -2,37 +2,29 @@ import React, { useState, useEffect } from 'react';
 import './ResolucionExamen.css';
 
 const ResolucionExamen = () => {
-  
-  const preguntasFicticias = [
-    {
-      id: '1',
-      preguntaTexto: '¿Cuál es la capital de Francia?',
-      opciones: ['París', 'Londres', 'Madrid', 'Roma'],
-      respuestaCorrecta: 0 
-    },
-    {
-      id: '2',
-      preguntaTexto: '¿Cuál es la capital de España?',
-      opciones: ['París', 'Madrid', 'Lisboa', 'Roma'],
-      respuestaCorrecta: 1 
-    },
-    {
-      id: '3',
-      preguntaTexto: '¿Cuál es la capital de Italia?',
-      opciones: ['Roma', 'Venecia', 'Milán', 'Florencia'],
-      respuestaCorrecta: 0 
-    }
-  ];
-
-  const [preguntas, setPreguntas] = useState(preguntasFicticias);
-  const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(Array(preguntas.length).fill(null)); 
+  const [preguntas, setPreguntas] = useState<any[]>([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
   const [examenFinalizado, setExamenFinalizado] = useState<boolean>(false);
-  const [enRevision, setEnRevision] = useState<boolean>(false); 
-
-  const [tiempo, setTiempo] = useState<number>(0); 
+  const [enRevision, setEnRevision] = useState<boolean>(false);
+  const [tiempo, setTiempo] = useState<number>(0);
   const [intervalId, setIntervalId] = useState<number | null>(null);
 
+  useEffect(() => {
+    const fetchPreguntas = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/examenes');
+        const data = await response.json();
+        setPreguntas(data);
+        setSelectedAnswers(Array(data.length).fill(null));
+      } catch (error) {
+        console.error('Error al cargar las preguntas:', error);
+      }
+    };
+  
+    fetchPreguntas();
+  }, []);
+  
 
   useEffect(() => {
     if (!examenFinalizado && !enRevision) {
@@ -93,49 +85,26 @@ const ResolucionExamen = () => {
     setEnRevision(false);
   };
 
-  const calcularPuntaje = () => {
-    const correctas = preguntas.reduce((acc, pregunta, index) => {
-      return acc + (selectedAnswers[index] === pregunta.respuestaCorrecta ? 1 : 0);
-    }, 0);
-    const total = preguntas.length;
-    const porcentaje = (correctas / total) * 100;
-
-    let mensaje;
-    if (porcentaje >= 80) {
-      mensaje = "¡Excelente trabajo!";
-    } else if (porcentaje >= 50) {
-      mensaje = "¡Bien hecho!";
-    } else {
-      mensaje = "Podrías mejorar.";
-    }
-
-    return { correctas, total, porcentaje, mensaje };
-  };
-
   if (examenFinalizado) {
-    const { correctas, total, porcentaje, mensaje } = calcularPuntaje();
-
     return (
       <div className="result-container">
         <h2>Resultados del Examen</h2>
-        <p>Puntaje final: {correctas} de {total} ({porcentaje.toFixed(2)}%)</p>
-        <p className="result-message">{mensaje}</p>
         <p>Tiempo total: {formatearTiempo(tiempo)}</p>
         {preguntas.map((pregunta, index) => (
           <div key={index} className="question-review">
-            <p className="question-text">{pregunta.preguntaTexto}</p>
-            {pregunta.opciones.map((opcion, i) => (
+            <p className="question-text">{pregunta.enunciado}</p>
+            {pregunta.opciones.map((opcion: any, i: number) => (
               <div
                 key={i}
                 className={`answer-review ${
-                  i === pregunta.respuestaCorrecta
+                  opcion.correcta
                     ? 'correcto'
                     : selectedAnswers[index] === i
                     ? 'incorrecto'
                     : ''
                 }`}
               >
-                {opcion} {selectedAnswers[index] === i ? '(Tu respuesta)' : ''}
+                {opcion.respuesta} {selectedAnswers[index] === i ? '(Tu respuesta)' : ''}
               </div>
             ))}
           </div>
@@ -152,11 +121,11 @@ const ResolucionExamen = () => {
         <p>Puedes revisar tus respuestas y hacer cambios antes de finalizar el examen.</p>
         {preguntas.map((pregunta, index) => (
           <div key={index} className="question-review">
-            <p className="question-text">{pregunta.preguntaTexto}</p>
+            <p className="question-text">{pregunta.enunciado}</p>
             <button className="change-answer-button" onClick={() => handleCambiarPregunta(index)}>
               Cambiar Respuesta
             </button>
-            <p>Tu respuesta: {pregunta.opciones[selectedAnswers[index]!]}</p>
+            <p>Tu respuesta: {pregunta.opciones[selectedAnswers[index]]?.respuesta}</p>
           </div>
         ))}
         <button className="finalize-button" onClick={handleConfirmarFinalizacion}>Confirmar y Finalizar Examen</button>
@@ -168,7 +137,7 @@ const ResolucionExamen = () => {
     <div className="resolucion-examen-container">
       <header className="exam-header">
         <h1>Pregunta {currentQuestion + 1}</h1>
-        <p className="question-text">{preguntas[currentQuestion].preguntaTexto}</p>
+        <p className="question-text">{preguntas[currentQuestion]?.enunciado}</p>
       </header>
 
       <div className="progress-bar">
@@ -180,13 +149,13 @@ const ResolucionExamen = () => {
       </div>
 
       <div className="answers-container">
-        {preguntas[currentQuestion].opciones.map((answer, index) => (
+        {preguntas[currentQuestion]?.opciones.map((opcion: any, index: number) => (
           <div
             key={index}
             className={`answer ${selectedAnswers[currentQuestion] === index ? 'selected' : ''}`}
             onClick={() => handleAnswerSelect(index)}
           >
-            {answer}
+            {opcion.respuesta}
           </div>
         ))}
       </div>

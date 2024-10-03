@@ -1,0 +1,33 @@
+{
+    "examenes": [
+      {
+        "enunciado": "¿Qué significa el principio SOLID en la programación orientada a objetos?",
+        "puntaje": 1.0,
+        "opciones": [
+          {
+            "respuesta": "Es un conjunto de principios de diseño que ayudan a hacer el software más modular y flexible.",
+            "correcta": true
+          },
+          {
+            "respuesta": "Es una metodología para organizar el flujo de datos en una base de datos relacional.",
+            "correcta": false
+          }
+        ]
+      },
+      {
+        "enunciado": "¿Qué es una API?",
+        "puntaje": 1.0,
+        "opciones": [
+          {
+            "respuesta": "Es un tipo de base de datos que permite almacenar datos no relacionales.",
+            "correcta": false
+          },
+          {
+            "respuesta": "Es una interfaz que permite que dos sistemas de software se comuniquen entre sí.",
+            "correcta": true
+          }
+        ]
+      }
+    ]
+  }
+  
