@@ -5,6 +5,7 @@ import NuevoExamen from './pages/NuevoExamen';
 import Login from './pages/Login';
 import Registrarse from './pages/Registrarse';
 import MisExamenes from './pages/MisExamenes';
+import ResolucionExamen from './pages/ResolucionExamen';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/nuevo-examen" element={<NuevoExamen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registrarse" element={<Registrarse />} />
+        <Route path="/resolucion-examen" element={<ResolucionExamen />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </Router>
