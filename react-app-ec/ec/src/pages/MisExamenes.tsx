@@ -87,19 +87,24 @@ function PanelExamenes() {
 
             if (!professorId) {
                 setError('No se encontró el ID del profesor.');
+                const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
+                localStorage.setItem('professorId', professorId);
                 return;
             }
             try {
-                const response = await fetch(endpoint);
+                const response = await fetch(`${endpoint}/api/examenes/profesores/${professorId}`);
+
                 if (!response.ok) {
                     throw new Error('Error al obtener los exámenes');
                 }
+
                 const data = await response.json();
                 setExamenes(data);
-                setLoading(false); // Deja de cargar cuando se obtienen los datos
+                setLoading(false);
             } catch (error) {
                 console.error('Error al obtener los exámenes:', error);
-                setLoading(false);
+                setError('Hubo un problema al cargar los exámenes.');
+                setLoading(false); 
             }
         };
 

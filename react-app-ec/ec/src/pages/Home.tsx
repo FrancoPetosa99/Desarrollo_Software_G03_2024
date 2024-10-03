@@ -1,6 +1,8 @@
 ﻿import React from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../utils/AuthContext.jsx';
+import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
-import { Link } from "react-router-dom";
 import logo from '../Logo-ec.png';
 import logo2 from '../Logo2-ec.png';
 import x from '../icons/x.svg';
@@ -12,19 +14,29 @@ import time from '../icons/time.svg'
 import analitics from '../icons/analisis.svg'
 
 const App = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, setIsAuthenticated } = useAuth();
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/MisExamenes');
+        }
+    }, [isAuthenticated, navigate]);
     return (
         <div style={styles.app}>
-            <Layout></Layout>
-            <main>
-                <HeroSection />
-                <FeaturesSection />
-                <BenefitsSection />
-                <CTASection />
-            </main>
+            <Layout>
+                <main>
+                    <HeroSection />
+                    <FeaturesSection />
+                    <BenefitsSection />
+                    <CTASection />
+                </main>
+            </Layout>
             <Footer />
         </div>
     );
 };
+
+
 
 const HeroSection = () => (
     <section style={styles.heroSection}>

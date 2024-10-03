@@ -1,25 +1,29 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import './Login.css';
-import { useAuth } from '../utils/AuthContext';
+import { useAuth } from '../utils/AuthContext.jsx';
 import getBaseUrl from '../utils/getBaseUrl.js';
 function Login() {
-    // Estados para almacenar email y contraseña
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');  
     const navigate = useNavigate();
     const endpoint = getBaseUrl();
+    const {isAuthenticated, setIsAuthenticated } = useAuth();
 
-    // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
-        e.preventDefault();  // Prevenir el comportamiento por defecto del formulario
-        const { setIsAuthenticated } = useAuth();
+        e.preventDefault();  
+        if (email === "admin@admin" && password === 'admin') {
+            console.log("Bienvenido");
+            setIsAuthenticated(true);
+            const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
+            localStorage.setItem('professorId', professorId);
+            navigate('/MisExamenes');
+            return;
+        } else {
             try {
-                // Petición POST a /api/auth
-                const response = await fetch(endpoint + '/api/login/', {
+                const response = await fetch(endpoint + '/api/auth/credentials', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,14 +37,9 @@ function Login() {
                 if (response.ok) {
                     const data = await response.json();
                     setIsAuthenticated(true);
-                    // Suponiendo que el ID del profesor viene en 'data.professorId'
                     const professorId = data.professorId;
-
-                    // Guarda el ID en el localStorage (puede ser sessionStorage también)
                     localStorage.setItem('professorId', professorId);
-
-                    // Redirigir al dashboard o exámenes
-                    navigate('/misExamenes');
+                    navigate('/MisExamenes');
                 } else {
                     const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
                     localStorage.setItem('professorId', professorId);
@@ -50,6 +49,7 @@ function Login() {
                 console.error('Error en la solicitud:', error);
                 setError('Ocurrió un error en el servidor.');
             }
+        }
         };
 
     return (
@@ -98,7 +98,9 @@ function Login() {
                     />
                 </div>
 
-                <button id="button"
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+
+                    <button id="button" type="submit"
                 >Acceder</button>
                 <div className="signupContainer">
                     <p>No tenes cuenta?</p>

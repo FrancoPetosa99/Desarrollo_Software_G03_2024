@@ -27,16 +27,17 @@ function Registrarse() {
         try {
             // Petición POST a /api/auth
                 const endpoint = getBaseUrl();
-                const response = await fetch(endpoint + '/api/auth/', {
+                const response = await fetch(endpoint + '/api/profesores', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        email: email,
-                        password: password,
                         nombre: nombre,
                         apellido: apellido,
+                        email: email,
+                        password: password,
+                        
                     }),
                 });
 
@@ -132,7 +133,7 @@ function Registrarse() {
                         </button>
                         <div className="signupContainer">
                             <p>Ya tenes cuenta ?</p>
-                            <a href="/Registrarse">Ingresar</a>
+                            <a href="/Login">Ingresar</a>
                         </div>
                     </form>
                 </div>

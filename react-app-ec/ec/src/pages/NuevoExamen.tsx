@@ -3,9 +3,9 @@ import Layout from '../components/Layout';
 import './NuevoExamen.css';
 import getBaseUrl from '../utils/getBaseUrl.js';
 function NuevoExamen() {
-    // Inicializando el formulario con los valores necesarios
+    const professorId = localStorage.getItem('professorId');
     const [formulario, setFormulario] = useState({
-        profesorId: "99649b61-1839-4541-bf6d-659aafb57595",
+        profesorId: professorId,  
         titulo: '',
         tema: '',
         tiempoLimite: 0,
@@ -14,7 +14,6 @@ function NuevoExamen() {
     });
     const endpoint = getBaseUrl();
     const maxCaracteres = 600;
-
     // Preguntas con sus respuestas y respuestasCorrectas
     const [preguntas, setPreguntas] = useState([
         { enunciado: '', puntaje: 1.0, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }
