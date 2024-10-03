@@ -1,5 +1,7 @@
 package com.api.easychoice.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.easychoice.model.Profesor;
@@ -22,6 +24,12 @@ public class ProfesorService {
         return profesor;
     }
 
+    //devuelve los profesores cargardos en la base de datos
+    public List<Profesor> getProfesores(){
+        return profesorRepository.findAll();
+    }
+
+    
     public Profesor getProfesorById(String id) {
         return profesorRepository.findById(id).orElse(null);
     }
