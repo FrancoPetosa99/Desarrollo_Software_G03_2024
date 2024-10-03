@@ -32,7 +32,7 @@ const HeroSection = () => (
             <h1 style={styles.heroTitle}>Creador de examenes online</h1>
             <p style={styles.heroText}>
                 Usar un creador de exámenes online te permitirá automatizar este proceso, ahorrar
-                tiempo y obtener los resultados al término de la prueba.
+                tiempo y obtener los resultados al término de la.
             </p>
             <Link to="/Registrarse">
                 <button style={styles.ctaButton}>Crea tu cuenta</button>
