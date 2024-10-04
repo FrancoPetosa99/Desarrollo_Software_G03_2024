@@ -5,6 +5,7 @@ import NuevoExamen from './pages/NuevoExamen';
 import Login from './pages/Login';
 import Registrarse from './pages/Registrarse';
 import MisExamenes from './pages/MisExamenes';
+import Examen from './pages/Resolucion';
 import { AuthProvider } from './utils/AuthContext';
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/nuevo-examen" element={<NuevoExamen />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registrarse" element={<Registrarse />} />
+            <Route path="/examen" element={<Examen />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </Router>

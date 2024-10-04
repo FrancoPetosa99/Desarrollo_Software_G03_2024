@@ -37,8 +37,8 @@ function Login() {
                 if (response.ok) {
                     const data = await response.json();
                     setIsAuthenticated(true);
-                    const professorId = data.professorId;
-                    localStorage.setItem('professorId', professorId);
+                    const profesorId = data.profesorId;
+                    localStorage.setItem('profesorId', profesorId);
                     navigate('/MisExamenes');
                 } else {
                     const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
