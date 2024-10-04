@@ -10,72 +10,7 @@ import fondoDavid from "../images/david.jpg";
 import getBaseUrl from '../utils/getBaseUrl.js';
 
 function PanelExamenes() {
-    const [examenes, setExamenes] = useState([ 
-        {
-            id: 1,
-            titulo: 'Examen de Matemática',
-            tema: 'Álgebra',
-            tiempo: '30 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: true,
-            imagen: fondoGenerico,
-        },
-        {
-            id: 2,
-            titulo: 'Examen de Arte',
-            tema: 'Renacimiento',
-            tiempo: '45 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: true,
-            imagen: fondoDavid,
-        },
-        {
-            id: 3,
-            titulo: 'Examen de Física',
-            tema: 'Mecánica',
-            tiempo: '40 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGears,
-        },
-        {
-            id: 4,
-            titulo: 'Examen Generico',
-            tema: 'Generico',
-            tiempo: '20 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGenerico,
-        },
-        {
-            id: 5,
-            titulo: 'Examen Generico',
-            tema: 'Generico',
-            tiempo: '20 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGenerico,
-        },
-        {
-            id: 6,
-            titulo: 'Examen Generico',
-            tema: 'Generico',
-            tiempo: '20 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGenerico,
-        },
-        {
-            id: 7,
-            titulo: 'Examen Generico',
-            tema: 'Generico',
-            tiempo: '20 min',
-            fecha: new Date().toISOString().split('T')[0],
-            habilitado: false,
-            imagen: fondoGenerico,
-        },
-    
-    ]);
+    const [examenes, setExamenes] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -83,16 +18,16 @@ function PanelExamenes() {
 
     useEffect(() => {
         const obtenerExamenes = async () => {
-            const professorId = localStorage.getItem('professorId');
+            const profesorId = localStorage.getItem('profesorId');
 
-            if (!professorId) {
+            if (!profesorId) {
                 setError('No se encontró el ID del profesor.');
-                const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
-                localStorage.setItem('professorId', professorId);
+                const profesorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
+                localStorage.setItem('profesorId', profesorId);
                 return;
             }
             try {
-                const response = await fetch(`${endpoint}/api/examenes/profesores/${professorId}`);
+                const response = await fetch(`${endpoint}/api/examenes/profesores/${profesorId}`);
 
                 if (!response.ok) {
                     throw new Error('Error al obtener los exámenes');
@@ -156,7 +91,21 @@ function PanelExamenes() {
     const editarExamen = (id: number) => {
     };
 
+    const copiarAlPortapapeles = async (dato) => {
+        try {
+            await navigator.clipboard.writeText(dato); // Copiar el dato al portapapeles
+            console.log("Dato copiado al portapapeles:", dato);
+            alert("Dato copiado al portapapeles.");
+        } catch (error) {
+            console.error("Error al copiar al portapapeles:", error);
+            alert("No se pudo copiar el dato al portapapeles.");
+        }
+    };
+
     const copiarLinkExamen = (id: number) => {
+        const hostname = window.location.hostname;
+        const puerto = window.location.port;
+        copiarAlPortapapeles( hostname +':' + puerto +'/examen/'+id);
     };
 
     const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
@@ -211,7 +160,7 @@ function PanelExamenes() {
                             key={examen.id}
                             className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
                             style={{
-                                backgroundImage: `url(${examen.imagen})`,
+                                backgroundImage: `url(${fondoGenerico})`,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                             }}
