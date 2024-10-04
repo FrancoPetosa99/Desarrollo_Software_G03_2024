@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import getBaseUrl from '../utils/getBaseUrl.js';
-import './Resolucion.css';
+import './Examen.css';
 
 const ResolucionExamen: React.FC = () => {
     const endpoint = getBaseUrl();
@@ -18,20 +18,22 @@ const ResolucionExamen: React.FC = () => {
         const fetchPreguntas = async () => {
             try {
                 const response = await fetch(`${endpoint}/api/examenes/${examId}/preguntas`);
-                const data = await response.json();
-                const preguntasFormateadas = data.map((pregunta: any) => ({
-                    enunciado: pregunta.enunciado,
-                    puntaje: pregunta.puntaje,
-                    opciones: pregunta.opciones.map((opcion: any) => ({
-                        respuesta: opcion.respuesta,
-                        correcta: opcion.correcta,
-                    })),
-                }));
-
-                setPreguntas(preguntasFormateadas);
-                setSelectedAnswers(Array(preguntasFormateadas.length).fill(null));
+                if (response.ok) {
+                    const data = await response.json();
+                    const preguntasFormateadas = data.map((pregunta: any) => ({
+                        enunciado: pregunta.enunciado,
+                        puntaje: pregunta.puntaje,
+                        opciones: pregunta.opciones.map((opcion: any) => ({
+                            respuesta: opcion.respuesta,
+                            correcta: opcion.correcta,
+                        })),
+                    }));
+                    setPreguntas(preguntasFormateadas);
+                    setSelectedAnswers(Array(preguntasFormateadas.length).fill(null));
+                }
             } catch (error) {
                 console.error('Error al cargar las preguntas:', error);
+                <h2>Error al cargar examen</h2>
             }
         };
 
@@ -102,25 +104,39 @@ const ResolucionExamen: React.FC = () => {
             <div className="result-container">
                 <h2>Resultados del Examen</h2>
                 <p>Tiempo total: {formatearTiempo(tiempo)}</p>
-                {preguntas.map((pregunta, index) => (
-                    <div key={index} className="question-review">
-                        <p className="question-text">{pregunta.enunciado}</p>
-                        {pregunta.opciones.map((opcion, i) => (
+
+                {preguntas.map((pregunta, index) => {
+                    // Obtener la opción seleccionada por el usuario y la opción correcta
+                    const respuestaSeleccionada = pregunta.opciones[selectedAnswers[index]];
+                    const respuestaCorrecta = pregunta.opciones.find(opcion => opcion.correcta);
+
+                    return (
+                        <div key={index} className="question-review">
+                            <p className="question-text">{pregunta.enunciado}</p>
+
+                            {/* Mostrar la respuesta seleccionada por el usuario */}
                             <div
-                                key={i}
-                                className={`answer-review ${opcion.correcta
+                                className={`answer-review ${respuestaSeleccionada.correcta
                                     ? 'correcto'
-                                    : selectedAnswers[index] === i
-                                        ? 'incorrecto'
-                                        : ''
+                                    : 'incorrecto'
                                     }`}
                             >
-                                {opcion.respuesta} {selectedAnswers[index] === i ? '(Tu respuesta)' : ''}
+                                Tu respuesta: {respuestaSeleccionada.respuesta}
                             </div>
-                        ))}
-                    </div>
-                ))}
-                <button className="restart-button" onClick={() => window.location.reload()}>Reiniciar Examen</button>
+
+                            {/* Mostrar la respuesta correcta, solo si la respuesta seleccionada es incorrecta */}
+                            {!respuestaSeleccionada.correcta && (
+                                <div className="correct-answer">
+                                    Respuesta correcta: {respuestaCorrecta.respuesta}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+
+                <button className="restart-button" onClick={() => window.location.reload()}>
+                    Reiniciar Examen
+                </button>
             </div>
         );
     }
@@ -139,23 +155,25 @@ const ResolucionExamen: React.FC = () => {
                         </button>
                     </div>
                 ))}
-                <button className="finalize-button" onClick={handleConfirmarFinalizacion}>Confirmar y Finalizar Examen</button>
+                <button className="finalize-button" onClick={handleConfirmarFinalizacion}>Finalizar Examen</button>
             </div>
         );
     }
 
     return (
         <div className="resolucion-examen-container">
+            <div className="timer">
+                {formatearTiempo(tiempo)}
+            </div>
             <header className="exam-header">
+                <p>Pregunta {currentQuestion + 1}</p>
                 <div className="score-display">Puntaje: {preguntas[currentQuestion]?.puntaje}</div>
                 <p className="question-text">{preguntas[currentQuestion]?.enunciado}</p>
             </header>
 
-            
-
-            
             <div className="answers-container">
                 {preguntas[currentQuestion]?.opciones.map((opcion, index) => (
+
                     <div
                         key={index}
                         className={`answer ${selectedAnswers[currentQuestion] === index ? 'selected' : ''}`}
@@ -163,25 +181,44 @@ const ResolucionExamen: React.FC = () => {
                     >
                         {opcion.respuesta}
                     </div>
+
                 ))}
             </div>
-
-            <div className="progress-bar">
-                <div className="progress" style={{ width: `${calcularProgreso()}%` }}></div>
-            </div>
-
-            <div className="timer">
-                Tiempo transcurrido: {formatearTiempo(tiempo)}
-            </div>
-
+            
+            
             <div className="pagination">
-                <button className="prev-button" onClick={handlePrev} disabled={currentQuestion === 0}>← Anterior</button>
-                {currentQuestion === preguntas.length - 1 && (
-                    <div className="finalize">
-                        <button className="finalize-button" onClick={handleFinalizarExamen}>Revisar Respuestas</button>
-                    </div>
+                <button className="prev-button" onClick={handlePrev} disabled={currentQuestion === 0}>
+                    ← Anterior
+                </button>
+                <div className="navigation-bar">
+                    {preguntas.map((_, index) => (
+                        <button
+                            key={index}
+                            className={`nav-button ${currentQuestion === index ? 'active' : ''}`}
+                            onClick={() => setCurrentQuestion(index)}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} // Alinea el contenido
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 100 100">
+                                <polygon points="50,5 95,25 95,75 50,95 5,75 5,25" fill="none" stroke="currentColor" stroke-width="12" />
+                            </svg>
+                        </button>
+                    ))}
+                </div>
+                {currentQuestion === preguntas.length - 1 ? (
+                    <button
+                        className="finalize-button"
+                        onClick={handleFinalizarExamen}
+                    >
+                        Finalizar
+                    </button>
+                ) : (
+                    <button
+                        className="next-button"
+                        onClick={handleNext}
+                    >
+                        Siguiente →
+                    </button>
                 )}
-                <button className="next-button" onClick={handleNext} disabled={currentQuestion === preguntas.length - 1}>Siguiente →</button>
             </div>
 
         </div>

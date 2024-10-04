@@ -5,7 +5,7 @@ import NuevoExamen from './pages/NuevoExamen';
 import Login from './pages/Login';
 import Registrarse from './pages/Registrarse';
 import MisExamenes from './pages/MisExamenes';
-import Examen from './pages/Resolucion';
+import Examen from './pages/Examen';
 import { AuthProvider } from './utils/AuthContext';
 function App() {
   return (
