@@ -3,9 +3,9 @@ import Layout from '../components/Layout';
 import './NuevoExamen.css';
 import getBaseUrl from '../utils/getBaseUrl.js';
 function NuevoExamen() {
-    const professorId = localStorage.getItem('professorId');
+    const profesorId = localStorage.getItem('profesorId');
     const [formulario, setFormulario] = useState({
-        profesorId: professorId,  
+        profesorId: profesorId,  
         titulo: '',
         tema: '',
         tiempoLimite: 0,
@@ -142,8 +142,7 @@ function NuevoExamen() {
             };
             try {
                 // Realizar la solicitud POST con fetch
-                const profesorId = localStorage.getItem('professorId');
-                const response = await fetch(endpoint + '/api/examenes/' + profesorId, {
+                const response = await fetch(endpoint + '/api/examenes' , {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json' // Indica que se enviará JSON

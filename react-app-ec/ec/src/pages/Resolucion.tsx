@@ -1,80 +1,11 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import getBaseUrl from '../utils/getBaseUrl.js';
 import './Resolucion.css';
 
-const PreguntasPredeterminadas = () => {
-    const [preguntas, setPreguntas] = useState<any[]>([
-        {
-            enunciado: "¿Qué es una variable en programación?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Una forma de almacenar datos temporales.", correcta: true },
-                { respuesta: "Un tipo de dato que siempre contiene un valor numérico.", correcta: false },
-                { respuesta: "Un lenguaje de programación.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Qué es un bucle `for` en programación?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Una estructura de control que repite un bloque de código un número específico de veces.", correcta: true },
-                { respuesta: "Una función para llamar a un servidor.", correcta: false },
-                { respuesta: "Un método para organizar datos.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Qué significa 'refactorización' en el código?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Modificar el código para mejorar su estructura sin cambiar su comportamiento externo.", correcta: true },
-                { respuesta: "Optimizar el código para que se ejecute más rápido.", correcta: false },
-                { respuesta: "Crear una nueva funcionalidad en una aplicación.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Cuál es el propósito de una función en la programación?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Encapsular un bloque de código reutilizable que puede ser ejecutado cuando sea necesario.", correcta: true },
-                { respuesta: "Almacenar un valor que puede ser utilizado en otras partes del programa.", correcta: false },
-                { respuesta: "Una estructura que permite manejar errores.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Qué es un firewall?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Un sistema de seguridad que controla el tráfico de red según reglas predefinidas.", correcta: true },
-                { respuesta: "Un programa que protege contra virus.", correcta: false },
-                { respuesta: "Un tipo de ataque de red.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Qué es la ingeniería social en ciberseguridad?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "El uso de técnicas psicológicas para obtener información confidencial de las personas.", correcta: true },
-                { respuesta: "Un ataque que involucra explotar vulnerabilidades de software.", correcta: false },
-                { respuesta: "Un sistema de defensa contra ataques DDoS.", correcta: false }
-            ]
-        },
-        {
-            enunciado: "¿Qué es un ataque de fuerza bruta?",
-            puntaje: 1.0,
-            opciones: [
-                { respuesta: "Un intento de adivinar contraseñas probando todas las combinaciones posibles.", correcta: true },
-                { respuesta: "Una técnica para obtener acceso a sistemas mediante ingeniería social.", correcta: false },
-                { respuesta: "Un ataque que aprovecha vulnerabilidades en el código de una aplicación.", correcta: false }
-            ]
-        }
-    ]);
-
-    return preguntas;
-};
-
 const ResolucionExamen: React.FC = () => {
     const endpoint = getBaseUrl();
-    const [preguntas, setPreguntas] = useState<Pregunta[]>(PreguntasPredeterminadas());
+    const [preguntas, setPreguntas] = useState<any[]>([]);
     const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(Array(preguntas.length).fill(null));
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [examenFinalizado, setExamenFinalizado] = useState<boolean>(false);
@@ -82,10 +13,11 @@ const ResolucionExamen: React.FC = () => {
     const [tiempo, setTiempo] = useState<number>(0);
     const [intervalId, setIntervalId] = useState<number | null>(null);
 
+    const examId = useParams().examenId 
     useEffect(() => {
         const fetchPreguntas = async () => {
             try {
-                const response = await fetch(`${endpoint}/examenes/8bed3c10-fe05-416d-af20-0b5b25221845/preguntas`);
+                const response = await fetch(`${endpoint}/api/examenes/${examId}/preguntas`);
                 const data = await response.json();
                 const preguntasFormateadas = data.map((pregunta: any) => ({
                     enunciado: pregunta.enunciado,
