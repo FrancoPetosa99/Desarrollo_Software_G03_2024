@@ -14,14 +14,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();  
-        if (email === "admin@admin" && password === 'admin') {
-            console.log("Bienvenido");
-            setIsAuthenticated(true);
-            const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
-            localStorage.setItem('professorId', professorId);
-            navigate('/MisExamenes');
-            return;
-        } else {
+        
             try {
                 const response = await fetch(endpoint + '/api/auth/credentials', {
                     method: 'POST',
@@ -49,7 +42,7 @@ function Login() {
                 console.error('Error en la solicitud:', error);
                 setError('Ocurrió un error en el servidor.');
             }
-        }
+        
         };
 
     return (
