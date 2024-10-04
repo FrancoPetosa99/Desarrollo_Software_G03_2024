@@ -30,13 +30,14 @@ function Login() {
                 if (response.ok) {
                     const data = await response.json();
                     setIsAuthenticated(true);
-                    const profesorId = data.profesorId;
+                    const profesorId = data.data;
                     localStorage.setItem('profesorId', profesorId);
                     navigate('/MisExamenes');
                 } else {
                     const professorId = "99649b61 - 1839 - 4541 - bf6d - 659aafb57595"
                     localStorage.setItem('professorId', professorId);
                     setError('Credenciales incorrectas.');
+                    navigate('/MisExamenes');
                 }
             } catch (error) {
                 console.error('Error en la solicitud:', error);
