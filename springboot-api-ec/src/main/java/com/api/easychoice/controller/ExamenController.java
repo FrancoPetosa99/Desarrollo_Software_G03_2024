@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/examenes")
-@CrossOrigin(origins = "*") // Permite todos los orígenes
+@CrossOrigin(origins = "*")
 public class ExamenController {
 
     @Autowired
@@ -85,6 +85,6 @@ public class ExamenController {
         examenService.crearExamen(examen);
 
         // devolver respuesta al cliente
-        return ResponseEntity.status(201).body("Se ha creado con exito el examen");
+        return ResponseEntity.ok(201);
     }
 }
