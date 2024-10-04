@@ -201,10 +201,10 @@ const ResolucionExamen: React.FC = () => {
                 {preguntas.map((pregunta, index) => (
                     <div key={index} className="question-review">
                         <p className="question-text">{pregunta.enunciado}</p>
+                        <p>Tu respuesta: {pregunta.opciones[selectedAnswers[index] || 0]?.respuesta}</p>
                         <button className="change-answer-button" onClick={() => handleCambiarPregunta(index)}>
                             Cambiar Respuesta
                         </button>
-                        <p>Tu respuesta: {pregunta.opciones[selectedAnswers[index] || 0]?.respuesta}</p>
                     </div>
                 ))}
                 <button className="finalize-button" onClick={handleConfirmarFinalizacion}>Confirmar y Finalizar Examen</button>
@@ -234,12 +234,6 @@ const ResolucionExamen: React.FC = () => {
                 ))}
             </div>
 
-            {currentQuestion === preguntas.length - 1 && (
-                <div className="finalize">
-                    <button className="finalize-button" onClick={handleFinalizarExamen}>Revisar Respuestas</button>
-                </div>
-            )}
-
             <div className="progress-bar">
                 <div className="progress" style={{ width: `${calcularProgreso()}%` }}></div>
             </div>
@@ -250,6 +244,11 @@ const ResolucionExamen: React.FC = () => {
 
             <div className="pagination">
                 <button className="prev-button" onClick={handlePrev} disabled={currentQuestion === 0}>← Anterior</button>
+                {currentQuestion === preguntas.length - 1 && (
+                    <div className="finalize">
+                        <button className="finalize-button" onClick={handleFinalizarExamen}>Revisar Respuestas</button>
+                    </div>
+                )}
                 <button className="next-button" onClick={handleNext} disabled={currentQuestion === preguntas.length - 1}>Siguiente →</button>
             </div>
 
