@@ -3,23 +3,28 @@ import { useNavigate, useParams } from 'react-router-dom';
 import getBaseUrl from '../utils/getBaseUrl.js';
 import './Examen.css';
 
+// Componente principal para la resolución del examen
 const ResolucionExamen: React.FC = () => {
-    const endpoint = getBaseUrl();
+    const endpoint = getBaseUrl(); // Obtener la URL base de la API
+    // Estados para almacenar las preguntas, respuestas seleccionadas, estado del examen, etc.
     const [preguntas, setPreguntas] = useState<any[]>([]);
-    const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>(Array(preguntas.length).fill(null));
+    const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>([]);
     const [currentQuestion, setCurrentQuestion] = useState<number>(0);
     const [examenFinalizado, setExamenFinalizado] = useState<boolean>(false);
     const [enRevision, setEnRevision] = useState<boolean>(false);
     const [tiempo, setTiempo] = useState<number>(0);
     const [intervalId, setIntervalId] = useState<number | null>(null);
 
-    const examId = useParams().examenId 
+    const examId = useParams().examenId; // Obtener el ID del examen de los parámetros de la URL
+
+    // Efecto para cargar las preguntas del examen
     useEffect(() => {
         const fetchPreguntas = async () => {
             try {
                 const response = await fetch(`${endpoint}/api/examenes/${examId}/preguntas`);
                 if (response.ok) {
                     const data = await response.json();
+                    // Formatear las preguntas
                     const preguntasFormateadas = data.map((pregunta: any) => ({
                         enunciado: pregunta.enunciado,
                         puntaje: pregunta.puntaje,
@@ -29,17 +34,19 @@ const ResolucionExamen: React.FC = () => {
                         })),
                     }));
                     setPreguntas(preguntasFormateadas);
-                    setSelectedAnswers(Array(preguntasFormateadas.length).fill(null));
+                    setSelectedAnswers(Array(preguntasFormateadas.length).fill(null)); // Inicializar respuestas
+                } else {
+                    console.error('Error al cargar las preguntas:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error al cargar las preguntas:', error);
-                <h2>Error al cargar examen</h2>
+                console.error('Error al cargar preguntas:', error);
             }
         };
 
         fetchPreguntas();
-    }, [endpoint]);
+    }, [endpoint, examId]);
 
+    // Efecto para manejar el temporizador del examen
     useEffect(() => {
         if (!examenFinalizado && !enRevision) {
             const id = window.setInterval(() => {
@@ -47,32 +54,31 @@ const ResolucionExamen: React.FC = () => {
             }, 1000);
             setIntervalId(id);
 
+            // Limpiar el intervalo al desmontar el componente o al finalizar el examen
             return () => window.clearInterval(id);
         }
     }, [examenFinalizado, enRevision]);
 
-    const detenerTemporizador = () => {
-        if (intervalId) {
-            window.clearInterval(intervalId);
-        }
-    };
-
+    // Función para formatear el tiempo en minutos y segundos
     const formatearTiempo = (segundos: number) => {
         const minutos = Math.floor(segundos / 60);
         const segundosRestantes = segundos % 60;
         return `${minutos.toString().padStart(2, '0')}:${segundosRestantes.toString().padStart(2, '0')}`;
     };
 
+    // Función para calcular el progreso del examen
     const calcularProgreso = () => {
         return ((currentQuestion + 1) / preguntas.length) * 100;
     };
 
+    // Manejo de la selección de respuestas
     const handleAnswerSelect = (index: number) => {
         const newAnswers = [...selectedAnswers];
         newAnswers[currentQuestion] = index;
         setSelectedAnswers(newAnswers);
     };
 
+    // Navegación entre preguntas
     const handleNext = () => {
         if (currentQuestion < preguntas.length - 1) {
             setCurrentQuestion((prev) => prev + 1);
@@ -85,13 +91,14 @@ const ResolucionExamen: React.FC = () => {
         }
     };
 
+    // Manejo de finalización del examen
     const handleFinalizarExamen = () => {
         setEnRevision(true);
     };
 
     const handleConfirmarFinalizacion = () => {
         setExamenFinalizado(true);
-        detenerTemporizador();
+        window.clearInterval(intervalId!); // Detener el temporizador
     };
 
     const handleCambiarPregunta = (index: number) => {
@@ -99,41 +106,30 @@ const ResolucionExamen: React.FC = () => {
         setEnRevision(false);
     };
 
+    // Renderizado cuando el examen ha sido finalizado
     if (examenFinalizado) {
         return (
             <div className="result-container">
                 <h2>Resultados del Examen</h2>
                 <p>Tiempo total: {formatearTiempo(tiempo)}</p>
-
                 {preguntas.map((pregunta, index) => {
-                    // Obtener la opción seleccionada por el usuario y la opción correcta
                     const respuestaSeleccionada = pregunta.opciones[selectedAnswers[index]];
                     const respuestaCorrecta = pregunta.opciones.find(opcion => opcion.correcta);
 
                     return (
                         <div key={index} className="question-review">
                             <p className="question-text">{pregunta.enunciado}</p>
-
-                            {/* Mostrar la respuesta seleccionada por el usuario */}
-                            <div
-                                className={`answer-review ${respuestaSeleccionada.correcta
-                                    ? 'correcto'
-                                    : 'incorrecto'
-                                    }`}
-                            >
-                                Tu respuesta: {respuestaSeleccionada.respuesta}
+                            <div className={`answer-review ${respuestaSeleccionada?.correcta ? 'correcto' : 'incorrecto'}`}>
+                                Tu respuesta: {respuestaSeleccionada?.respuesta}
                             </div>
-
-                            {/* Mostrar la respuesta correcta, solo si la respuesta seleccionada es incorrecta */}
-                            {!respuestaSeleccionada.correcta && (
+                            {!respuestaSeleccionada?.correcta && (
                                 <div className="correct-answer">
-                                    Respuesta correcta: {respuestaCorrecta.respuesta}
+                                    Respuesta correcta: {respuestaCorrecta?.respuesta}
                                 </div>
                             )}
                         </div>
                     );
                 })}
-
                 <button className="restart-button" onClick={() => window.location.reload()}>
                     Reiniciar Examen
                 </button>
@@ -141,6 +137,7 @@ const ResolucionExamen: React.FC = () => {
         );
     }
 
+    // Renderizado durante la revisión de respuestas
     if (enRevision) {
         return (
             <div className="review-container">
@@ -155,11 +152,14 @@ const ResolucionExamen: React.FC = () => {
                         </button>
                     </div>
                 ))}
-                <button className="finalize-button" onClick={handleConfirmarFinalizacion}>Finalizar Examen</button>
+                <button className="finalize-button" onClick={handleConfirmarFinalizacion}>
+                    Finalizar Examen
+                </button>
             </div>
         );
     }
 
+    // Renderizado del examen
     return (
         <div className="resolucion-examen-container">
             <div className="timer">
@@ -173,7 +173,6 @@ const ResolucionExamen: React.FC = () => {
 
             <div className="answers-container">
                 {preguntas[currentQuestion]?.opciones.map((opcion, index) => (
-
                     <div
                         key={index}
                         className={`answer ${selectedAnswers[currentQuestion] === index ? 'selected' : ''}`}
@@ -181,11 +180,9 @@ const ResolucionExamen: React.FC = () => {
                     >
                         {opcion.respuesta}
                     </div>
-
                 ))}
             </div>
-            
-            
+
             <div className="pagination">
                 <button className="prev-button" onClick={handlePrev} disabled={currentQuestion === 0}>
                     ← Anterior
@@ -196,31 +193,23 @@ const ResolucionExamen: React.FC = () => {
                             key={index}
                             className={`nav-button ${currentQuestion === index ? 'active' : ''}`}
                             onClick={() => setCurrentQuestion(index)}
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }} // Alinea el contenido
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 100 100">
-                                <polygon points="50,5 95,25 95,75 50,95 5,75 5,25" fill="none" stroke="currentColor" stroke-width="12" />
+                                <polygon points="50,5 95,25 95,75 50,95 5,75 5,25" fill="none" stroke="currentColor" strokeWidth="12" />
                             </svg>
                         </button>
                     ))}
                 </div>
                 {currentQuestion === preguntas.length - 1 ? (
-                    <button
-                        className="finalize-button"
-                        onClick={handleFinalizarExamen}
-                    >
+                    <button className="finalize-button" onClick={handleFinalizarExamen}>
                         Finalizar
                     </button>
                 ) : (
-                    <button
-                        className="next-button"
-                        onClick={handleNext}
-                    >
+                    <button className="next-button" onClick={handleNext}>
                         Siguiente →
                     </button>
                 )}
             </div>
-
         </div>
     );
 };

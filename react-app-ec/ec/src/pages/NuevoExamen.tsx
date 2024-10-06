@@ -276,12 +276,12 @@ function NuevoExamen() {
                         
                     </div>
 
+                    <p>Respuestas</p>
+
                     {pregunta.opciones.map((opcion, indexOpcion) => (
 
                         <div key={indexOpcion} className={`bloque-respuesta respuesta-${indexOpcion}`}>
-                            <label htmlFor={`respuesta${indexOpcion + 1}`}>
-                                Respuesta {indexOpcion + 1}
-                            </label>
+                            
                             <div className='contenido-respuesta'>
             
                                 <input
