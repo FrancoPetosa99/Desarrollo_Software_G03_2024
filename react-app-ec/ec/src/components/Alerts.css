@@ -74,24 +74,36 @@
     color: #721c24;
 }
 
-.icon-success path {
-    fill: #28a745;
-    transform: translateY(-1px);
+.popup-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
-.icon-info path {
-    fill: #17a2b8;
-    transform: translateY(-1px);
+.success-svg {
+    fill: green;
 }
 
-.icon-warning path {
-    fill: #ffc107;
-    transform: translateY(-1px);
+.alert-svg {
+    fill: orange;
 }
 
-.icon-error path {
-    fill: #dc3545;
-    transform: translateY(-1px);
+.error-svg {
+    fill: red;
+}
+
+.info-svg {
+    fill: blue;
+}
+
+.close-svg {
+    cursor: pointer;
+}
+
+.close-path {
+    fill: black;
 }
 
 @keyframes slideIn {
