@@ -4,10 +4,11 @@ body {
 }
 
 .resolucion-examen-container {
+	background-color: #EEF7EE;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	align-items: center;/* Mantiene el contenido en columnas */
+	height: 100vh; /* Usa toda la altura de la ventana */
 	padding: 20px;
 	font-family: Arial, sans-serif;
 }
@@ -60,63 +61,53 @@ body {
 	}
 
 	.answer:hover {
-		background-color: #e0e0e0;
+		background-color: #19575F;
+		color: white;
 	}
 
 .pagination {
-	display: flex;
-	justify-content: space-between;
+	display: flex; 
+	justify-content: space-between; 
 	align-items: center;
 	width: 100%;
 	max-width: 600px;
-	margin-top: 20px;
+	margin-top: auto;
 }
+.navigation-bar {
+	display: flex; /* Usamos flexbox para centrar los elementos */
+	flex: 1; /* Ocupa el espacio restante entre los botones */
+	justify-content: center; /* Centra la barra de navegación */
+}
+.nav-button {
+	background: none; /* Elimina el fondo del botón */
+	border: none; /* Elimina el borde del botón */
+	padding: 5px;
+	color: #FED16A; /* Espaciado alrededor del contenido */
+}
+
+	.nav-button.active {
+		/* Estilos para el botón activo */
+		color: #4CCEC4; /* Color de fondo para el botón activo */
+		border-radius: 5px; /* Bordes redondeados */
+	}
 
 .prev-button,
-.next-button {
-	background-color: #19575F;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-	.prev-button:disabled,
-	.next-button:disabled {
-		background-color: #ccc;
-		cursor: not-allowed;
-	}
-
-.page-dots {
-	display: flex;
-	gap: 5px;
-}
-
-.dot {
-	width: 15px;
-	height: 15px;
-	background-color: #ccc;
-	border-radius: 50%;
-}
-
-	.dot.active {
-		background-color: #6200ee;
-	}
-
+.next-button,
 .finalize-button {
+	width: 130px;
 	background-color: #19575F;
 	color: white;
-	padding: 10px 20px;
 	border: none;
+	padding: 10px 20px;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-top: 20px;
 }
+	.prev-button.disabled,
+	.next-button.disabled {
+		visibility: hidden; /* Oculta el botón pero mantiene el espacio */
+	}
 
-.finalize {
-	margin-top: 20px;
-}
+
 
 .result-container {
 	display: flex;
@@ -126,6 +117,7 @@ body {
 	padding: 20px;
 	margin: 0 auto;
 	font-family: Arial, sans-serif;
+	text-justify: auto;
 }
 
 .result-message {
@@ -162,10 +154,11 @@ body {
 .question-text {
 	font-size: 1.2rem;
 	margin-bottom: 10px;
+	text-align: center;
 }
 
 .restart-button {
-	background-color: #6200ee;
+	background-color: #19575F;
 	color: white;
 	padding: 10px 20px;
 	border: none;
@@ -218,5 +211,7 @@ body {
 .timer {
 	margin-top: 10px;
 	font-size: 1.2rem;
-	color: #6200ee;
+	color: #19575F;
 }
+
+		

@@ -40,7 +40,7 @@ function NuevoExamen() {
     // Agregar una nueva pregunta asegurando que no haya más de 10 preguntas
     const agregarPregunta = () => {
         if (preguntas.length < 10) {
-            setPreguntas([...preguntas, { enunciado: '', puntaje: 1.0, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
+            setPreguntas([...preguntas, { enunciado: '', puntaje: 1 , opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
         }
     };
 
