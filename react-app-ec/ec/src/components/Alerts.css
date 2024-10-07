@@ -22,14 +22,6 @@
         animation: slideOut 0.5s ease forwards;
     }
 
-.alert_icon {
-    width: 20px;
-    height: 20px;
-    transform: translateY(-4px);
-    margin-right: 8px;
-}
-
-
 .alert_message {
     font-weight: 500;
     font-size: 14px;
