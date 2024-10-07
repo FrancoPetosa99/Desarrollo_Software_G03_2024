@@ -10,10 +10,10 @@
     
 }
 
-
 body {
     background-color: #EEF7EE;
 }
+
 .mis-examenes{
     margin: 40px;
     margin-top: 20px;
@@ -21,6 +21,7 @@ body {
 
 h1 {
     text-align: left;
+    margin: 10px;
     color: #333;
 }
 
@@ -69,12 +70,12 @@ h1 {
 
 .lista-examenes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
     gap: 40px;
     justify-content: center;
     justify-items: center;
-    width: 50%;
+    width: 100%;
     margin: 0 auto 0 auto;
     transition: all 0.5s ease;
 }
@@ -84,8 +85,8 @@ h1 {
     flex-direction: column;
     justify-content: space-between;
     padding: 15px;
-    height: 200px;
-    min-width: 350px;
+    height: 247px;
+    width: 400px;
     border: 1px solid #74989A;
     border-radius: 6px;
     box-sizing: border-box;
@@ -174,7 +175,7 @@ h1 {
             transform: scale(1.1);
         }
 
-@media (max-width: 768px) {
+@media (max-width: 865px) {
 
     .filtros {
         flex-direction: column;
@@ -203,14 +204,22 @@ h1 {
 }
 
 
-@media (max-width: 1129px) and (min-width: 769px) {
+@media (max-width: 1324px) and (min-width: 865px) {
     .lista-examenes {
         flex-direction: column;
         justify-items: center;
-        width: 50%;
+        width: 80%;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         padding: 0px;
         box-sizing: border-box;
+    }
+}
+
+@media (max-width: 1800px) and (min-width: 1324px) {
+    .lista-examenes {
+        width: 80%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
     }
 }

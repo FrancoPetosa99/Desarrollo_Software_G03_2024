@@ -1,6 +1,7 @@
 ﻿import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
+import Alert from '../components/Alerts';
 import './Login.css';
 import { useAuth } from '../utils/AuthContext.jsx';
 import getBaseUrl from '../utils/getBaseUrl.js';
@@ -10,7 +11,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
+    const [showAlert, setShowAlert] = useState(false);
     const navigate = useNavigate();
     const endpoint = getBaseUrl();
     const { isAuthenticated, setIsAuthenticated } = useAuth();
@@ -20,7 +21,7 @@ function Login() {
     // Maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setShowAlert(false)
         try {
             const response = await fetch(`${endpoint}${AUTH_ENDPOINT}`, {
                 method: 'POST',
@@ -41,11 +42,12 @@ function Login() {
                 navigate('/MisExamenes'); // Redirige a Mis Exámenes
             } else {
                 const errorData = await response.json();
-                setError(errorData.message || 'Credenciales incorrectas.'); // Muestra un mensaje de error más descriptivo
+                setShowAlert(true); // Muestra un mensaje de error más descriptivo
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
-            setError('Ocurrió un error en el servidor.'); // Muestra un error en caso de fallo del servidor
+            setError('Ocurrió un error en el servidor.');
+            setShowAlert(true);// Muestra un error en caso de fallo del servidor
         }
     };
 
@@ -100,7 +102,12 @@ function Login() {
                     </div>
 
                     {/* Muestra el mensaje de error si existe */}
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {showAlert && (
+                        <Alert
+                            message='Credenciales invalidas'
+                            alertType='warning'
+                        />
+                    )}
 
                     {/* Botón de envío */}
                     <button id="button" type="submit">

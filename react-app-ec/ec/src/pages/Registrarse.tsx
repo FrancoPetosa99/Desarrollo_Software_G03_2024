@@ -1,7 +1,7 @@
 ﻿import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
-import './screen-adjust.css';
+import Alert from '../components/Alerts';
 import './Registrarse.css';
 import getBaseUrl from '../utils/getBaseUrl.js';
 
@@ -16,14 +16,15 @@ function Registrarse() {
     const navigate = useNavigate();                   // Hook para redirigir al usuario
     const [nombre, setNombre] = useState('');        // Almacena el nombre del usuario
     const [apellido, setApellido] = useState('');    // Almacena el apellido del usuario
-
+    const [showAlert, setShowAlert] = useState(false);
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-
+        setShowAlert(false);
         // Validación de contraseñas
         if (password !== confirmPassword) {
             setPasswordError('Las contraseñas no coinciden');
+            setShowAlert(true);
             return; // Detener el envío si hay un error
         }
 
@@ -49,11 +50,13 @@ function Registrarse() {
             } else {
                 // Manejar el error en la respuesta
                 setError('Error al registrar, por favor intenta nuevamente.');
+                return;
             }
         } catch (error) {
             // Manejar errores de conexión o del servidor
             console.error('Error en la solicitud:', error);
             setError('Ocurrió un error en el servidor.');
+            return;
         }
     }
 
@@ -137,7 +140,12 @@ function Registrarse() {
                     </div>
 
                     {/* Mostrar mensaje de error si las contraseñas no coinciden */}
-                    {passwordError && <p className="error">{passwordError}</p>}
+                    {showAlert && (
+                        <Alert
+                            message='Las contraseñas deben coincidir'
+                            alertType='warning'
+                        />
+                    )}
 
                     {/* Botón para enviar el formulario */}
                     <button id="button" type="submit">

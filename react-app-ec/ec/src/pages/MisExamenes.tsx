@@ -2,7 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
-import DialogBox from '../components/Dialbox';
+import Warning from '../components/Warning';
+import Alert from '../components/Alerts';
 import './MisExamenes.css';
 import fondoGenerico from '../images/fondoGenerico.jpg';
 import fondoGears from '../images/fondoGears.png';
@@ -36,6 +37,33 @@ const EXAMENES_INICIALES = [
         habilitado: true,
         imagen: IMAGES.fondoDavid,
     },
+    {
+        id: 1,
+        titulo: 'Examen de Matemática',
+        tema: 'Álgebra',
+        tiempo: '30 min',
+        fecha: new Date().toISOString().split('T')[0],
+        habilitado: true,
+        imagen: IMAGES.fondoGenerico,
+    },
+    {
+        id: 3,
+        titulo: 'Examen de Matemática',
+        tema: 'Álgebra',
+        tiempo: '30 min',
+        fecha: new Date().toISOString().split('T')[0],
+        habilitado: true,
+        imagen: IMAGES.fondoGenerico,
+    },
+    {
+        id: 4,
+        titulo: 'Examen de Matemática',
+        tema: 'Álgebra',
+        tiempo: '30 min',
+        fecha: new Date().toISOString().split('T')[0],
+        habilitado: true,
+        imagen: IMAGES.fondoGenerico,
+    },
     // Más exámenes...
 ];
 
@@ -48,20 +76,29 @@ function PanelExamenes() {
     const [showDialog, setShowDialog] = useState({ id: null, visible: false }); // Estado para mostrar u ocultar el diálogo de confirmación
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
     const endpoint = getBaseUrl(); // Obtener la URL base del servidor
-
+    const [showAlert, setShowAlert] = useState(false);
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
+         // Indica que la carga ha comenzado
+
         try {
             const response = await fetch(`${endpoint}/api/examenes/profesores/${profesorId}`);
-            if (!response.ok) throw new Error('Error al obtener los exámenes'); // Manejo de errores en la respuesta
 
-            const data = await response.json(); // Parsear la respuesta JSON
-            setExamenes(data); // Actualizar los exámenes en el estado
-            setLoading(false); // Indicar que la carga ha finalizado
+            if (response.ok) {
+                const data = await response.json(); // Parsear la respuesta JSON
+                setExamenes(data); // Actualizar los exámenes en el estado
+            } else {
+                const errorData = await response.json(); // Parsear la respuesta de error
+                console.error('Error al obtener los exámenes:', errorData); // Loguear el error en consola
+                setShowAlert(true); // Mostrar un mensaje de error en la UI
+            }
         } catch (error) {
-            console.error('Error al obtener los exámenes:', error); // Loguear el error en consola
-            setError('Hubo un problema al cargar los exámenes.'); // Mostrar un mensaje de error en la UI
-            setLoading(false);
+            console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
+            setShowAlert(true); // Mostrar un mensaje de error en la UI
+        } finally {
+            setTimeout(() => {
+                setLoading(false); // Indicar que la carga ha finalizado
+            }, 0);; 
         }
     };
 
@@ -158,8 +195,12 @@ function PanelExamenes() {
                 </div>
 
                 {/* Mostrar un mensaje de error si ocurre algún problema */}
-                {error && <p>{error}</p>}
-
+                {showAlert && (
+                    <Alert
+                        message='Error al cargar examenes'
+                        alertType='error'
+                    />
+                )}
                 {/* Animación de transición para la lista de exámenes */}
                 <TransitionGroup className="lista-examenes">
                     {examenesFiltrados.map((examen) => (
@@ -174,7 +215,7 @@ function PanelExamenes() {
                             >
                                 {/* Diálogo de confirmación para eliminar un examen */}
                                 {showDialog.visible && showDialog.id === examen.id && (
-                                    <DialogBox
+                                    <Warning
                                         title="Eliminar Examen"
                                         message="Esta acción no se puede deshacer"
                                         confirmar="Eliminar"
