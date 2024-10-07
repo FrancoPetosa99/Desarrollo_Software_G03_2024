@@ -1,6 +1,7 @@
 import React from 'react'
-import './Dialbox.css'
-const DialogBox = ({ title, message, confirmar, cancelar, onConfirm, onCancel }) => {
+import './Warning.css'
+
+const Warning = ({ title, message, confirmar, cancelar, onConfirm, onCancel }) => {
   return (
     <div className="dialog-overlay">
       <div className="dialog-box">
@@ -45,4 +46,4 @@ const DialogBox = ({ title, message, confirmar, cancelar, onConfirm, onCancel })
   );
 };
 
-export default DialogBox;
+export default Warning;
