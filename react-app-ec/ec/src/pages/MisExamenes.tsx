@@ -137,7 +137,9 @@ function PanelExamenes() {
     const handleCancel = () => setShowDialog({ id: null, visible: false });
 
     // Función que elimina un examen del estado (usada por `handleConfirm`)
-    const eliminarExamen = (id) => setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id));
+    const eliminarExamen = (id) =>
+        setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id)
+        );
 
     // Función que copia un texto al portapapeles (como la URL de un examen)
     const copiarAlPortapapeles = async (dato) => {
@@ -149,6 +151,11 @@ function PanelExamenes() {
         }
     };
 
+    const verHistorial = (id) => {
+        navigate(`/notas/${id}`);
+    };
+
+
     // Función que genera y copia el link del examen al portapapeles
     const copiarLinkExamen = (id) => {
         const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
@@ -156,7 +163,7 @@ function PanelExamenes() {
     };
 
     // Función que cambia el estado de habilitación de un examen (Iniciar o Finalizar)
-    const cambiarEstadoExamen = (id, habilitado) => {
+    const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
         setExamenes((prevExamenes) =>
             prevExamenes.map((examen) =>
                 examen.id === id ? { ...examen, habilitado: !habilitado } : examen
@@ -165,7 +172,7 @@ function PanelExamenes() {
     };
 
     // Función para redirigir al usuario a la página de creación de un nuevo examen
-    const nuevoExamen = () => navigate('/nuevo-examen');
+    const nuevoExamen = () => navigate('/nuevoExamen');
 
     return (
         <Layout>
@@ -238,6 +245,7 @@ function PanelExamenes() {
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
                                 <div className="examen-grupo-boton">
                                     <button onClick={() => editarExamen(examen.id)}>Editar</button>
+                                    <button onClick={() => verHistorial(examen.id)}>Historial</button>
                                     <button onClick={() => copiarLinkExamen(examen.id)}>Copiar Link</button>
                                     <button
                                         className={`examen-boton ${examen.habilitado ? 'finalizar' : 'iniciar'}`}

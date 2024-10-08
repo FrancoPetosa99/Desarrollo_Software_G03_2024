@@ -1,0 +1,110 @@
+body {
+    background-color: #EEF7EE;
+}
+
+td {
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto es demasiado largo */
+    max-width: 150px; /* Define un ancho máximo para cada celda */
+}
+
+    td:hover {
+        overflow: visible; /* Opcional: Muestra todo el texto cuando se pasa el cursor sobre la celda */
+        white-space: normal; /* Opcional: Permite que el texto se ajuste a varias líneas cuando se pasa el cursor */
+    }
+
+
+.titulo {
+    margin-left: 30px;
+}
+
+.lista {
+    margin: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 97%;
+    border-radius: 4px;
+    background-color: #9FE5E0;
+}
+
+.lista_titulo {
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: linear-gradient(to right, transparent 25%, black 25%, black 75%, transparent 75%);
+    background-position: bottom;
+    background-size: 197% 1px; 
+    background-repeat: no-repeat;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+    .lista_titulo th {
+        min-width: 100px; /* Ajusta según el contenido */
+        text-align: left;
+        padding: 10px;
+        color: #19575F;
+        padding-left: 30px;
+        position: relative;
+    }
+
+        .lista_titulo th svg {
+            margin-left: 5px;
+            width: 10px;
+            height: 10px;
+            vertical-align: middle;
+        }
+
+        .lista_titulo th:hover {
+            cursor: pointer;
+        }
+
+
+.lista_notas {
+
+}
+
+    .lista_notas tr {
+        border: none;
+        border-bottom: 1px solid transparent;
+        background: linear-gradient(to right, transparent 25%, black 25%, black 75%, transparent 75%);
+        background-position: bottom;
+        background-size: 197% 1px; 
+        background-repeat: no-repeat;
+    }
+
+    .lista_notas td {
+
+        padding: 5px;
+        padding-left: 30px;
+        padding-bottom: 5px;
+    }
+
+.nota-alta {
+    color: green;
+}
+
+.nota-baja {
+    color: yellow;
+}
+
+.filtros {
+    width: 200px;
+    position: relative;
+    display: flex;
+    margin: 30px;
+    align-items: center;
+}
+
+    .filtros input {
+        width: 100%;
+        padding-left: 35px; /* Espacio para el icono */
+        height: 35px;
+        box-sizing: border-box;
+    }
+
+.inputIcon {
+    
+    left: 10px;
+    pointer-events: none; /* Para que no interfiera al hacer clic en el input */
+}

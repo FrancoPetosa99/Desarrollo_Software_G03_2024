@@ -157,16 +157,20 @@ h1 {
         }
 
         .examen-grupo-boton button:nth-child(2) {
+            background-color: #F88281;
+        }
+
+        .examen-grupo-boton button:nth-child(3) {
             background-color: #4CCEC4;
         }
 
-        .examen-grupo-boton button:nth-child(3).iniciar {
+        .examen-grupo-boton button:nth-child(4).iniciar {
             background-color: #1A525B;
             color: white;
             width: 80px;
         }
 
-        .examen-grupo-boton button:nth-child(3).finalizar {
+        .examen-grupo-boton button:nth-child(4).finalizar {
             background-color: #FE6A6B;
             width: 80px;
         }
