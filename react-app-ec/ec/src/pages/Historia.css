@@ -1,110 +1,145 @@
-body {
-    background-color: #EEF7EE;
+html, body {
+    height: 100%; /* Asegura que el body ocupe el 100% de la altura */
+    margin: 0; /* Elimina los márgenes por defecto */
+    overflow: hidden; /* Oculta el desplazamiento de la página */
+}
+/* Historia.css */
+.flex {
+    display: flex;
 }
 
-td {
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-    overflow: hidden; /* Oculta el texto que no cabe en el contenedor */
-    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) cuando el texto es demasiado largo */
-    max-width: 150px; /* Define un ancho máximo para cada celda */
+.sidebar {
+    width: 250px; /* Ajusta según sea necesario */
+    background-color: #f8f8f8; /* Color de fondo de la barra lateral */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra del sidebar */
+    padding: 20px; /* Espaciado interno del sidebar */
+    height: 100vh; /* Altura completa de la ventana */
+    overflow: hidden; /* Oculta la barra de desplazamiento */
 }
 
-    td:hover {
-        overflow: visible; /* Opcional: Muestra todo el texto cuando se pasa el cursor sobre la celda */
-        white-space: normal; /* Opcional: Permite que el texto se ajuste a varias líneas cuando se pasa el cursor */
+/* Contenedor para el título del sidebar */
+.sidebar-title {
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+/* Contenedor para la lista de exámenes */
+.sidebar-content {
+    height: calc(100vh - 60px); /* Resta la altura del título */
+    overflow-y: scroll; /* Permite desplazamiento interno */
+    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
+    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+}
+    .sidebar-content::-webkit-scrollbar {
+        display: none; /* Oculta la barra de desplazamiento */
+    }
+/* Contenedor principal de contenido */
+.contenido {
+    flex: 1; /* Ocupa el resto del espacio */
+    padding: 20px;
+}
+
+/* Estilo para el título principal */
+.titulo {
+    font-size: 2em; /* Tamaño de fuente del título */
+    text-align: center; /* Alinear al centro */
+    margin: 20px 0; /* Espaciado superior e inferior */
+}
+
+/* Estilos para la lista de exámenes */
+.lista-examenes {
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.examen {
+    display: flex; /* Flexbox para alinear los elementos */
+    align-items: center; /* Centrar verticalmente */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+    .examen.habilitado {
+        border: 2px solid #4caf50; /* Borde verde para exámenes habilitados */
     }
 
-
-.titulo {
-    margin-left: 30px;
+/* Estilos para la información del examen */
+.examen-grupo-info {
+   /* Espaciado a la izquierda */
 }
 
+.examen-info h3 {
+    margin: 0; /* Eliminar margen por defecto */
+    font-size: 1.2em; /* Tamaño de fuente del título */
+}
+
+.examen-info h6 {
+    margin: 0; /* Eliminar margen por defecto */
+    color: #777; /* Color gris para el tema */
+}
+
+/* Estilos para el contenedor de notas */
+.notas-container {
+    flex: 1; /* Ocupa el espacio restante */
+    padding: 20px; /* Espaciado interno */
+    overflow-y: scroll; /* Permite desplazamiento interno */
+    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
+    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+}
+
+    /* Para ocultar la barra de desplazamiento en navegadores WebKit (Chrome, Safari) */
+    .notas-container::-webkit-scrollbar {
+        display: none; /* Oculta la barra de desplazamiento */
+    }
+
+/* Estilo para los filtros de búsqueda */
+.filtros {
+    position: relative; /* Usar flexbox para alinear */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.inputIcon {
+    position: relative;
+}
+
+/* Estilos para la tabla */
 .lista {
-    margin: 30px;
-    margin-left: 20px;
-    margin-right: 20px;
-    width: 97%;
-    border-radius: 4px;
-    background-color: #9FE5E0;
+    width: 100%; /* Ancho completo */
+    border-collapse: collapse; /* Colapsar bordes */
 }
 
 .lista_titulo {
-    border: none;
-    border-bottom: 2px solid transparent;
-    background: linear-gradient(to right, transparent 25%, black 25%, black 75%, transparent 75%);
-    background-position: bottom;
-    background-size: 197% 1px; 
-    background-repeat: no-repeat;
-    padding-bottom: 5px;
-    cursor: pointer;
+    background-color: #f2f2f2; /* Color de fondo de los encabezados */
 }
 
     .lista_titulo th {
-        min-width: 100px; /* Ajusta según el contenido */
-        text-align: left;
-        padding: 10px;
-        color: #19575F;
-        padding-left: 30px;
-        position: relative;
+        padding: 10px; /* Espaciado interno */
+        cursor: pointer; /* Cambia el cursor al pasar el mouse */
     }
-
-        .lista_titulo th svg {
-            margin-left: 5px;
-            width: 10px;
-            height: 10px;
-            vertical-align: middle;
-        }
 
         .lista_titulo th:hover {
-            cursor: pointer;
+            background-color: #e0e0e0; /* Color al pasar el mouse */
         }
 
-
-.lista_notas {
-
+.lista_notas tr {
+    border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
 }
 
-    .lista_notas tr {
-        border: none;
-        border-bottom: 1px solid transparent;
-        background: linear-gradient(to right, transparent 25%, black 25%, black 75%, transparent 75%);
-        background-position: bottom;
-        background-size: 197% 1px; 
-        background-repeat: no-repeat;
-    }
+.lista_notas td {
+    padding: 10px; /* Espaciado interno */
+}
 
-    .lista_notas td {
-
-        padding: 5px;
-        padding-left: 30px;
-        padding-bottom: 5px;
-    }
-
+/* Estilo para las notas */
 .nota-alta {
-    color: green;
+    color: green; /* Color verde para notas altas */
 }
 
 .nota-baja {
-    color: yellow;
+    color: red; /* Color rojo para notas bajas */
 }
 
-.filtros {
-    width: 200px;
-    position: relative;
-    display: flex;
-    margin: 30px;
-    align-items: center;
-}
-
-    .filtros input {
-        width: 100%;
-        padding-left: 35px; /* Espacio para el icono */
-        height: 35px;
-        box-sizing: border-box;
-    }
-
-.inputIcon {
-    
-    left: 10px;
-    pointer-events: none; /* Para que no interfiera al hacer clic en el input */
+/* Estilos para filas de la tabla */
+.lista_notas tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo para filas pares */
 }
