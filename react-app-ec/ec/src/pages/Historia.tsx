@@ -160,8 +160,8 @@ function Historial() {
                                 }}
                                 onClick={() => seleccionarExamen(examen.id)}
                             >
-                                <div className="examen-grupo-info">
-                                    <div className="examen-info">
+                                <div className="historia-examen-grupo-info">
+                                    <div className="historia-examen-info">
                                         <h3>{examen.titulo}</h3>
                                         <h6>{examen.tema}</h6>
                                     </div>
