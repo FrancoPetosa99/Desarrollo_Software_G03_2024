@@ -17,8 +17,6 @@ import com.api.easychoice.response.HttpBodyResponse;
 import com.api.easychoice.response.ResponseFactory;
 import com.api.easychoice.service.ExamenService;
 import com.api.easychoice.service.ProfesorService;
-
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
@@ -45,28 +43,49 @@ public class ExamenController {
 
     @GetMapping()
     public ResponseEntity<Object> getExamenesByProfesorId() {
+        try {
 
-        // Obtener el Authentication desde el SecurityContext
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserAuthDTO user = (UserAuthDTO) authentication.getPrincipal();
-        String profesorId = user.getId();
+            // obtener el Authentication desde el SecurityContext
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserAuthDTO user = (UserAuthDTO) authentication.getPrincipal();
+            String profesorId = user.getId();
 
-        // invocar servicio para obtener los examenes
-        List<Examen> examenes = examenService.getExamenByProfesorId(profesorId);
+            // verificar que exista el id del examen
+            if (profesorId == null) throw new BadRequestException("El id del profesor es requerido");
+    
+            // invocar servicio para obtener los examenes
+            List<Examen> examenes = examenService.getExamenesByProfesorId(profesorId);
+    
+            // instanciar un mapper de examenes
+            ExamenMapper mapperToExamDTO = new ExamenMapper();
+            
+            // mappear los examenes a una lista de dtos
+            List<ExamenDTO> listaExamenes = examenes
+                                            .stream()
+                                            .map(examen -> mapperToExamDTO.getByProfesorId(examen))
+                                            .collect(Collectors.toList());
+    
+           // construir la respuesta al cliente
+           HttpBodyResponse data = new HttpBodyResponse
+           .Builder()
+           .status("Success")
+           .statusCode(200)
+           .message("Se han encontrado los examenes del profesor con id:", profesorId)
+           .data(listaExamenes)
+           .build();
 
-        // instanciar un mapper de examenes
-        ExamenMapper mapperToExamDTO = new ExamenMapper();
-        
-        // mappear los examenes a una lista de dtos
-        List<ExamenDTO> listaExamenes = examenes
-                                        .stream()
-                                        .map(examen -> mapperToExamDTO.getByProfesorId(examen))
-                                        .collect(Collectors.toList());
-
-        // devolver respuesta al cliente
-        return ResponseEntity
-        .status(200)
-        .body(listaExamenes);
+           // devolver respuesta al cliente
+           return ResponseEntity
+           .status(200)
+           .body(data);
+            
+        } catch(BadRequestException e) {
+                return responseFactory.badRequest(e.getMessage());
+        }   catch (NotFoundException e) {
+                return responseFactory.errorNotFound(e.getMessage());
+        }   catch (Exception e) {
+                return responseFactory.internalServerError();
+        }
     }
 
     @GetMapping("/{id}/preguntas")
