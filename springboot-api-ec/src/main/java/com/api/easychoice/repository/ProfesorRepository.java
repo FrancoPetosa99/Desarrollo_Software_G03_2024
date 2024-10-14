@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfesorRepository extends JpaRepository<Profesor, String> {
     Optional<Profesor> findByEmail(String email);
+    Profesor findProfesorById(String profesorId);
 }

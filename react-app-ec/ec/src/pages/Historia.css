@@ -1,56 +1,63 @@
-html, body {
-    height: 100%; /* Asegura que el body ocupe el 100% de la altura */
-    margin: 0; /* Elimina los márgenes por defecto */
-    overflow: hidden; /* Oculta el desplazamiento de la página */
-}
-/* Historia.css */
-.flex {
+
+.historia {
     display: flex;
 }
 
 .sidebar {
-    width: 250px; /* Ajusta según sea necesario */
+    width: 30%;
+    max-width: 350px; /* Ajusta según sea necesario */
     background-color: #f8f8f8; /* Color de fondo de la barra lateral */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra del sidebar */
-    padding: 20px; /* Espaciado interno del sidebar */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra del sidebar */
     height: 100vh; /* Altura completa de la ventana */
-    overflow: hidden; /* Oculta la barra de desplazamiento */
+    overflow-y: auto;
+    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
+    scrollbar-width: none
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento */
 }
 
 /* Contenedor para el título del sidebar */
 .sidebar-title {
-    margin-bottom: 20px; /* Espacio debajo del título */
+    position: sticky;
+    top: 0; /* Lo mantiene al principio de la lista */
+    z-index: 1;
+    padding: 30px;
+    background-color: inherit;
+    height: 80px;
 }
 
-/* Contenedor para la lista de exámenes */
-.sidebar-content {
-    height: calc(100vh - 60px); /* Resta la altura del título */
-    overflow-y: scroll; /* Permite desplazamiento interno */
-    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
-    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
-}
-    .sidebar-content::-webkit-scrollbar {
-        display: none; /* Oculta la barra de desplazamiento */
-    }
-/* Contenedor principal de contenido */
-.contenido {
-    flex: 1; /* Ocupa el resto del espacio */
-    padding: 20px;
+.lista-examenes-historia {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    width: 100%;
+    align-items: center;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding-bottom: 100px;
+    gap: 30px;
 }
 
-/* Estilo para el título principal */
-.titulo {
-    font-size: 2em; /* Tamaño de fuente del título */
-    text-align: center; /* Alinear al centro */
-    margin: 20px 0; /* Espaciado superior e inferior */
+.examen-historia-container {
+    width: 85%;
+    height: 170px;
+    border: 1px solid black;
+    border-radius: 5px; 
+    box-shadow: 3px 4px 10px #444;
+    cursor: pointer; 
 }
 
-/* Estilos para la lista de exámenes */
 .lista-examenes {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
     margin-top: 20px; /* Espaciado superior */
+    gap: 10px; /* Espaciado entre los elementos (opcional) */
 }
 
 .examen {
+    width: 100px;
+    height: 100px;
     display: flex; /* Flexbox para alinear los elementos */
     align-items: center; /* Centrar verticalmente */
     padding: 10px; /* Espaciado interno */
@@ -64,82 +71,135 @@ html, body {
         border: 2px solid #4caf50; /* Borde verde para exámenes habilitados */
     }
 
-/* Estilos para la información del examen */
-.examen-grupo-info {
-   /* Espaciado a la izquierda */
+    .examen-historia-container.seleccionado {
+        box-shadow: 6px 8px 10px #4CCEC4;
+    }
+
+.historia-examen-grupo-info {
+    width: 100%;
+    height: 100%;
+    margin: 10px;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
 .examen-info h3 {
-    margin: 0; /* Eliminar margen por defecto */
-    font-size: 1.2em; /* Tamaño de fuente del título */
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .examen-info h6 {
-    margin: 0; /* Eliminar margen por defecto */
-    color: #777; /* Color gris para el tema */
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-/* Estilos para el contenedor de notas */
-.notas-container {
-    flex: 1; /* Ocupa el espacio restante */
-    padding: 20px; /* Espaciado interno */
-    overflow-y: scroll; /* Permite desplazamiento interno */
-    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
-    scrollbar-width: none; /* Oculta la barra de desplazamiento en Firefox */
+.historia-container {
+    height: 100vh;
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
-    /* Para ocultar la barra de desplazamiento en navegadores WebKit (Chrome, Safari) */
-    .notas-container::-webkit-scrollbar {
-        display: none; /* Oculta la barra de desplazamiento */
-    }
 
-/* Estilo para los filtros de búsqueda */
-.filtros {
-    position: relative; /* Usar flexbox para alinear */
-    margin-bottom: 20px; /* Espaciado inferior */
+.historia-titulo {
+    font-size: 2em; 
+    text-align: center; 
 }
 
-.inputIcon {
+
+.historia-inputIcon {
     position: relative;
+    left: 25px;
 }
 
-/* Estilos para la tabla */
-.lista {
-    width: 100%; /* Ancho completo */
-    border-collapse: collapse; /* Colapsar bordes */
+.historia-inputField {
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(173, 173, 173);
+    border-radius: 30px;
+    margin: 12px 0;
+    color: black;
+    font-size: .8em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding-left: 35px;
 }
 
-.lista_titulo {
-    background-color: #f2f2f2; /* Color de fondo de los encabezados */
-}
-
-    .lista_titulo th {
-        padding: 10px; /* Espaciado interno */
-        cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    .historia-inputField:focus {
+        outline: none;
+        border-bottom: 2px solid #4CCEC4;
     }
 
-        .lista_titulo th:hover {
-            background-color: #e0e0e0; /* Color al pasar el mouse */
-        }
+    .historia-inputField::placeholder {
+        color: rgb(80, 80, 80);
+        font-size: 1em;
+        font-weight: 500;
+    }
 
-.lista_notas tr {
-    border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
+.historia-lista-container {
+    border-radius: 5px;
+    flex: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+    .historia-lista-container::-webkit-scrollbar {
+        display: none; 
+    }
+
+.historia-lista {
+    width: 100%; 
+    border-collapse: collapse;
 }
 
-.lista_notas td {
-    padding: 10px; /* Espaciado interno */
+.historia-lista-titulo {
+    background-color: #19575F;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+.historia-lista-titulo th {
+    padding: 10px; 
+    cursor: pointer; 
+}
+
+    .historia-lista-titulo th:hover {
+        background-color: #4CCEC4;
+    }
+
+.historia-lista-notas {
+    flex: 1; 
+    overflow-y: auto; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.historia-lista-notas tr {
+    border-bottom: 1px solid #ddd; 
+}
+
+.historia-lista-notas td {
+    padding: 10px; 
 }
 
 /* Estilo para las notas */
 .nota-alta {
-    color: green; /* Color verde para notas altas */
+    color: green; 
 }
 
 .nota-baja {
-    color: red; /* Color rojo para notas bajas */
+    color: red; 
 }
 
-/* Estilos para filas de la tabla */
-.lista_notas tr:nth-child(even) {
-    background-color: #f9f9f9; /* Fondo para filas pares */
-}
+
+.historia-lista-notas tr:nth-child(even) {
+    background-color: #f9f9f9; 
+

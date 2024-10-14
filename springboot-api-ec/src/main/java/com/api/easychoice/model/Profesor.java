@@ -66,4 +66,8 @@ public class Profesor {
     public String getPassword() {
         return password;
     }
+
+    public List<Examen> getExamenes() {
+        return examenes;
+    }
 }
