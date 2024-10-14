@@ -2,6 +2,8 @@ package com.api.easychoice.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.api.easychoice.dto.ProfesorDTO;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.service.ProfesorService;
 
@@ -34,11 +36,11 @@ public class ProfesorController {
     }
 
     @PostMapping()
-    public Profesor crearProfesor(@RequestBody Profesor profesor) {
+    public Profesor crearProfesor(@RequestBody ProfesorDTO profesorDTO) {
         
         // 1. validar que los campos requeridos esten presentes
         
         // 2. invocar al servicio de profesores para crearlo
-        return profesorService.crearProfesor(profesor);
+        return profesorService.crearProfesor(profesorDTO);
     }
 }
