@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.api.easychoice.dto.ProfesorDTO;
+import com.api.easychoice.exception.NotFoundException;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.repository.ProfesorRepository;
 
@@ -45,8 +46,10 @@ public class ProfesorService {
         return profesorRepository.findAll();
     }
 
-    public Profesor getProfesorById(String id) {
-        return profesorRepository.findById(id).orElse(null);
+    public Profesor getProfesorById(String id) throws NotFoundException {
+        Profesor profesor = profesorRepository.findById(id).orElse(null);
+        if (profesor == null) throw new NotFoundException("No existe profesor con id: ".concat(id));
+        return profesor;
     }
 
     public Profesor getProfesorByEmail(String id) {

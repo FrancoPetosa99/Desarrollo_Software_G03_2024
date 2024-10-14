@@ -74,9 +74,7 @@ public class ExamenController {
         try {
 
             // verificar que exista el id del examen
-            if (id == null) {
-                throw new BadRequestException("El id del examen es requerido");
-            }
+            if (id == null) throw new BadRequestException("El id del examen es requerido");
 
             // invocar servicio para obtener los examenes
             List<Pregunta> preguntas = examenService.getPreguntas(id);
@@ -105,26 +103,47 @@ public class ExamenController {
     }
 
     @PostMapping()
-    public ResponseEntity<Object> crearExamen(@RequestBody NuevoExamenDTO examenDTO) {
+    public ResponseEntity<Object> crearExamen(@RequestBody NuevoExamenDTO examenDTO) {        
+        try {
 
-        String profesorId = examenDTO.getProfesorId();
-        Profesor profesor = profesorService.getProfesorById(profesorId);
+            // Obtener el Authentication desde el SecurityContext
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserAuthDTO user = (UserAuthDTO) authentication.getPrincipal();
+            String profesorId = user.getId();
+            
+            // verificar que exista el id del profesor
+            if (profesorId == null || profesorId.isEmpty()) throw new BadRequestException("El id del profesor es requerido");
+            
+            // obtener el profesor por id
+            Profesor profesor = profesorService.getProfesorById(profesorId);
 
-        // validar si existe el profesor
-        if(profesor == null) {
-            return ResponseEntity   
-            .badRequest()
-            .body("No existe profesor con id: " + profesorId);
+            // instanciar un mapper de examenes para crear un nuevo Examen
+            ExamenMapper mapperToExam = new ExamenMapper(); 
+            Examen examen = mapperToExam.nuevoExamen(examenDTO, profesor);
+
+            // invocar al servicio para crear un Examen
+            examenService.crearExamen(examen);
+
+            // construir la respuesta al cliente
+            HttpBodyResponse data = new HttpBodyResponse
+            .Builder()
+            .status("Success")
+            .statusCode(200)
+            .message("Se ha creado un nuevo examen")
+            .data(examen.getId())
+            .build();
+
+            // devolver respuesta al cliente
+            return ResponseEntity
+            .status(200)
+            .body(data);
+
+        } catch(BadRequestException e) {
+            return responseFactory.badRequest(e.getMessage());
+        }   catch (NotFoundException e) {
+                return responseFactory.errorNotFound(e.getMessage());
+        }   catch (Exception e) {
+                return responseFactory.internalServerError();
         }
-        
-        // instanciar un mapper de examenes para crear un nuevo Examen
-        ExamenMapper mapperToExam = new ExamenMapper(); 
-        Examen examen = mapperToExam.nuevoExamen(examenDTO, profesor);
-
-        // invocar al servicio para crear un Examen
-        examenService.crearExamen(examen);
-
-        // devolver respuesta al cliente
-        return ResponseEntity.ok(201);
     }
 }
