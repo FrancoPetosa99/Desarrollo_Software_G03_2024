@@ -1,11 +1,11 @@
-
+ï»¿
 .historia {
     display: flex;
 }
 
 .sidebar {
     width: 30%;
-    max-width: 350px; /* Ajusta según sea necesario */
+    max-width: 350px; /* Ajusta segï¿½n sea necesario */
     background-color: #f8f8f8; /* Color de fondo de la barra lateral */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra del sidebar */
     height: 100vh; /* Altura completa de la ventana */
@@ -14,11 +14,11 @@
     scrollbar-width: none
 }
 
-.sidebar::-webkit-scrollbar {
-    display: none; /* Oculta la barra de desplazamiento */
-}
+    .sidebar::-webkit-scrollbar {
+        display: none; /* Oculta la barra de desplazamiento */
+    }
 
-/* Contenedor para el título del sidebar */
+/* Contenedor para el tï¿½tulo del sidebar */
 .sidebar-title {
     position: sticky;
     top: 0; /* Lo mantiene al principio de la lista */
@@ -43,37 +43,15 @@
     width: 85%;
     height: 170px;
     border: 1px solid black;
-    border-radius: 5px; 
+    border-radius: 5px;
     box-shadow: 3px 4px 10px #444;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
-.lista-examenes {
-    display: flex;
-    flex-direction: column; /* Alinea los elementos en una columna */
-    margin-top: 20px; /* Espaciado superior */
-    gap: 10px; /* Espaciado entre los elementos (opcional) */
+
+.examen-historia-container.seleccionado {
+    box-shadow: 6px 8px 10px #4CCEC4;
 }
-
-.examen {
-    width: 100px;
-    height: 100px;
-    display: flex; /* Flexbox para alinear los elementos */
-    align-items: center; /* Centrar verticalmente */
-    padding: 10px; /* Espaciado interno */
-    margin-bottom: 10px; /* Espaciado inferior */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: background-color 0.3s; /* Transición suave para el fondo */
-}
-
-    .examen.habilitado {
-        border: 2px solid #4caf50; /* Borde verde para exámenes habilitados */
-    }
-
-    .examen-historia-container.seleccionado {
-        box-shadow: 6px 8px 10px #4CCEC4;
-    }
 
 .historia-examen-grupo-info {
     width: 100%;
@@ -106,8 +84,8 @@
 
 
 .historia-titulo {
-    font-size: 2em; 
-    text-align: center; 
+    font-size: 2em;
+    text-align: center;
 }
 
 
@@ -148,12 +126,13 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
     .historia-lista-container::-webkit-scrollbar {
-        display: none; 
+        display: none;
     }
 
 .historia-lista {
-    width: 100%; 
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -166,40 +145,39 @@
     margin-bottom: 20px;
 }
 
-.historia-lista-titulo th {
-    padding: 10px; 
-    cursor: pointer; 
-}
-
-    .historia-lista-titulo th:hover {
-        background-color: #4CCEC4;
+    .historia-lista-titulo th {
+        padding: 10px;
+        cursor: pointer;
     }
 
+        .historia-lista-titulo th:hover {
+            background-color: #4CCEC4;
+        }
+
 .historia-lista-notas {
-    flex: 1; 
-    overflow-y: auto; 
-    -ms-overflow-style: none; 
+    flex: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.historia-lista-notas tr {
-    border-bottom: 1px solid #ddd; 
-}
+    .historia-lista-notas tr {
+        border-bottom: 1px solid #ddd;
+    }
 
-.historia-lista-notas td {
-    padding: 10px; 
-}
+    .historia-lista-notas td {
+        padding: 10px;
+    }
 
 /* Estilo para las notas */
 .nota-alta {
-    color: green; 
+    color: green;
 }
 
 .nota-baja {
-    color: red; 
+    color: red;
 }
 
 
 .historia-lista-notas tr:nth-child(even) {
-    background-color: #f9f9f9; 
-
+    background-color: #f9f9f9;
