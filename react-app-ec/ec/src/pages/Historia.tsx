@@ -2,8 +2,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
-import ListaExamenes from '../components/ListaExamenes';
-import Warning from '../components/Warning';
 import Alert from '../components/Alerts';
 import fondoGenerico from '../images/fondoGenerico.jpg';
 import fondoGears from '../images/fondoGears.png';

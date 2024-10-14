@@ -47,10 +47,15 @@ html, body {
 
 /* Estilos para la lista de exámenes */
 .lista-examenes {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
     margin-top: 20px; /* Espaciado superior */
+    gap: 10px; /* Espaciado entre los elementos (opcional) */
 }
 
 .examen {
+    width: 100px;
+    height: 100px;
     display: flex; /* Flexbox para alinear los elementos */
     align-items: center; /* Centrar verticalmente */
     padding: 10px; /* Espaciado interno */
