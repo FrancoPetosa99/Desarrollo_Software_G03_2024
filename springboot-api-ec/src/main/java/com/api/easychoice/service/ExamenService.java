@@ -4,19 +4,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.easychoice.exception.NotFoundException;
 import com.api.easychoice.model.Examen;
 import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.repository.ExamenRepository;
-import com.api.easychoice.repository.PreguntaRepository;
 
 @Service
 public class ExamenService {
 
     @Autowired
     private ExamenRepository examenRepository;
-
-    @Autowired
-    private PreguntaRepository preguntaRepository;
 
     public Examen crearExamen(Examen examen) {
         examenRepository.save(examen);
@@ -27,7 +24,16 @@ public class ExamenService {
         return examenRepository.findByProfesorId(profesorId);
     }
 
-    public List<Pregunta> getPreguntas(String examenId) {
-        return preguntaRepository.findByExamenId(examenId);
+    public List<Pregunta> getPreguntas(String examenId) throws NotFoundException{
+
+        // recuperar examen por id
+        Examen examen = examenRepository.findExamenById(examenId);
+
+        // verificar que existe el examen
+        if (examen == null) throw new NotFoundException("No existe examen con id: " + examenId);
+
+        List<Pregunta> preguntas = examen.getPreguntas();
+
+        return preguntas;
     }
 }

@@ -4,16 +4,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.api.easychoice.config.UserAuthDTO;
 import com.api.easychoice.dto.examen.ExamenDTO;
 import com.api.easychoice.dto.examen.NuevoExamenDTO;
+import com.api.easychoice.exception.BadRequestException;
+import com.api.easychoice.exception.NotFoundException;
 import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
 import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
+import com.api.easychoice.response.HttpBodyResponse;
+import com.api.easychoice.response.ResponseFactory;
 import com.api.easychoice.service.ExamenService;
 import com.api.easychoice.service.ProfesorService;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +39,9 @@ public class ExamenController {
 
     @Autowired
     private ProfesorService profesorService;
+
+    @Autowired
+    private ResponseFactory responseFactory;
 
     @GetMapping()
     public ResponseEntity<Object> getExamenesByProfesorId() {
@@ -63,14 +71,37 @@ public class ExamenController {
 
     @GetMapping("/{id}/preguntas")
     public ResponseEntity<Object> getPreguntasByExamenId(@PathVariable String id) {
+        try {
 
-        // invocar servicio para obtener los examenes
-        List<Pregunta> preguntas = examenService.getPreguntas(id);
+            // verificar que exista el id del examen
+            if (id == null) {
+                throw new BadRequestException("El id del examen es requerido");
+            }
 
-        // devolver respuesta al cliente
-        return ResponseEntity
-        .status(200)
-        .body(preguntas);
+            // invocar servicio para obtener los examenes
+            List<Pregunta> preguntas = examenService.getPreguntas(id);
+
+            // construir la respuesta al cliente
+            HttpBodyResponse data = new HttpBodyResponse
+            .Builder()
+            .status("Success")
+            .statusCode(200)
+            .message("Se han encontrado las preguntas del examen con id:", id)
+            .data(preguntas)
+            .build();
+
+            // devolver respuesta al cliente
+            return ResponseEntity
+            .status(200)
+            .body(data);
+
+        }   catch(BadRequestException e) {
+                return responseFactory.badRequest(e.getMessage());
+        }   catch (NotFoundException e) {
+                return responseFactory.errorNotFound(e.getMessage());
+        }   catch (Exception e) {
+                return responseFactory.internalServerError();
+        }
     }
 
     @PostMapping()
