@@ -1,0 +1,207 @@
+
+.historia {
+    display: flex;
+}
+
+.sidebar {
+    width: 30%;
+    max-width: 350px; /* Ajusta según sea necesario */
+    background-color: #f8f8f8; /* Color de fondo de la barra lateral */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra del sidebar */
+    height: 100vh; /* Altura completa de la ventana */
+    overflow-y: auto;
+    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
+    scrollbar-width: none
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none; /* Oculta la barra de desplazamiento */
+}
+
+/* Contenedor para el título del sidebar */
+.sidebar-title {
+    position: sticky;
+    top: 0; /* Lo mantiene al principio de la lista */
+    z-index: 1;
+    padding: 30px;
+    background-color: inherit;
+    height: 80px;
+}
+
+.lista-examenes-historia {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    width: 100%;
+    align-items: center;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding-bottom: 100px;
+    gap: 30px;
+}
+
+.examen-historia-container {
+    width: 85%;
+    height: 170px;
+    border: 1px solid black;
+    border-radius: 5px; 
+    box-shadow: 3px 4px 10px #444;
+    cursor: pointer; 
+}
+<<<<<<< HEAD
+
+/* Estilos para la lista de exámenes */
+.lista-examenes {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en una columna */
+    margin-top: 20px; /* Espaciado superior */
+    gap: 10px; /* Espaciado entre los elementos (opcional) */
+}
+
+.examen {
+    width: 100px;
+    height: 100px;
+    display: flex; /* Flexbox para alinear los elementos */
+    align-items: center; /* Centrar verticalmente */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+    .examen.habilitado {
+        border: 2px solid #4caf50; /* Borde verde para exámenes habilitados */
+=======
+    .examen-historia-container.seleccionado {
+        box-shadow: 6px 8px 10px #4CCEC4;
+>>>>>>> a59804e9623e6d124905f6d1aef0d2a209f052fd
+    }
+
+.historia-examen-grupo-info {
+    width: 100%;
+    height: 100%;
+    margin: 10px;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+.examen-info h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.examen-info h6 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.historia-container {
+    height: 100vh;
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+
+.historia-titulo {
+    font-size: 2em; 
+    text-align: center; 
+}
+
+
+.historia-inputIcon {
+    position: relative;
+    left: 25px;
+}
+
+.historia-inputField {
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid rgb(173, 173, 173);
+    border-radius: 30px;
+    margin: 12px 0;
+    color: black;
+    font-size: .8em;
+    font-weight: 500;
+    box-sizing: border-box;
+    padding-left: 35px;
+}
+
+    .historia-inputField:focus {
+        outline: none;
+        border-bottom: 2px solid #4CCEC4;
+    }
+
+    .historia-inputField::placeholder {
+        color: rgb(80, 80, 80);
+        font-size: 1em;
+        font-weight: 500;
+    }
+
+.historia-lista-container {
+    border-radius: 5px;
+    flex: 1;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+    .historia-lista-container::-webkit-scrollbar {
+        display: none; 
+    }
+
+.historia-lista {
+    width: 100%; 
+    border-collapse: collapse;
+}
+
+.historia-lista-titulo {
+    background-color: #19575F;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-bottom: 20px;
+}
+
+.historia-lista-titulo th {
+    padding: 10px; 
+    cursor: pointer; 
+}
+
+    .historia-lista-titulo th:hover {
+        background-color: #4CCEC4;
+    }
+
+.historia-lista-notas {
+    flex: 1; 
+    overflow-y: auto; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.historia-lista-notas tr {
+    border-bottom: 1px solid #ddd; 
+}
+
+.historia-lista-notas td {
+    padding: 10px; 
+}
+
+/* Estilo para las notas */
+.nota-alta {
+    color: green; 
+}
+
+.nota-baja {
+    color: red; 
+}
+
+
+.historia-lista-notas tr:nth-child(even) {
+    background-color: #f9f9f9; 
+

@@ -104,7 +104,7 @@ function Login() {
                     {/* Muestra el mensaje de error si existe */}
                     {showAlert && (
                         <Alert
-                            message='Credenciales invalidas'
+                            message='Email o contraseña invalidas'
                             alertType='warning'
                         />
                     )}
