@@ -246,17 +246,21 @@ function NuevoExamen() {
                 <div className='consigna' key={indexPregunta}>
                     <label htmlFor={`pregunta ${indexPregunta}`}>Pregunta {indexPregunta + 1}</label>
                     <div className="pregunta-group">
-
-                        <textarea
-                            id={`pregunta${indexPregunta}`}
-                            className='pregunta-input'
-                            placeholder="Ingresa tu pregunta"
-                            maxLength={maxCaracteres}
-                            value={pregunta.enunciado}
-                            onChange={(e) => manejarTextoPregunta(indexPregunta, e)}
-                            required>
-                        </textarea>
-
+                        <div className='pregunta-input-group'>
+                            <textarea
+                                id={`pregunta${indexPregunta}`}
+                                className='pregunta-input'
+                                placeholder="Ingresa tu pregunta"
+                                maxLength={maxCaracteres}
+                                value={pregunta.enunciado}
+                                onChange={(e) => manejarTextoPregunta(indexPregunta, e)}
+                                required>
+                                
+                            </textarea>
+                            <div className='archivo'>
+                                <Archivo></Archivo>
+                            </div>
+                        </div>
                         <div className="pregunta-info">
 
                             <div className="char-limit">
@@ -303,7 +307,6 @@ function NuevoExamen() {
 
                     </div>
 
-                    <Archivo></Archivo>
 
                     <p>Respuestas</p>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ï»¿import React, { useState } from 'react';
 import './CargadorArchivo.css'; // Archivo CSS para los estilos
 
 function CargadorDeArchivos() {
@@ -6,7 +6,7 @@ function CargadorDeArchivos() {
     const [preview, setPreview] = useState(null);
     const [arrastrando, setArrastrando] = useState(false);
 
-    // Función para manejar el archivo seleccionado por input o drop
+    // FunciÃ³n para manejar el archivo seleccionado por input o drop
     const manejarCambioArchivo = (e) => {
         const archivos = e.target.files || e.dataTransfer.files;
         if (archivos.length > 0) {
@@ -40,20 +40,44 @@ function CargadorDeArchivos() {
         e.preventDefault();
         e.stopPropagation();
         setArrastrando(false);
-    };
+    }
 
+    const eliminarImagen = () => {
+        setArchivo(null);
+        setPreview(null);
+    };
     return (
         <div>
             <label
-                className={`custum-file-upload ${arrastrando ? 'dragging' : ''}`}
+                className={`custum-file-upload ${arrastrando ? 'dragging' : ''} ${preview ? 'with-image' : ''}`}
                 htmlFor="file"
                 onDragOver={manejarArrastrarSobre}
                 onDrop={manejarSoltar}
                 onDragLeave={manejarArrastrarSalir}
+                style={{ position: 'relative' }} // Asegurar que el contenedor pueda posicionar el SVG
             >
                 {preview ? (
                     <div className="preview">
                         <img src={preview} alt="Vista previa" />
+                        <div className="eliminar-imagen">
+                            <svg
+                                className="feather feather-x-circle"
+                                fill="none"
+                                height="24"
+                                stroke="#FE6A6B"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                onClick={eliminarImagen}
+                            >
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" x2="9" y1="9" y2="15" />
+                                <line x1="9" x2="15" y1="9" y2="15" />
+                            </svg>
+                        </div>
                     </div>
                 ) : (
                     <>
@@ -63,7 +87,7 @@ function CargadorDeArchivos() {
                             </svg>
                         </div>
                         <div className="text">
-                            <span>{arrastrando ? 'Suelta la imagen aquí' : 'Haz clic o arrastra una imagen'}</span>
+                            <span>{arrastrando ? 'Suelta la imagen aquÃ­' : 'Haz clic o arrastra una imagen'}</span>
                         </div>
                     </>
                 )}
@@ -71,6 +95,7 @@ function CargadorDeArchivos() {
             </label>
         </div>
     );
+
 }
 
 export default CargadorDeArchivos;
