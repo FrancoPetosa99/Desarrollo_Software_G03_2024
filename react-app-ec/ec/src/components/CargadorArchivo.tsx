@@ -1,26 +1,20 @@
 ﻿import React, { useState } from 'react';
 import './CargadorArchivo.css'; // Archivo CSS para los estilos
 
-function CargadorDeArchivos() {
+function CargadorDeArchivos({ onChange }) {
     const [archivo, setArchivo] = useState(null);
     const [preview, setPreview] = useState(null);
     const [arrastrando, setArrastrando] = useState(false);
 
-    // Función para manejar el archivo seleccionado por input o drop
     const manejarCambioArchivo = (e) => {
-        const archivos = e.target.files || e.dataTransfer.files;
-        if (archivos.length > 0) {
-            const archivoSeleccionado = archivos[0];
-            setArchivo(archivoSeleccionado);
-
-            // Crear una vista previa del archivo si es una imagen
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result); // Guardar la URL de la imagen
-            };
-            reader.readAsDataURL(archivoSeleccionado); // Leer el archivo como Data URL
+        const file = e.target.files[0]; 
+        if (file) {
+            setArchivo(file); // Almacena el archivo en el estado local
+            setPreview(URL.createObjectURL(file)); // Crear una URL para la vista previa
+            onChange((file)); // Devuelve el archivo al manejador
         }
-    };
+    };;
+
 
     // Funciones para manejar el arrastre
     const manejarArrastrarSobre = (e) => {
@@ -40,12 +34,14 @@ function CargadorDeArchivos() {
         e.preventDefault();
         e.stopPropagation();
         setArrastrando(false);
-    }
+    };
 
     const eliminarImagen = () => {
         setArchivo(null);
         setPreview(null);
+        onChange(null);
     };
+
     return (
         <div>
             <label
@@ -54,7 +50,6 @@ function CargadorDeArchivos() {
                 onDragOver={manejarArrastrarSobre}
                 onDrop={manejarSoltar}
                 onDragLeave={manejarArrastrarSalir}
-                style={{ position: 'relative' }} // Asegurar que el contenedor pueda posicionar el SVG
             >
                 {preview ? (
                     <div className="preview">
@@ -91,7 +86,7 @@ function CargadorDeArchivos() {
                         </div>
                     </>
                 )}
-                <input type="file" id="file" accept="image/*" onChange={manejarCambioArchivo} />
+                <input type="file" id="file" name="image/*" onChange={manejarCambioArchivo} />
             </label>
         </div>
     );

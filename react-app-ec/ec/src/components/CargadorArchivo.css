@@ -1,9 +1,11 @@
 .custum-file-upload {
 	min-height: 100px;
-	max-width: 250px;
+	max-width: 300px;
+	min-width: 200px;
 	display: flex;
 	flex-direction: column;
-	gap: 0px;
+	gap: 3px;
+	padding: 10px;
 	cursor: pointer;
 	align-items: center;
 	justify-content: center;
@@ -20,6 +22,7 @@
 	.custum-file-upload.with-image {
 		max-height: 200px;
 		max-width: 300px;
+		padding: 0px;
 	}
 
 	.custum-file-upload.dragging {

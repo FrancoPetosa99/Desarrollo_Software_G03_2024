@@ -1,6 +1,6 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
-import Archivo from '../components/CargadorArchivo';
+import CargadorDeArchivos from '../components/CargadorArchivo';
 import './NuevoExamen.css';
 function NuevoExamen() {
     const profesorId = localStorage.getItem('profesorId');
@@ -16,7 +16,12 @@ function NuevoExamen() {
     const maxCaracteres = 600;
     // Preguntas con sus respuestas y respuestasCorrectas
     const [preguntas, setPreguntas] = useState([
-        { enunciado: '', puntaje: 1.0, archivo: null, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }
+        {
+            enunciado: '',
+            puntaje: 1.0,
+            archivo: null,
+            opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }]
+        }
     ]);
 
     // Función para manejar cambios en los inputs generales (título, tema, etc.)
@@ -37,11 +42,16 @@ function NuevoExamen() {
         e.target.value = value;
     };
 
-    const manejarArchivoAdjunto = (indexPregunta, e) => {
-        const archivo = e.target.files[0];
-        const nuevasPreguntas = [...preguntas];
-        nuevasPreguntas[indexPregunta].archivo = archivo;
-        setPreguntas(nuevasPreguntas);
+    const manejarArchivoAdjunto = (index: number, archivo: File) => {
+        setPreguntas(prevPreguntas => {
+            const nuevasPreguntas = [...prevPreguntas];
+            nuevasPreguntas[index] = {
+                ...nuevasPreguntas[index],
+                archivo: archivo
+            };
+            console.log(nuevasPreguntas); // Mueve este console.log antes del return
+            return nuevasPreguntas;
+        });
     };
 
     // Agregar una nueva pregunta asegurando que no haya más de 10 preguntas
@@ -156,6 +166,7 @@ function NuevoExamen() {
                     formData.append(`preguntas[${indexPregunta}][archivo]`, pregunta.archivo);
                 }
             });
+            console.log("Preguntas antes de enviar:", preguntas);
             try {
                 // Realizar la solicitud POST con fetch
                 const response = await fetch(endpoint + '/api/examenes', {
@@ -258,9 +269,12 @@ function NuevoExamen() {
                                 
                             </textarea>
                             <div className='archivo'>
-                                <Archivo></Archivo>
+                                <CargadorDeArchivos
+                                    onChange={(archivo) => manejarArchivoAdjunto(indexPregunta, archivo)}
+                                />
                             </div>
                         </div>
+
                         <div className="pregunta-info">
 
                             <div className="char-limit">

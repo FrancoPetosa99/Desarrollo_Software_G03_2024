@@ -4,18 +4,12 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Layout from '../components/Layout';
 import Warning from '../components/Warning';
 import Alert from '../components/Alerts';
+import wallpaperIcon from '../icons/wallpaper.svg';
+import DesplegableConImagenes from '../components/DesplegableImagenes';
 import './MisExamenes.css';
-import fondoGenerico from '../images/fondoGenerico.jpg';
-import fondoGears from '../images/fondoGears.png';
-import fondoDavid from '../images/david.jpg';
-import getBaseUrl from '../utils/getBaseUrl.js';
 
 // Constante que contiene las imágenes de fondo utilizadas
-const IMAGES = {
-    fondoGenerico,
-    fondoGears,
-    fondoDavid,
-};
+
 
 // Exámenes iniciales de ejemplo para mostrar en el componente
 const EXAMENES_INICIALES = [
@@ -26,7 +20,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: IMAGES.fondoGenerico,
+        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 2,
@@ -34,8 +28,8 @@ const EXAMENES_INICIALES = [
         tema: 'Renacimiento',
         tiempo: '45 min',
         fecha: new Date().toISOString().split('T')[0],
-        habilitado: true,
-        imagen: IMAGES.fondoDavid,
+        habilitado: false,
+        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/david.jpg',
     },
     {
         id: 1,
@@ -44,7 +38,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: IMAGES.fondoGenerico,
+        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 3,
@@ -53,7 +47,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: IMAGES.fondoGenerico,
+        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 4,
@@ -61,8 +55,8 @@ const EXAMENES_INICIALES = [
         tema: 'Álgebra',
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
-        habilitado: true,
-        imagen: IMAGES.fondoGenerico,
+        habilitado: false,
+        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     // Más exámenes...
 ];
@@ -74,8 +68,9 @@ function PanelExamenes() {
     const [filtroTitulo, setFiltroTitulo] = useState(''); // Filtro de búsqueda por título
     const [filtroTema, setFiltroTema] = useState(''); // Filtro de búsqueda por tema
     const [showDialog, setShowDialog] = useState({ id: null, visible: false }); // Estado para mostrar u ocultar el diálogo de confirmación
+    const [showDesplegable, setShowDesplegable] = useState(null);
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
-    const endpoint = getBaseUrl(); // Obtener la URL base del servidor
+    //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
     const [showAlert, setShowAlert] = useState(false);
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
@@ -112,10 +107,10 @@ function PanelExamenes() {
     // Funciones para manejar los filtros de búsqueda
 
     // Actualiza el filtro de búsqueda por título
-    const manejarFiltroTitulo = (e) => setFiltroTitulo(e.target.value);
+    const manejarFiltroTitulo = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTitulo(e.target.value);
 
     // Actualiza el filtro de búsqueda por tema
-    const manejarFiltroTema = (e) => setFiltroTema(e.target.value);
+    const manejarFiltroTema = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTema(e.target.value);
 
     // Filtra los exámenes según el título y el tema ingresados
     const examenesFiltrados = examenes.filter(
@@ -125,24 +120,26 @@ function PanelExamenes() {
     );
 
     // Función que se ejecuta cuando se presiona el botón para eliminar un examen, muestra el cuadro de diálogo de confirmación
-    const handleDeleteClick = (id) => setShowDialog({ id, visible: true });
+    function handleDeleteClick(id: number) {
+        return setShowDialog({ id, visible: true });
+    }
 
     // Función que se ejecuta cuando el usuario confirma la eliminación de un examen
-    const handleConfirm = (id) => {
+    function handleConfirm(id: number): void {
         eliminarExamen(id); // Elimina el examen seleccionado
         setShowDialog({ id: null, visible: false }); // Oculta el cuadro de diálogo
-    };
+    }
 
     // Función que se ejecuta cuando el usuario cancela la eliminación de un examen
     const handleCancel = () => setShowDialog({ id: null, visible: false });
 
     // Función que elimina un examen del estado (usada por `handleConfirm`)
-    const eliminarExamen = (id) =>
+    const eliminarExamen = (id: number) =>
         setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id)
         );
 
     // Función que copia un texto al portapapeles (como la URL de un examen)
-    const copiarAlPortapapeles = async (dato) => {
+    const copiarAlPortapapeles = async (dato: string) => {
         try {
             await navigator.clipboard.writeText(dato); // Intenta copiar el texto al portapapeles
             alert('Dato copiado al portapapeles.'); // Muestra un mensaje de confirmación
@@ -151,13 +148,25 @@ function PanelExamenes() {
         }
     };
 
-    const verHistorial = (id) => {
+    const verHistorial = (id: number) => {
         navigate(`/notas/${id}`);
     };
 
+    // Función para manejar la selección de la imagen y actualizar el estado
+    const manejarSeleccionImagen = (id: number, urlImagen: string) => {
+        setExamenes((prevExamenes) =>
+            prevExamenes.map((examen) =>
+                examen.id === id ? { ...examen, imagen: urlImagen } : examen
+            )
+        );
+        setShowDesplegable(null); // Cerrar el desplegable después de seleccionar una imagen
+    };
 
+    const manejarCambioFondo = (examenId: number) => {
+        setShowDesplegable((prev) => (prev === examenId ? null : examenId)); // Alternar el estado de visibilidad del desplegable
+    };
     // Función que genera y copia el link del examen al portapapeles
-    const copiarLinkExamen = (id) => {
+    const copiarLinkExamen = (id: number) => {
         const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
         copiarAlPortapapeles(link); // Llama a la función para copiar el link al portapapeles
     };
@@ -237,9 +246,20 @@ function PanelExamenes() {
                                         <h3>{examen.titulo}</h3>
                                         <h6>{examen.tema}</h6>
                                     </div>
-                                    <button className="boton-eliminar" onClick={() => handleDeleteClick(examen.id)}>
-                                        ❌
-                                    </button>
+                                    <div className='examen-grupo-info-botones'> 
+                                        <button className="boton-eliminar" onClick={() => handleDeleteClick(examen.id)}>
+                                            ❌
+                                        </button>
+                                        {/* Desplegable para elegir la imagen */}
+                                        <button className='boton-cambiar-fondo' onClick={() => manejarCambioFondo(examen.id)}>
+                                            <img src={wallpaperIcon} alt="Cambiar Fondo" className="icono-wallpaper" />
+                                        </button>
+                                        {showDesplegable === examen.id && (
+                                            <DesplegableConImagenes
+                                                onSelect={(urlImagen) => manejarSeleccionImagen(examen.id, urlImagen)}
+                                            />
+                                            )}
+                                    </div>
                                 </div>
 
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
