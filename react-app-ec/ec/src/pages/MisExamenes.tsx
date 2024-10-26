@@ -197,6 +197,10 @@ function PanelExamenes() {
         copiarAlPortapapeles(link); // Llama a la función para copiar el link al portapapeles
     };
 
+    const editarExamen = (examen: ){
+
+    }
+
     // Función que cambia el estado de habilitación de un examen (Iniciar o Finalizar)
     const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
         setExamenes((prevExamenes) =>
@@ -290,7 +294,7 @@ function PanelExamenes() {
 
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
                                 <div className="examen-grupo-boton">
-                                    <button onClick={() => editarExamen(examen.id)}>Editar</button>
+                                    <button onClick={() => editarExamen(examen)}>Editar</button>
                                     <button onClick={() => verHistorial(examen.id)}>Historial</button>
                                     <button onClick={() => copiarLinkExamen(examen.id)}>Copiar Link</button>
                                     <button
