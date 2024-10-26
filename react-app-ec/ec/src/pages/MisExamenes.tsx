@@ -8,9 +8,6 @@ import wallpaperIcon from '../icons/wallpaper.svg';
 import DesplegableConImagenes from '../components/DesplegableImagenes';
 import './MisExamenes.css';
 
-// Constante que contiene las imágenes de fondo utilizadas
-
-
 // Exámenes iniciales de ejemplo para mostrar en el componente
 const EXAMENES_INICIALES = [
     {
@@ -72,6 +69,7 @@ function PanelExamenes() {
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
     //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
     const [showAlert, setShowAlert] = useState(false);
+
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
          // Indica que la carga ha comenzado
@@ -153,18 +151,46 @@ function PanelExamenes() {
     };
 
     // Función para manejar la selección de la imagen y actualizar el estado
-    const manejarSeleccionImagen = (id: number, urlImagen: string) => {
-        setExamenes((prevExamenes) =>
-            prevExamenes.map((examen) =>
-                examen.id === id ? { ...examen, imagen: urlImagen } : examen
-            )
-        );
+    const manejarSeleccionImagen = async (examen, urlImagen: string) => {
+        examen.imagen = urlImagen
+        try {
+            // Realizar la petición PUT
+            const response = await fetch(`${endpoint}/api/examenes/${examen.id}`, {
+                method: 'PUT', // Método PUT para actualizar
+                headers: {
+                    'Content-Type': 'application/json', // Especificar que el cuerpo será JSON
+                },
+                body: JSON.stringify({
+                    examen: examen
+                }), // Cuerpo de la solicitud con la URL de la imagen
+            });
+
+            if (response.ok) {
+                const data = await response.json(); // Parsear la respuesta JSON
+                setExamenes(data); // Actualizar los exámenes en el estado
+            } else {
+                const errorData = await response.json(); // Parsear la respuesta de error
+                console.error('Error al actualizar la imagen del examen:', errorData); // Loguear el error en consola
+                setShowAlert(true); // Mostrar un mensaje de error en la UI
+                examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
+            }
+        } catch (error) {
+            console.error('Error de red al actualizar la imagen del examen:', error); // Manejo de errores de red
+            setShowAlert(true); // Mostrar un mensaje de error en la UI
+            examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
+        } finally {
+            setTimeout(() => {
+                setLoading(false); // Indicar que la carga ha finalizado
+            }, 0);
+        }
+
         setShowDesplegable(null); // Cerrar el desplegable después de seleccionar una imagen
     };
 
     const manejarCambioFondo = (examenId: number) => {
         setShowDesplegable((prev) => (prev === examenId ? null : examenId)); // Alternar el estado de visibilidad del desplegable
     };
+
     // Función que genera y copia el link del examen al portapapeles
     const copiarLinkExamen = (id: number) => {
         const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
@@ -256,7 +282,7 @@ function PanelExamenes() {
                                         </button>
                                         {showDesplegable === examen.id && (
                                             <DesplegableConImagenes
-                                                onSelect={(urlImagen) => manejarSeleccionImagen(examen.id, urlImagen)}
+                                                onSelect={(urlImagen) => manejarSeleccionImagen(examen, urlImagen)}
                                             />
                                             )}
                                     </div>

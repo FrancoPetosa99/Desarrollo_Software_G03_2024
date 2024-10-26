@@ -150,6 +150,7 @@ function NuevoExamen() {
             formData.append('tema', formulario.tema);
             formData.append('fechaLimite', formulario.fechaLimite);
             formData.append('tiempoLimite', tiempoLimiteEnMinutos);
+            formData.append('ImagenFondo', 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg');
 
             // Agregar las preguntas, opciones y archivos al FormData
             preguntas.forEach((pregunta, indexPregunta) => {
