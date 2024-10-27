@@ -13,10 +13,13 @@ function Registrarse() {
     const [passwordError, setPasswordError] = useState(''); // Almacena errores de contraseña
     const [showPassword, setShowPassword] = useState(false); // Controla la visibilidad de la contraseña
     const [error, setError] = useState('');          // Almacena mensajes de error generales
+    const [alertMessage, setAlertMessage] = useState('x');
+    const [alertType, setAlertType] = useState('x');
     const navigate = useNavigate();                   // Hook para redirigir al usuario
     const [nombre, setNombre] = useState('');        // Almacena el nombre del usuario
     const [apellido, setApellido] = useState('');    // Almacena el apellido del usuario
     const [showAlert, setShowAlert] = useState(false);
+
     // Función para manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
@@ -24,6 +27,8 @@ function Registrarse() {
         // Validación de contraseñas
         if (password !== confirmPassword) {
             setPasswordError('Las contraseñas no coinciden');
+            setAlertMessage('Las contraseñas deben coincidir')
+            setAlertType('alert')
             setShowAlert(true);
             return; // Detener el envío si hay un error
         }
@@ -56,6 +61,9 @@ function Registrarse() {
             // Manejar errores de conexión o del servidor
             console.error('Error en la solicitud:', error);
             setError('Ocurrió un error en el servidor.');
+            setAlertMessage('Ocurrió un error en el servidor')
+            setAlertType('error')
+            setShowAlert(true);
             return;
         }
     }
@@ -139,11 +147,10 @@ function Registrarse() {
                         />
                     </div>
 
-                    {/* Mostrar mensaje de error si las contraseñas no coinciden */}
                     {showAlert && (
                         <Alert
-                            message='Las contraseñas deben coincidir'
-                            alertType='warning'
+                            message={alertMessage}
+                            alertType={alertType}
                         />
                     )}
 

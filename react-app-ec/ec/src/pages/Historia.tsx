@@ -9,7 +9,9 @@ import fondoDavid from '../images/david.jpg';
 import './Historia.css'
 
 function Historial() {
+    /*const [examenes, setExamenes] = useState(EXAMENES_INICIALES);*/
     const [examenSeleccionado, setExamenSeleccionado] = useState(null);
+    /*const [resoluciones, setResoluciones] = useState([]);*/
     const [resolucionesFiltradas, setResolucionesFiltradas] = useState([]);
     const { examenId } = useParams();
     const [filtro, setFiltro] = useState('');
@@ -142,6 +144,31 @@ function Historial() {
             document.body.style.overflow = 'auto';
         };
     }, []);
+
+    //// Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
+    //const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
+    //    // Indica que la carga ha comenzado
+
+    //    try {
+    //        const response = await fetch(`${endpoint}/api/examenes/profesores/${profesorId}`);
+
+    //        if (response.ok) {
+    //            const data = await response.json(); // Parsear la respuesta JSON
+    //            setExamenes(data); // Actualizar los exámenes en el estado
+    //        } else {
+    //            const errorData = await response.json(); // Parsear la respuesta de error
+    //            console.error('Error al obtener los exámenes:', errorData); // Loguear el error en consola
+    //            setShowAlert(true); // Mostrar un mensaje de error en la UI
+    //        }
+    //    } catch (error) {
+    //        console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
+    //        setShowAlert(true); // Mostrar un mensaje de error en la UI
+    //    } finally {
+    //        setTimeout(() => {
+    //            setLoading(false); // Indicar que la carga ha finalizado
+    //        }, 0);;
+    //    }
+    //};
 
     return (
         <Layout>

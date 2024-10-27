@@ -66,6 +66,8 @@ function PanelExamenes() {
     const [filtroTema, setFiltroTema] = useState(''); // Filtro de búsqueda por tema
     const [showDialog, setShowDialog] = useState({ id: null, visible: false }); // Estado para mostrar u ocultar el diálogo de confirmación
     const [showDesplegable, setShowDesplegable] = useState(null);
+    const [alertMessage, setAlertMessage] = useState('x');
+    const [alertType, setAlertType] = useState('x');
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
     //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
     const [showAlert, setShowAlert] = useState(false);
@@ -83,10 +85,14 @@ function PanelExamenes() {
             } else {
                 const errorData = await response.json(); // Parsear la respuesta de error
                 console.error('Error al obtener los exámenes:', errorData); // Loguear el error en consola
+                setAlertMessage('Error al cargar exámenes')
+                setAlertType('error')
                 setShowAlert(true); // Mostrar un mensaje de error en la UI
             }
         } catch (error) {
             console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
+            setAlertMessage('Error al cargar exámenes')
+            setAlertType('error')
             setShowAlert(true); // Mostrar un mensaje de error en la UI
         } finally {
             setTimeout(() => {
@@ -136,16 +142,6 @@ function PanelExamenes() {
         setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id)
         );
 
-    // Función que copia un texto al portapapeles (como la URL de un examen)
-    const copiarAlPortapapeles = async (dato: string) => {
-        try {
-            await navigator.clipboard.writeText(dato); // Intenta copiar el texto al portapapeles
-            alert('Dato copiado al portapapeles.'); // Muestra un mensaje de confirmación
-        } catch (error) {
-            alert('No se pudo copiar el dato al portapapeles.'); // Muestra un mensaje de error si falla
-        }
-    };
-
     const verHistorial = (id: number) => {
         navigate(`/notas/${id}`);
     };
@@ -171,12 +167,16 @@ function PanelExamenes() {
             } else {
                 const errorData = await response.json(); // Parsear la respuesta de error
                 console.error('Error al actualizar la imagen del examen:', errorData); // Loguear el error en consola
-                setShowAlert(true); // Mostrar un mensaje de error en la UI
+                setAlertMessage('Error al seleccionar imagen')
+                setAlertType('error')
+                setShowAlert(true) // Mostrar un mensaje de error en la UI
                 examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
             }
         } catch (error) {
             console.error('Error de red al actualizar la imagen del examen:', error); // Manejo de errores de red
-            setShowAlert(true); // Mostrar un mensaje de error en la UI
+            setAlertMessage('Error al seleccionar imagen')
+            setAlertType('error')
+            setShowAlert(true) // Mostrar un mensaje de error en la UI
             examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
         } finally {
             setTimeout(() => {
@@ -197,9 +197,18 @@ function PanelExamenes() {
         copiarAlPortapapeles(link); // Llama a la función para copiar el link al portapapeles
     };
 
-    const editarExamen = (examen: ){
-
-    }
+    // Función que copia un texto al portapapeles (como la URL de un examen)
+    const copiarAlPortapapeles = async (dato: string) => {
+        setShowAlert(false);
+        try {
+            await navigator.clipboard.writeText(dato); // Intenta copiar el texto al portapapeles
+            setAlertMessage('Url copiado al portapapeles')
+            setAlertType('info')
+            setShowAlert(true); // Muestra un mensaje de confirmación
+        } catch (error) {
+            alert('No se pudo copiar el dato al portapapeles.'); // Muestra un mensaje de error si falla
+        }
+    };
 
     // Función que cambia el estado de habilitación de un examen (Iniciar o Finalizar)
     const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
@@ -243,8 +252,8 @@ function PanelExamenes() {
                 {/* Mostrar un mensaje de error si ocurre algún problema */}
                 {showAlert && (
                     <Alert
-                        message='Error al cargar examenes'
-                        alertType='error'
+                        message={alertMessage}
+                        alertType={alertType}
                     />
                 )}
                 {/* Animación de transición para la lista de exámenes */}

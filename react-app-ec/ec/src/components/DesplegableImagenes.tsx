@@ -12,9 +12,16 @@ const DesplegableConImagenes = ({ onSelect }) => {
         { nombre: 'David', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/david.jpg' },
         { nombre: 'IA', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/IA%20brain.jpg' },
         { nombre: 'DNA', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/DNA.jpg' },
-        { nombre: 'Math', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/Mates.webp' },
-        
-    ];
+        { nombre: 'DNA2', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/dna2.jpg' },
+        { nombre: 'Algebra', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/algebra.jpg' },
+        { nombre: 'Binary', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/binario.jpg' },
+        { nombre: 'Collage', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/collage.jpg' },
+        { nombre: 'Foco', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/foco.jpg' },
+        { nombre: 'Ingenieria', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/ingenieria.jpg' },
+        { nombre: 'Microscopio', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/microscopio.jpg' },
+        { nombre: 'Mundo', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/mundo.jpg' },
+        { nombre: 'Pizzaron', url: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/refs/heads/main/pizarron.jpg' },
+    ]; 
 
     const manejarSeleccion = (urlImagen) => {
         setImagenSeleccionada(urlImagen);
