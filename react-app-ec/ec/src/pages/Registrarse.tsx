@@ -28,7 +28,7 @@ function Registrarse() {
         if (password !== confirmPassword) {
             setPasswordError('Las contraseñas no coinciden');
             setAlertMessage('Las contraseñas deben coincidir')
-            setAlertType('alert')
+            setAlertType('warning')
             setShowAlert(true);
             return; // Detener el envío si hay un error
         }
@@ -55,6 +55,9 @@ function Registrarse() {
             } else {
                 // Manejar el error en la respuesta
                 setError('Error al registrar, por favor intenta nuevamente.');
+                setAlertMessage('Ocurrió un error en el servidor')
+                setAlertType('error')
+                setShowAlert(true);
                 return;
             }
         } catch (error) {
