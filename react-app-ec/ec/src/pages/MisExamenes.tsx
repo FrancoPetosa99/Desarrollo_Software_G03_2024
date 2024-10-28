@@ -75,11 +75,15 @@ function PanelExamenes() {
 
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     const obtenerExamenes = async (e) => {
-         // Indica que la carga ha comenzado
+        // Indica que la carga ha comenzado
         const endpoint = getBaseUrl()
         try {
-            const response = await fetch(`${endpoint}/api/examenes`);
-
+            const response = await fetch(`${endpoint}/api/examenes`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
             if (response.ok) {
                 const data = await response.json(); // Parsear la respuesta JSON
                 setExamenes(data); // Actualizar los exámenes en el estado
@@ -155,6 +159,7 @@ function PanelExamenes() {
                 method: 'PUT', // Método PUT para actualizar
                 headers: {
                     'Content-Type': 'application/json', // Especificar que el cuerpo será JSON
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
                 },
                 body: JSON.stringify({
                     examen: examen
