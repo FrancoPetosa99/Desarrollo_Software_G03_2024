@@ -3,8 +3,9 @@ import { useState, useEffect, createContext, useContext } from 'react';
 const AuthContext = createContext(); // Crear contexto
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return localStorage.getItem('professorId') !== null;
+    });
     useEffect(() => {
         console.log("isAuthenticated:", isAuthenticated);  // Monitorea cuando se actualiza el estado
     }, [isAuthenticated]);

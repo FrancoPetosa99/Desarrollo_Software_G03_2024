@@ -76,8 +76,8 @@ public class HttpBodyResponse {
             return this;
         }
 
-        public Builder message(String message) {
-            this.message = message;
+        public Builder message(String ...messages) {
+            this.message = String.join(" ", messages);
             return this;
         }
 

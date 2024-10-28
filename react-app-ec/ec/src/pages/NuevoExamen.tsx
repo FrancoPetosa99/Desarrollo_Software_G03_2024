@@ -1,22 +1,28 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
-import Archivo from '../components/CargadorArchivo';
+import CargadorDeArchivos from '../components/CargadorArchivo';
 import './NuevoExamen.css';
+import getBaseUrl from '../utils/getBaseUrl.js';
 function NuevoExamen() {
-    const profesorId = localStorage.getItem('profesorId');
+    const profesorId = localStorage.getItem('professorId');
     const [formulario, setFormulario] = useState({
-        profesorId: profesorId,  
+        profesorId: profesorId,
         titulo: '',
         tema: '',
         tiempoLimite: 0,
         //habilitado: false
         fechaLimite: new Date().toISOString().split('T')[0] // Fecha inicial actual
     });
-    
+
     const maxCaracteres = 600;
     // Preguntas con sus respuestas y respuestasCorrectas
     const [preguntas, setPreguntas] = useState([
-        { enunciado: '', puntaje: 1.0, archivo: null, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }
+        {
+            enunciado: '',
+            puntaje: 1.0,
+            /*archivo: null,*/
+            opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }]
+        }
     ]);
 
     // Función para manejar cambios en los inputs generales (título, tema, etc.)
@@ -34,20 +40,25 @@ function NuevoExamen() {
         if (parseFloat(value) > 1) {
             value = '1.00';
         }
-        e.target.value = value; 
+        e.target.value = value;
     };
 
-    const manejarArchivoAdjunto = (indexPregunta, e) => {
-        const archivo = e.target.files[0];
-        const nuevasPreguntas = [...preguntas];
-        nuevasPreguntas[indexPregunta].archivo = archivo;
-        setPreguntas(nuevasPreguntas);
+    const manejarArchivoAdjunto = (index: number, /*archivo: File*/) => {
+        setPreguntas(prevPreguntas => {
+            const nuevasPreguntas = [...prevPreguntas];
+            nuevasPreguntas[index] = {
+                ...nuevasPreguntas[index],
+                /*archivo: archivo*/
+            };
+            console.log(nuevasPreguntas); // Mueve este console.log antes del return
+            return nuevasPreguntas;
+        });
     };
 
     // Agregar una nueva pregunta asegurando que no haya más de 10 preguntas
     const agregarPregunta = () => {
         if (preguntas.length < 10) {
-            setPreguntas([...preguntas, { enunciado: '', archivo: null, puntaje: 1 , opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
+            setPreguntas([...preguntas, { enunciado: '', /*archivo: null,*/ puntaje: 1, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
         }
     };
 
@@ -133,34 +144,35 @@ function NuevoExamen() {
             const [horas, minutos] = formulario.tiempoLimite.split(':').map(Number);
             const tiempoLimiteEnMinutos = horas * 60 + minutos;
 
-            // Crear un FormData para enviar tanto los datos como los archivos
-            const formData = new FormData();
-            formData.append('profesorId', formulario.profesorId);
-            formData.append('titulo', formulario.titulo);
-            formData.append('tema', formulario.tema);
-            formData.append('fechaLimite', formulario.fechaLimite);
-            formData.append('tiempoLimite', tiempoLimiteEnMinutos);
+            const examenData = {
+                titulo: formulario.titulo,
+                tema: formulario.tema,
+                fechaLimite: formulario.fechaLimite,
+                tiempoLimite: tiempoLimiteEnMinutos,
+                imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
+                preguntas: preguntas.map((pregunta, indexPregunta) => ({
+                    enunciado: pregunta.enunciado,
+                    puntaje: pregunta.puntaje,
+                    opciones: pregunta.opciones.map((opcion, indexOpcion) => ({
+                        respuesta: opcion.respuesta,
+                        correcta: opcion.correcta
+                    }))
+                    // Si hay archivo adjunto en la pregunta, puedes manejarlo de otra manera
+                    // archivo: pregunta.archivo
+                }))
+            };
 
-            // Agregar las preguntas, opciones y archivos al FormData
-            preguntas.forEach((pregunta, indexPregunta) => {
-                formData.append(`preguntas[${indexPregunta}][enunciado]`, pregunta.enunciado);
-                formData.append(`preguntas[${indexPregunta}][puntaje]`, pregunta.puntaje);
+            console.log("Datos del examen antes de enviar:", examenData);
 
-                pregunta.opciones.forEach((opcion, indexOpcion) => {
-                    formData.append(`preguntas[${indexPregunta}][opciones][${indexOpcion}][respuesta]`, opcion.respuesta);
-                    formData.append(`preguntas[${indexPregunta}][opciones][${indexOpcion}][correcta]`, opcion.correcta);
-                });
-
-                // Si hay archivo adjunto en la pregunta, añadirlo al formData
-                if (pregunta.archivo) {
-                    formData.append(`preguntas[${indexPregunta}][archivo]`, pregunta.archivo);
-                }
-            });
             try {
                 // Realizar la solicitud POST con fetch
-                const response = await fetch(endpoint + '/api/examenes', {
+                const response = await fetch(getBaseUrl()+'/api/examenes', {
                     method: 'POST',
-                    body: formData 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    },
+                    body: JSON.stringify(examenData) // Convertir el objeto a JSON
                 });
 
                 if (response.ok) { // Verifica si la respuesta fue exitosa
@@ -176,12 +188,12 @@ function NuevoExamen() {
                 alert("Hubo un error al guardar el examen");
             }
         };
-    }
+    };
 
 
     return (
         <Layout>
-            <h1 className="titulo" >Crea tu Examen</h1> 
+            <h1 className="titulo" >Crea tu Examen</h1>
 
             <div className='form-group'>
                 <div className='mb-1'>
@@ -196,7 +208,7 @@ function NuevoExamen() {
                         maxLength={25}
                         onChange={handleChange}
                         required
-                />
+                    />
                 </div>
                 <div className='mb-1'>
                     <label htmlFor="tema">Tema</label>
@@ -220,9 +232,9 @@ function NuevoExamen() {
                         name="tiempoLimite"
                         value={formulario.tiempoLimite}
                         className='form-control'
-                        min="00:00"  
-                        max="23:59" 
-                        pattern="[0-2][0-3]:[0-5][0-9]"  
+                        min="00:00"
+                        max="23:59"
+                        pattern="[0-2][0-3]:[0-5][0-9]"
                         placeholder="00:00 hs"
                         onChange={handleChange}
                         required
@@ -246,16 +258,23 @@ function NuevoExamen() {
                 <div className='consigna' key={indexPregunta}>
                     <label htmlFor={`pregunta ${indexPregunta}`}>Pregunta {indexPregunta + 1}</label>
                     <div className="pregunta-group">
+                        <div className='pregunta-input-group'>
+                            <textarea
+                                id={`pregunta${indexPregunta}`}
+                                className='pregunta-input'
+                                placeholder="Ingresa tu pregunta"
+                                maxLength={maxCaracteres}
+                                value={pregunta.enunciado}
+                                onChange={(e) => manejarTextoPregunta(indexPregunta, e)}
+                                required>
 
-                        <textarea
-                            id={`pregunta${indexPregunta}`}
-                            className='pregunta-input'
-                            placeholder="Ingresa tu pregunta"
-                            maxLength={maxCaracteres}
-                            value={pregunta.enunciado}
-                            onChange={(e) => manejarTextoPregunta(indexPregunta, e)}
-                            required>
-                        </textarea>
+                            </textarea>
+                            <div className='archivo'>
+                                <CargadorDeArchivos
+                                    onChange={(archivo) => manejarArchivoAdjunto(indexPregunta, archivo)}
+                                />
+                            </div>
+                        </div>
 
                         <div className="pregunta-info">
 
@@ -272,10 +291,10 @@ function NuevoExamen() {
                                     max="1,00"
                                     pattern="[0-1],[0-9][0-9]"
                                     placeholder="0,00"
-                                    style={{ width:"30px"}}
+                                    style={{ width: "30px" }}
                                     onChange={manejarPuntaje}
                                     required
-                                    />
+                                />
                             </div>
                         </div>
                         <div className='boton-eliminar-pregunta'>
@@ -303,16 +322,15 @@ function NuevoExamen() {
 
                     </div>
 
-                    <Archivo></Archivo>
 
                     <p>Respuestas</p>
 
                     {pregunta.opciones.map((opcion, indexOpcion) => (
 
                         <div key={indexOpcion} className={`bloque-respuesta respuesta-${indexOpcion}`}>
-                            
+
                             <div className='contenido-respuesta'>
-            
+
                                 <input
                                     id={`respuesta${indexPregunta}-${indexOpcion}`}
                                     placeholder="Ingresar Respuesta"
@@ -340,7 +358,7 @@ function NuevoExamen() {
                                     </label>
                                     {indexOpcion >= 2 && (
                                         <div className='boton-quitar-respuesta'>
-                                             <svg
+                                            <svg
                                                 className="feather feather-x-circle"
                                                 fill="none"
                                                 height="24"
@@ -353,18 +371,18 @@ function NuevoExamen() {
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 onClick={() => quitarRespuesta(indexPregunta, indexOpcion)} // Función para eliminar pregunta
                                                 style={{ cursor: "pointer" }} // Cambiar el cursor para indicar que es clickeable
-                                             >
+                                            >
                                                 <circle cx="12" cy="12" r="10" />
                                                 <line x1="15" x2="9" y1="9" y2="15" />
                                                 <line x1="9" x2="15" y1="9" y2="15" />
-                                                </svg>
+                                            </svg>
                                         </div>
                                     )}
                                 </div>
                             </div>
                         </div>
                     ))}
-            
+
                     <div className='boton-agregar-respuesta'>
                         {preguntas[indexPregunta].opciones.length < 4 && (
                             <button
@@ -384,42 +402,42 @@ function NuevoExamen() {
             ))}
 
             <div className='boton-fondo'>
-                    {preguntas.length < 10 && (
-                        <button
-                            type="button"
-                            className="boton-agregar-pregunta"
-                            style={{
-                                height: '40px',
-                                padding: '0 20px',
-                                backgroundColor: '#19575F',
-                                color: 'white',
-                                border: '0px',
-                                outline: 'none',
-                                cursor: 'pointer',
-                            }}
-                            onClick={agregarPregunta}
-                        >
-                            Agregar Pregunta
-                        </button>
-                    )}
+                {preguntas.length < 10 && (
                     <button
                         type="button"
-                        className="boton-guardar"
+                        className="boton-agregar-pregunta"
                         style={{
-                            height: '40px', 
+                            height: '40px',
                             padding: '0 20px',
-                            backgroundColor: '#1A525B',
-                            color: 'white', 
-                            border: '0px', 
-                            outline: 'none', 
+                            backgroundColor: '#19575F',
+                            color: 'white',
+                            border: '0px',
+                            outline: 'none',
                             cursor: 'pointer',
                         }}
-                        onClick={guardarExamen}
-                    >Guardar Examen
+                        onClick={agregarPregunta}
+                    >
+                        Agregar Pregunta
                     </button>
+                )}
+                <button
+                    type="button"
+                    className="boton-guardar"
+                    style={{
+                        height: '40px',
+                        padding: '0 20px',
+                        backgroundColor: '#1A525B',
+                        color: 'white',
+                        border: '0px',
+                        outline: 'none',
+                        cursor: 'pointer',
+                    }}
+                    onClick={guardarExamen}
+                >Guardar Examen
+                </button>
             </div>
 
-            
+
         </Layout>
     );
 }

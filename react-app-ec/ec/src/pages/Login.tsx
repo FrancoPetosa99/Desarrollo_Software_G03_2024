@@ -11,6 +11,8 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [alertMessage, setAlertMessage] = useState('x');
+    const [alertType, setAlertType] = useState('x');
     const [showAlert, setShowAlert] = useState(false);
     const navigate = useNavigate();
     const endpoint = getBaseUrl();
@@ -38,15 +40,21 @@ function Login() {
                 const data = await response.json();
                 setIsAuthenticated(true); // Actualiza el estado de autenticación
                 const professorId = data.data;
+                const authToken = data.data;
                 localStorage.setItem('professorId', professorId); // Guarda el ID del profesor
+                localStorage.setItem('authToken', authToken);
                 navigate('/MisExamenes'); // Redirige a Mis Exámenes
             } else {
                 const errorData = await response.json();
+                setAlertMessage('Email o contraseña invalidos')
+                setAlertType('warning')
                 setShowAlert(true); // Muestra un mensaje de error más descriptivo
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
             setError('Ocurrió un error en el servidor.');
+            setAlertMessage('Email o contraseña invalidos')
+            setAlertType('warning')
             setShowAlert(true);// Muestra un error en caso de fallo del servidor
         }
     };
@@ -104,8 +112,8 @@ function Login() {
                     {/* Muestra el mensaje de error si existe */}
                     {showAlert && (
                         <Alert
-                            message='Email o contraseña invalidas'
-                            alertType='warning'
+                            message={alertMessage}
+                            alertType={alertType}
                         />
                     )}
 

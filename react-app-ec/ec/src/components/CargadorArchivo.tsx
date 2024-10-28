@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import './CargadorArchivo.css'; // Archivo CSS para los estilos
 
-function CargadorDeArchivos() {
+function CargadorDeArchivos({ onChange }) {
     const [archivo, setArchivo] = useState(null);
     const [preview, setPreview] = useState(null);
     const [arrastrando, setArrastrando] = useState(false);
 
-    // Función para manejar el archivo seleccionado por input o drop
     const manejarCambioArchivo = (e) => {
-        const archivos = e.target.files || e.dataTransfer.files;
-        if (archivos.length > 0) {
-            const archivoSeleccionado = archivos[0];
-            setArchivo(archivoSeleccionado);
-
-            // Crear una vista previa del archivo si es una imagen
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result); // Guardar la URL de la imagen
-            };
-            reader.readAsDataURL(archivoSeleccionado); // Leer el archivo como Data URL
+        const file = e.target.files[0];
+        if (file) {
+            setArchivo(file); // Almacena el archivo en el estado local
+            setPreview(URL.createObjectURL(file)); // Crear una URL para la vista previa
+            onChange((file)); // Devuelve el archivo al manejador
         }
-    };
+    };;
+
 
     // Funciones para manejar el arrastre
     const manejarArrastrarSobre = (e) => {
@@ -42,10 +36,16 @@ function CargadorDeArchivos() {
         setArrastrando(false);
     };
 
+    const eliminarImagen = () => {
+        setArchivo(null);
+        setPreview(null);
+        onChange(null);
+    };
+
     return (
         <div>
             <label
-                className={`custum-file-upload ${arrastrando ? 'dragging' : ''}`}
+                className={`custum-file-upload ${arrastrando ? 'dragging' : ''} ${preview ? 'with-image' : ''}`}
                 htmlFor="file"
                 onDragOver={manejarArrastrarSobre}
                 onDrop={manejarSoltar}
@@ -54,6 +54,25 @@ function CargadorDeArchivos() {
                 {preview ? (
                     <div className="preview">
                         <img src={preview} alt="Vista previa" />
+                        <div className="eliminar-imagen">
+                            <svg
+                                className="feather feather-x-circle"
+                                fill="none"
+                                height="24"
+                                stroke="#FE6A6B"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                onClick={eliminarImagen}
+                            >
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" x2="9" y1="9" y2="15" />
+                                <line x1="9" x2="15" y1="9" y2="15" />
+                            </svg>
+                        </div>
                     </div>
                 ) : (
                     <>
@@ -67,10 +86,11 @@ function CargadorDeArchivos() {
                         </div>
                     </>
                 )}
-                <input type="file" id="file" accept="image/*" onChange={manejarCambioArchivo} />
+                <input type="file" id="file" name="image/*" onChange={manejarCambioArchivo} />
             </label>
         </div>
     );
+
 }
 
 export default CargadorDeArchivos;

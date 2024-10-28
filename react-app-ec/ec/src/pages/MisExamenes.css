@@ -1,4 +1,4 @@
-.warning{
+﻿.warning{
 
     display: flex;
     justify-self: center;
@@ -84,7 +84,7 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 15px;
+    padding: 0px;
     height: 247px;
     width: 400px;
     border: 1px solid #74989A;
@@ -100,6 +100,7 @@ h1 {
     }
 
 .examen-grupo-info{
+    padding: 15px;
     display: inline flex;
     justify-content: space-between;
 }
@@ -126,22 +127,46 @@ h1 {
         font-weight: 600;
     }
 
-    .boton-eliminar {
-        border: none;
-        background: none;
-        margin-top: -40px;
-        margin-right: -10px;
-        transition: transform 0.3s;
+.examen-grupo-info-botones{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.boton-cambiar-fondo {
+    position: relative;
+    left: 55px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-right: 0px;
+    margin-top: -30px;
+    overflow: hidden;
+    padding: 5px 30px 5px 5px;
+    transition: transform 0.3s;
+}
+    .boton-cambiar-fondo:hover {
+        transform: translateX(-20px);
     }
+
+.boton-eliminar {
+    position: relative;
+    left: 10px;
+    border: none;
+    background: none;
+    margin-left: 30px;
+    transition: transform 0.3s;
+}
 
     .boton-eliminar:hover {
         transform: scale(1.3);
     }
 
-    .examen-grupo-boton{
-        display: flex;
-        justify-content: flex-end;
-    }
+.examen-grupo-boton {
+    padding: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
 
     .examen-grupo-boton button {
         padding: 4px 12px;
@@ -175,9 +200,9 @@ h1 {
             width: 80px;
         }
 
-        .examen button:hover {
-            transform: scale(1.1);
-        }
+.examen-grupo-boton button:hover {
+    transform: scale(1.1);
+}
 
 @media (max-width: 865px) {
 
