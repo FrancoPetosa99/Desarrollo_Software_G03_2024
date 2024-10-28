@@ -64,11 +64,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
     right: 35px;
     bottom: -10px;
-    padding: 0px 0px;
-    max-width: 10px;
     white-space: nowrap;
     font-size: 12px;
     width: 30px;
@@ -127,18 +124,9 @@
         }
 
         .boton-quitar-respuesta {
-            background-color: #FE6A6B;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            transition: transform 0.3s;
         }
 
             .boton-quitar-respuesta:hover {
-                background-color: #FE6A6B;
                 transform: scale(1.1);
             }
 
@@ -159,14 +147,14 @@
             }
 
         .boton-eliminar-pregunta {
-            padding: 0px 0px;
+            padding: 0px 10px;
             border: 0px;
             border-radius: 0px;
             transition: transform 0.3s;
         }
 
             .boton-eliminar-pregunta:hover {
-                transform: scale(1.2);
+                transform: scale(1.1);
             }
 
         .container {

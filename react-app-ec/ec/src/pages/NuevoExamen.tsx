@@ -1,7 +1,7 @@
 ﻿import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../components/Layout';
+import Archivo from '../components/CargadorArchivo';
 import './NuevoExamen.css';
-import getBaseUrl from '../utils/getBaseUrl.js';
 function NuevoExamen() {
     const profesorId = localStorage.getItem('profesorId');
     const [formulario, setFormulario] = useState({
@@ -12,11 +12,11 @@ function NuevoExamen() {
         //habilitado: false
         fechaLimite: new Date().toISOString().split('T')[0] // Fecha inicial actual
     });
-    const endpoint = getBaseUrl();
+    
     const maxCaracteres = 600;
     // Preguntas con sus respuestas y respuestasCorrectas
     const [preguntas, setPreguntas] = useState([
-        { enunciado: '', puntaje: 1.0, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }
+        { enunciado: '', puntaje: 1.0, archivo: null, opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }
     ]);
 
     // Función para manejar cambios en los inputs generales (título, tema, etc.)
@@ -37,10 +37,17 @@ function NuevoExamen() {
         e.target.value = value; 
     };
 
+    const manejarArchivoAdjunto = (indexPregunta, e) => {
+        const archivo = e.target.files[0];
+        const nuevasPreguntas = [...preguntas];
+        nuevasPreguntas[indexPregunta].archivo = archivo;
+        setPreguntas(nuevasPreguntas);
+    };
+
     // Agregar una nueva pregunta asegurando que no haya más de 10 preguntas
     const agregarPregunta = () => {
         if (preguntas.length < 10) {
-            setPreguntas([...preguntas, { enunciado: '', puntaje: 1 , opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
+            setPreguntas([...preguntas, { enunciado: '', archivo: null, puntaje: 1 , opciones: [{ respuesta: '', correcta: true }, { respuesta: '', correcta: false }] }]);
         }
     };
 
@@ -125,29 +132,35 @@ function NuevoExamen() {
         if (todosCompletos) {
             const [horas, minutos] = formulario.tiempoLimite.split(':').map(Number);
             const tiempoLimiteEnMinutos = horas * 60 + minutos;
-            const examenData = {
-                profesorId: formulario.profesorId,
-                titulo: formulario.titulo,
-                tema: formulario.tema,
-                fechaLimite: formulario.fechaLimite,
-                tiempoLimite: tiempoLimiteEnMinutos,
-                preguntas: preguntas.map(pregunta => ({
-                    enunciado: pregunta.enunciado,
-                    puntaje: pregunta.puntaje,
-                    opciones: pregunta.opciones.map(opcion => ({
-                        respuesta: opcion.respuesta,
-                        correcta: opcion.correcta
-                    }))
-                }))
-            };
+
+            // Crear un FormData para enviar tanto los datos como los archivos
+            const formData = new FormData();
+            formData.append('profesorId', formulario.profesorId);
+            formData.append('titulo', formulario.titulo);
+            formData.append('tema', formulario.tema);
+            formData.append('fechaLimite', formulario.fechaLimite);
+            formData.append('tiempoLimite', tiempoLimiteEnMinutos);
+
+            // Agregar las preguntas, opciones y archivos al FormData
+            preguntas.forEach((pregunta, indexPregunta) => {
+                formData.append(`preguntas[${indexPregunta}][enunciado]`, pregunta.enunciado);
+                formData.append(`preguntas[${indexPregunta}][puntaje]`, pregunta.puntaje);
+
+                pregunta.opciones.forEach((opcion, indexOpcion) => {
+                    formData.append(`preguntas[${indexPregunta}][opciones][${indexOpcion}][respuesta]`, opcion.respuesta);
+                    formData.append(`preguntas[${indexPregunta}][opciones][${indexOpcion}][correcta]`, opcion.correcta);
+                });
+
+                // Si hay archivo adjunto en la pregunta, añadirlo al formData
+                if (pregunta.archivo) {
+                    formData.append(`preguntas[${indexPregunta}][archivo]`, pregunta.archivo);
+                }
+            });
             try {
                 // Realizar la solicitud POST con fetch
-                const response = await fetch(endpoint + '/api/examenes' , {
+                const response = await fetch(endpoint + '/api/examenes', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json' // Indica que se enviará JSON
-                    },
-                    body: JSON.stringify(examenData) // Convierte el objeto a un string JSON
+                    body: formData 
                 });
 
                 if (response.ok) { // Verifica si la respuesta fue exitosa
@@ -244,37 +257,53 @@ function NuevoExamen() {
                             required>
                         </textarea>
 
-                        <span className="char-limit">
-                            {pregunta.enunciado.length}/{maxCaracteres}
-                        </span>
+                        <div className="pregunta-info">
 
-                        <span className="puntaje">
-                            <label htmlFor="pregunta-puntaje">Puntaje</label>
-                            <input
-                                type="text"
-                                id="puntaje"
-                                min="0,00"
-                                max="1,00"
-                                pattern="[0-1],[0-9][0-9]"
-                                placeholder="0,00"
-                                style={{ width:"30px"}}
-                                onChange={manejarPuntaje}
-                                required
-                                />
-                        </span>
-                    
+                            <div className="char-limit">
+                                {pregunta.enunciado.length}/{maxCaracteres}
+                            </div>
+
+                            <div className="puntaje">
+                                <label htmlFor="pregunta-puntaje">Puntaje</label>
+                                <input
+                                    type="text"
+                                    id="puntaje"
+                                    min="0,00"
+                                    max="1,00"
+                                    pattern="[0-1],[0-9][0-9]"
+                                    placeholder="0,00"
+                                    style={{ width:"30px"}}
+                                    onChange={manejarPuntaje}
+                                    required
+                                    />
+                            </div>
+                        </div>
                         <div className='boton-eliminar-pregunta'>
                             {indexPregunta > 0 && (
-                            <button
-                                type="button"
-                                style={{border: "black",background: "none"}}
-                                onClick={() => eliminarPregunta(indexPregunta)}  
-                                >⛔
-                                </button>
+                                <svg
+                                    className="feather feather-x-circle"
+                                    fill="none"
+                                    height="24"
+                                    stroke="#FE6A6B"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    viewBox="0 0 24 24"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    onClick={() => eliminarPregunta(indexPregunta)} // Función para eliminar pregunta
+                                    style={{ cursor: "pointer" }} // Cambiar el cursor para indicar que es clickeable
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="15" x2="9" y1="9" y2="15" />
+                                    <line x1="9" x2="15" y1="9" y2="15" />
+                                </svg>
                             )}
                         </div>
-                        
+
                     </div>
+
+                    <Archivo></Archivo>
 
                     <p>Respuestas</p>
 
@@ -310,13 +339,26 @@ function NuevoExamen() {
                                         </svg>
                                     </label>
                                     {indexOpcion >= 2 && (
-                                        <button
-                                            type="button"
-                                            className={`boton-quitar-respuesta boton-quitar-respuesta${indexOpcion}`}
-                                            onClick={() => quitarRespuesta(indexPregunta, indexOpcion)}
-                                        >
-                                        Quitar
-                                        </button>
+                                        <div className='boton-quitar-respuesta'>
+                                             <svg
+                                                className="feather feather-x-circle"
+                                                fill="none"
+                                                height="24"
+                                                stroke="#FE6A6B"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                onClick={() => quitarRespuesta(indexPregunta, indexOpcion)} // Función para eliminar pregunta
+                                                style={{ cursor: "pointer" }} // Cambiar el cursor para indicar que es clickeable
+                                             >
+                                                <circle cx="12" cy="12" r="10" />
+                                                <line x1="15" x2="9" y1="9" y2="15" />
+                                                <line x1="9" x2="15" y1="9" y2="15" />
+                                                </svg>
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -329,7 +371,7 @@ function NuevoExamen() {
                                 type="button"
                                 className="btn"
                                 style={{
-                                    color: 'black',
+                                    color: 'white',
                                     fontSize: '12px',
                                 }}
                                 onClick={() => agregarRespuesta(indexPregunta)}

@@ -1,6 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import getBaseUrl from '../utils/getBaseUrl.js';
 import './Examen.css';
 
 // Componente principal para la resolución del examen

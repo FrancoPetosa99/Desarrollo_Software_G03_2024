@@ -33,6 +33,7 @@ function Registrarse() {
             const endpoint = getBaseUrl();
             const response = await fetch(`${endpoint}/api/profesores`, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
