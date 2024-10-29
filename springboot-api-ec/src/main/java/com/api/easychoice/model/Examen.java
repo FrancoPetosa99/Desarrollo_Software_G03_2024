@@ -33,6 +33,9 @@ public class Examen {
     @Column(name = "tiempoLimite")
     private int tiempoLimite;
 
+    @Column(name = "imagen_fondo")
+    private String imagenFondo;
+
     // un Examen posee un Profesor
     @ManyToOne
     @JoinColumn(name = "profesor_id", nullable = false)
@@ -48,12 +51,13 @@ public class Examen {
     }
 
     // Constructor
-    public Examen(String titulo, String tema, String fechaLimite, int tiempoLimite, Profesor profesor) {
+    public Examen(String titulo, String tema, String fechaLimite, int tiempoLimite, String imagenFondo, Profesor profesor) {
         this(); 
         this.titulo = titulo;
         this.tema = tema;
         this.fechaLimite = fechaLimite;
         this.tiempoLimite = tiempoLimite;
+        this.imagenFondo = imagenFondo;
         this.profesor = profesor;
         this.preguntas = new ArrayList<Pregunta>();
     }
@@ -80,6 +84,10 @@ public class Examen {
 
     public int getTiempoLimite() {
         return tiempoLimite;
+    }
+
+    public String getImagenFondo() {
+        return imagenFondo;
     }
 
     public List<Pregunta> getPreguntas() {

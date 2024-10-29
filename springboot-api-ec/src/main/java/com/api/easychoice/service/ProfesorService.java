@@ -2,7 +2,7 @@ package com.api.easychoice.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.api.easychoice.dto.ProfesorDTO;
 import com.api.easychoice.exception.NotFoundException;
@@ -15,18 +15,21 @@ public class ProfesorService {
     @Autowired
     private ProfesorRepository profesorRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    // @Autowired
+    // private PasswordEncoder passwordEncoder;
 
-    public Profesor crearProfesor(ProfesorDTO profesorDTO) {
+    public Profesor crearProfesor(ProfesorDTO profesorDTO) throws Exception {
 
         //1. validar que los datos sean validos
 
         //2. verificar que el email del profesor no se encuentre duplicado
+        Boolean existProfesorWithSameEmail = profesorRepository.existsByEmail(profesorDTO.getEmail());
+
+        if (existProfesorWithSameEmail) throw new Exception("Email duplicado");
 
         //3. hashear la contraseña para mayor seguridad 
-        String password = profesorDTO.getPassword();
-        profesorDTO.setPassword(passwordEncoder.encode(password));
+        // String password = profesorDTO.getPassword();
+        // profesorDTO.setPassword(passwordEncoder.encode(password));
 
         //4. crear el profesor con sus datos y contraseña hasheada
         Profesor profesor = new Profesor(
