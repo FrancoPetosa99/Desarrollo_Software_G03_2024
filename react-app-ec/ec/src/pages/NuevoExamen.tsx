@@ -3,7 +3,13 @@ import Layout from '../components/Layout';
 import CargadorDeArchivos from '../components/CargadorArchivo';
 import './NuevoExamen.css';
 import getBaseUrl from '../utils/getBaseUrl.js';
+import Alert from '../components/Alerts';
+import { useNavigate } from 'react-router-dom';
 function NuevoExamen() {
+    const navigate = useNavigate();
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
+    const [showAlert, setShowAlert] = useState(false);
     const profesorId = localStorage.getItem('professorId');
     const [formulario, setFormulario] = useState({
         profesorId: profesorId,
@@ -178,7 +184,10 @@ function NuevoExamen() {
                 if (response.ok) { // Verifica si la respuesta fue exitosa
                     const data = await response.json(); // Parsear la respuesta como JSON
                     console.log("Examen guardado correctamente:", data);
-                    alert("Examen guardado correctamente");
+                    setAlertMessage('Examen guardado correctamente')
+                    setAlertType('info')
+                    setShowAlert(true)
+                    navigate('/misExamenes')
                 } else {
                     console.error("Error al guardar el examen:", response.statusText);
                     alert("Hubo un error al guardar el examen");
@@ -436,7 +445,12 @@ function NuevoExamen() {
                 >Guardar Examen
                 </button>
             </div>
-
+            {showAlert && (
+                <Alert
+                    message={alertMessage}
+                    alertType={alertType}
+                />
+            )}
 
         </Layout>
     );

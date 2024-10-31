@@ -1,11 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
-import Warning from '../components/Warning';
 import Alert from '../components/Alerts';
-import fondoGenerico from '../images/fondoGenerico.jpg';
-import fondoGears from '../images/fondoGears.png';
-import fondoDavid from '../images/david.jpg';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import './Historia.css'
 
 function Historial() {
@@ -51,27 +49,16 @@ function Historial() {
 
         { examenId: 2, nombre: "Carlos", apellido: "Gómez", nota: 7.5, tiempo: "60 min", fecha: "2024-10-01" },
         { examenId: 2, nombre: "María", apellido: "Martínez", nota: 9.0, tiempo: "50 min", fecha: "2024-10-03" },
+        { examenId: 2, nombre: "María", apellido: "Martínez", nota: 3.0, tiempo: "50 min", fecha: "2024-10-03" },
 
-        { examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 6.5, tiempo: "40 min", fecha: "2024-10-02" },
+        { examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 1.5, tiempo: "40 min", fecha: "2024-10-02" },
         
     ];
-    const IMAGES = {
-        fondoGenerico,
-        fondoGears,
-        fondoDavid,
-    };
     const EXAMENES_INICIALES = [
-        { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagen: fondoGenerico },
-        { id: 2, titulo: 'Examen de Arte', tema: 'Renacimiento', imagen: fondoDavid },
-        { id: 3, titulo: 'Examen de Fisica', tema: 'Mecanica', imagen: fondoGears },
-        { id: 4, titulo: 'Examen de Literatura', tema: 'Romanticismo', imagen: fondoGenerico },
-        { id: 5, titulo: 'Examen de Geografía', tema: 'Climas', imagen: fondoGenerico },
-        { id: 6, titulo: 'Examen de Filosofía', tema: 'Existencialismo', imagen: fondoGenerico },
-        { id: 7, titulo: 'Examen de Arte', tema: 'Impresionismo', imagen: fondoGenerico },
-        { id: 8, titulo: 'Examen de Biología', tema: 'Evolución', imagen: fondoGenerico },
-        { id: 9, titulo: 'Examen de Química', tema: 'Reacciones', imagen: fondoGenerico },
-        { id: 10, titulo: 'Examen de Economía', tema: 'Microeconomía', imagen: fondoGenerico }
-    ];
+        { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
+        { id: 2, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
+        { id: 3, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
+        ];
 
     
     //useEffect(() => {
@@ -131,7 +118,8 @@ function Historial() {
     const seleccionarExamen = (examenId) => {
         setExamenSeleccionado(examenId); 
         const resolucionesExamen = resoluciones.filter(resolucion => resolucion.examenId === examenId); 
-        setResolucionesFiltradas(resolucionesExamen); 
+        setResolucionesFiltradas(resolucionesExamen)
+        calcularIndicadores(resolucionesFiltradas); 
     };
 
     
@@ -144,6 +132,87 @@ function Historial() {
             document.body.style.overflow = 'auto';
         };
     }, []);
+
+    //indicadores scripts
+
+    const calcularIndicadores = (resolucionesExamen) => {
+        const totalResueltos = resolucionesExamen.length;
+        const aprobados = resolucionesExamen.filter(r => r.nota >= 7).length;
+        const porcentajeAprobacion = totalResueltos ? (aprobados / totalResueltos) * 100 : 0;
+
+        const tiempoTotal = resolucionesExamen.reduce((acc, curr) => acc + parseInt(curr.tiempo), 0);
+        const tiempoPromedio = totalResueltos ? (tiempoTotal / totalResueltos) : 0;
+
+        const porcentajeAciertoPregunta = totalResueltos
+            ? (resolucionesExamen.reduce((acc, curr) => acc + curr.nota, 0) / totalResueltos) * 10
+            : 0;
+
+        return { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta };
+    };
+
+    const { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta } = calcularIndicadores(resolucionesFiltradas);
+    const [animacionAprobacion, setAnimacionAprobacion] = useState(0);
+    const [animacionTiempo, setAnimacionTiempo] = useState(0);
+    const [animacionAcierto, setAnimacionAcierto] = useState(0);
+
+    useEffect(() => {
+        // Animación para el porcentaje de aprobación
+        const animarAprobacion = setInterval(() => {
+            setAnimacionAprobacion((prev) => {
+                if (prev < porcentajeAprobacion) {
+                    return prev + 1;
+                } else {
+                    clearInterval(animarAprobacion);
+                    return porcentajeAprobacion;
+                }
+            });
+        }, 10); // Incrementa cada 10 ms para una animación suave
+
+        // Animación para el tiempo promedio
+        const tiempoObjetivo = (tiempoPromedio / 60) * 100;
+        const animarTiempo = setInterval(() => {
+            setAnimacionTiempo((prev) => {
+                if (prev < tiempoObjetivo) {
+                    return prev + 1;
+                } else {
+                    clearInterval(animarTiempo);
+                    return tiempoObjetivo;
+                }
+            });
+        }, 10);
+
+        // Animación para el porcentaje de acierto
+        const animarAcierto = setInterval(() => {
+            setAnimacionAcierto((prev) => {
+                if (prev < porcentajeAciertoPregunta) {
+                    return prev + 1;
+                } else {
+                    clearInterval(animarAcierto);
+                    return porcentajeAciertoPregunta;
+                }
+            });
+        }, 10);
+
+        // Limpiar los intervalos al desmontar
+        return () => {
+            clearInterval(animarAprobacion);
+            clearInterval(animarTiempo);
+            clearInterval(animarAcierto);
+        };
+    }, [porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta]);
+
+    
+    const getColorByPercentageUp = (percentage) => {
+        if (percentage >= 80) return "#4CCEC4"; // Verde para alto
+        if (percentage >= 50) return "#FED16A"; // Amarillo para medio
+        return "#FE6A6B"; // Rojo para bajo
+    };
+
+    const getColorByPercentageDown = (percentage) => {
+        if (percentage >= 90) return "#FE6A6B"; // Rojo para alto
+        if (percentage >= 50) return "#FED16A"; // Amarillo para medio
+        return "#4CCEC4"; // Verde para bajo
+    };
 
     //// Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     //const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
@@ -170,6 +239,10 @@ function Historial() {
     //    }
     //};
 
+    
+    
+
+
     return (
         <Layout>
             <div className="historia">
@@ -181,7 +254,7 @@ function Historial() {
                         {EXAMENES_INICIALES.map((examen) => (
                             <div key={examen.id} className={`examen-historia-container ${examenSeleccionado === examen.id ? 'seleccionado' : ''}`}
                                 style={{
-                                    backgroundImage: `url(${examen.imagen})`,
+                                    backgroundImage: `url(${examen.imagenFondo})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                 }}
@@ -199,6 +272,48 @@ function Historial() {
                 </div>
                 <div className="historia-container">
                     <h1 className='historia-titulo'>Historial examen</h1>
+                    {examenSeleccionado && (
+                        <div className="indicadores">
+                            <div className="indicador">
+                                <h6>Porcentaje de Aprobación</h6>
+                                <CircularProgressbar
+                                    value={animacionAprobacion}
+                                    text={`${porcentajeAprobacion.toFixed(1)}%`}
+                                    styles={buildStyles({
+                                        textColor: getColorByPercentageUp(animacionAprobacion),
+                                        pathColor: getColorByPercentageUp(animacionAprobacion),
+                                        trailColor: "#d6d6d6"
+                                    })}
+                                />
+                            </div>
+
+                            <div className="indicador">
+                                <h6>Tiempo Promedio de Resolución</h6>
+                                <CircularProgressbar
+                                    value={animacionTiempo} // Normalización para %
+                                    text={`${tiempoPromedio.toFixed(1)} min`}
+                                    styles={buildStyles({
+                                        textColor: getColorByPercentageDown(animacionAprobacion),
+                                        pathColor: getColorByPercentageDown(animacionAprobacion),
+                                        trailColor: "#d6d6d6"
+                                    })}
+                                />
+                            </div>
+
+                            <div className="indicador">
+                                <h6>Porcentaje de Acierto por Pregunta</h6>
+                                <CircularProgressbar
+                                    value={animacionAcierto}
+                                    text={`${porcentajeAciertoPregunta.toFixed(1)}%`}
+                                    styles={buildStyles({
+                                        textColor: getColorByPercentageUp(animacionAprobacion),
+                                        pathColor: getColorByPercentageUp(animacionAprobacion),
+                                        trailColor: "#d6d6d6"
+                                    })}
+                                />
+                            </div>
+                        </div>
+                    )}
                     <div className="historia-filtros">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

@@ -26,37 +26,64 @@ h1 {
 }
 
 .menu {
+    height: 50px;
     display: flex;
     justify-content: space-between;
-    margin: 10px;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    align-items: center;
+    margin-bottom: 40px;
 }
 
-    .filtros {
-        display: flex;
-        justify-content: space-between;
-        width: 50%;
-        margin-bottom: 20px;
+.filtros {
+    height: 100%;
+    flex: 1;
+}
+
+    .filtro-inputIcon {
+        position: relative;
+        left: 25px;
     }
 
         .filtros input {
-            width: 49%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+            width: 200px;
+            height: 40px;
+            background-color: white;
+            border: none;
+            border-bottom: 2px solid rgb(173, 173, 173);
+            border-radius: 30px;
+            color: black;
+            font-size: .8em;
+            font-weight: 500;
+            box-sizing: border-box;
+            padding-left: 35px;
         }
 
-        .filtros input:focus {
-            border-color: #4CCEC4;
-            outline: none;
-        }
+            .filtros input:focus {
+                outline: none;
+                border-bottom: 2px solid #4CCEC4;
+            }
 
-.botonNuevoExamen {
+.historial {
+    margin-left: 20px;
     border: 0px;
     border-radius: 3px;
-    max-height: 50px;
+    width: 100px;
+    height: 40px;
+    background-color: #19575F;
+    font-weight: 600;
+    color: white;
+    transition: transform 0.3s;
+    
+}
+    .historial:hover {
+        transform: scale(1.1);  
+    }
+
+.botonNuevoExamen {
+    position: relative;
+    bottom: 5px;
+    border: 0px;
+    border-radius: 3px;
+    height: 50px;
     width: 150px;
     background-color: #19575F;
     font-weight: 600;
@@ -182,20 +209,16 @@ h1 {
         }
 
         .examen-grupo-boton button:nth-child(2) {
-            background-color: #F88281;
-        }
-
-        .examen-grupo-boton button:nth-child(3) {
             background-color: #4CCEC4;
         }
 
-        .examen-grupo-boton button:nth-child(4).iniciar {
+        .examen-grupo-boton button:nth-child(3).iniciar {
             background-color: #1A525B;
             color: white;
             width: 80px;
         }
 
-        .examen-grupo-boton button:nth-child(4).finalizar {
+        .examen-grupo-boton button:nth-child(3).finalizar {
             background-color: #FE6A6B;
             width: 80px;
         }
@@ -205,20 +228,6 @@ h1 {
 }
 
 @media (max-width: 865px) {
-
-    .filtros {
-        flex-direction: column;
-        margin-top: 20px;
-    }
-
-        .filtros input {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-    
-    .botonNuevoExamen{
-        margin-top: 40px;
-    }
 
     .lista-examenes {
         flex-direction: column;

@@ -4,7 +4,7 @@ const AuthContext = createContext(); // Crear contexto
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
-        return localStorage.getItem('professorId') !== null;
+        return localStorage.getItem('authToken') !== null;
     });
     useEffect(() => {
         console.log("isAuthenticated:", isAuthenticated);  // Monitorea cuando se actualiza el estado

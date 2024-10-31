@@ -28,6 +28,18 @@
     height: 80px;
 }
 
+.indicadores {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.indicador {
+    border: 1px solid #EEF7EE;
+    text-align: center;
+    width: 100px;
+}
+
 .lista-examenes-historia {
     display: flex;
     flex-direction: column; /* Alinea los elementos en una columna */
@@ -96,7 +108,7 @@
 
 .historia-inputField {
     height: 40px;
-    background-color: transparent;
+    background-color: white;
     border: none;
     border-bottom: 2px solid rgb(173, 173, 173);
     border-radius: 30px;

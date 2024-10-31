@@ -18,7 +18,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
+        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 2,
@@ -27,7 +27,7 @@ const EXAMENES_INICIALES = [
         tiempo: '45 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: false,
-        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/david.jpg',
+        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/david.jpg',
     },
     {
         id: 1,
@@ -36,7 +36,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
+        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 3,
@@ -45,7 +45,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: true,
-        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
+        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     {
         id: 4,
@@ -54,7 +54,7 @@ const EXAMENES_INICIALES = [
         tiempo: '30 min',
         fecha: new Date().toISOString().split('T')[0],
         habilitado: false,
-        imagen: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
+        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
     },
     // Más exámenes...
 ];
@@ -62,19 +62,17 @@ const EXAMENES_INICIALES = [
 function PanelExamenes() {
     const [examenes, setExamenes] = useState(EXAMENES_INICIALES); // Estado para almacenar los exámenes
     const [loading, setLoading] = useState(true); // Estado para controlar si los datos están cargando
-    const [error, setError] = useState(''); // Estado para manejar errores
-    const [filtroTitulo, setFiltroTitulo] = useState(''); // Filtro de búsqueda por título
-    const [filtroTema, setFiltroTema] = useState(''); // Filtro de búsqueda por tema
+    const [filtroBusqueda, setFiltroBusqueda] = useState(''); // Filtro de búsqueda por tema
     const [showDialog, setShowDialog] = useState({ id: null, visible: false }); // Estado para mostrar u ocultar el diálogo de confirmación
     const [showDesplegable, setShowDesplegable] = useState(null);
-    const [alertMessage, setAlertMessage] = useState('x');
-    const [alertType, setAlertType] = useState('x');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
     //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
     const [showAlert, setShowAlert] = useState(false);
 
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
-    const obtenerExamenes = async (e) => {
+    const obtenerExamenes = async () => {
         // Indica que la carga ha comenzado
         const endpoint = getBaseUrl()
         try {
@@ -86,7 +84,9 @@ function PanelExamenes() {
             });
             if (response.ok) {
                 const data = await response.json(); // Parsear la respuesta JSON
-                setExamenes(data); // Actualizar los exámenes en el estado
+                console.log('Respuesta completa:', data); // Verifica la estructura completa
+                console.log('Data específica:', data.data); // Accede solo si existe data.data
+                setExamenes(data.data); // Actualizar los exámenes en el estado
             } else {
                 const errorData = await response.json(); // Parsear la respuesta de error
                 console.error('Error al obtener los exámenes:', errorData); // Loguear el error en consola
@@ -108,33 +108,44 @@ function PanelExamenes() {
 
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
-        const id = localStorage.getItem('professorId');
-        obtenerExamenes({ id }); // Llamar a la función para obtener los exámenes
+        obtenerExamenes();
     }, []);
 
     // Funciones para manejar los filtros de búsqueda
 
-    // Actualiza el filtro de búsqueda por título
-    const manejarFiltroTitulo = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTitulo(e.target.value);
-
-    // Actualiza el filtro de búsqueda por tema
-    const manejarFiltroTema = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroTema(e.target.value);
+    // Maneja el cambio en el input de búsqueda
+    const manejarFiltroBusqueda = (e: { target: { value: React.SetStateAction<string>; }; }) => setFiltroBusqueda(e.target.value);
 
     // Filtra los exámenes según el título y el tema ingresados
-    const examenesFiltrados = examenes.filter(
-        (examen) =>
-            examen.titulo.toLowerCase().includes(filtroTitulo.toLowerCase()) &&
-            examen.tema.toLowerCase().includes(filtroTema.toLowerCase())
-    );
+    const examenesFiltrados = Array.isArray(examenes)
+        ? examenes.filter((examen) => {
+            const busqueda = filtroBusqueda.toLowerCase();
+            const titulo = examen.titulo.toLowerCase();
+            const tema = examen.tema.toLowerCase();
 
+            // Divide la búsqueda en palabras
+            const palabras = busqueda.split(" ");
+
+            // Si hay dos palabras, busca cada una en título y tema
+            if (palabras.length > 1) {
+                return (
+                    (titulo.includes(palabras[0]) && tema.includes(palabras[1])) ||
+                    (tema.includes(palabras[0]) && titulo.includes(palabras[1]))
+                );
+            }
+
+            // Si hay una sola palabra, busca en ambos campos
+            return titulo.includes(busqueda) || tema.includes(busqueda);
+        })
+        : [];
     // Función que se ejecuta cuando se presiona el botón para eliminar un examen, muestra el cuadro de diálogo de confirmación
     function handleDeleteClick(id: number) {
         return setShowDialog({ id, visible: true });
     }
 
     // Función que se ejecuta cuando el usuario confirma la eliminación de un examen
-    function handleConfirm(id: number): void {
-        eliminarExamen(id); // Elimina el examen seleccionado
+    function handleConfirm(examen): void {
+        eliminarExamen(examen); // Elimina el examen seleccionado
         setShowDialog({ id: null, visible: false }); // Oculta el cuadro de diálogo
     }
 
@@ -142,16 +153,17 @@ function PanelExamenes() {
     const handleCancel = () => setShowDialog({ id: null, visible: false });
 
     // Función que elimina un examen del estado (usada por `handleConfirm`)
-    const eliminarExamen = (id: number) =>
-        setExamenes((prevExamenes) => prevExamenes.filter((examen) => examen.id !== id)
+    const eliminarExamen = (examenAEliminar) =>
+        setExamenes((prevExamenes) =>
+            prevExamenes.filter((examen) => examen !== examenAEliminar)
         );
 
-    const verHistorial = (id: number) => {
-        navigate(`/notas/${id}`);
+    const verHistorial = () => {
+        navigate(`/notas`);
     };
 
     // Función para manejar la selección de la imagen y actualizar el estado
-    const manejarSeleccionImagen = async (examen, urlImagen: string) => {
+    const manejarSeleccionImagen = async (examen: { id: any; titulo?: string; tema?: string; tiempo?: string; fecha?: string; habilitado?: boolean; imagenFondo: any; imagen?: any; }, urlImagen: string) => {
         examen.imagen = urlImagen
         try {
             // Realizar la petición PUT
@@ -175,14 +187,13 @@ function PanelExamenes() {
                 setAlertMessage('Error al seleccionar imagen')
                 setAlertType('error')
                 setShowAlert(true) // Mostrar un mensaje de error en la UI
-                examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
-            }
+                examen.imagenFondo = urlImagen }
         } catch (error) {
             console.error('Error de red al actualizar la imagen del examen:', error); // Manejo de errores de red
-            setAlertMessage('Error al seleccionar imagen')
-            setAlertType('error')
+            setAlertMessage('Imagen actualizada con exito')
+            setAlertType('info')
             setShowAlert(true) // Mostrar un mensaje de error en la UI
-            examen.imagen = 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg';
+            examen.imagenFondo = urlImagen
         } finally {
             setTimeout(() => {
                 setLoading(false); // Indicar que la carga ha finalizado
@@ -210,8 +221,11 @@ function PanelExamenes() {
             setAlertMessage('Url copiado al portapapeles')
             setAlertType('info')
             setShowAlert(true); // Muestra un mensaje de confirmación
-        } catch (error) {
-            alert('No se pudo copiar el dato al portapapeles.'); // Muestra un mensaje de error si falla
+        }
+        catch (error) {
+            setAlertMessage('No se pudo copiar el url')
+            setAlertType('warning')
+            setShowAlert(true);
         }
     };
 
@@ -235,18 +249,26 @@ function PanelExamenes() {
                 <div className="menu">
                     {/* Filtros de búsqueda por título y tema */}
                     <div className="filtros">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="#2e2e2e"
+                            className="filtro-inputIcon"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
                         <input
                             type="text"
-                            placeholder="Buscar por título"
-                            value={filtroTitulo}
-                            onChange={manejarFiltroTitulo}
+                            placeholder="Buscar"
+                            className="filtro-input"
+                            value={filtroBusqueda}
+                            onChange={manejarFiltroBusqueda}
                         />
-                        <input
-                            type="text"
-                            placeholder="Buscar por tema"
-                            value={filtroTema}
-                            onChange={manejarFiltroTema}
-                        />
+                        <button className='historial' onClick={() => verHistorial()}>
+                            Historial
+                        </button>
                     </div>
                     {/* Botón para crear un nuevo examen */}
                     <button className="botonNuevoExamen" onClick={nuevoExamen}>
@@ -264,11 +286,11 @@ function PanelExamenes() {
                 {/* Animación de transición para la lista de exámenes */}
                 <TransitionGroup className="lista-examenes">
                     {examenesFiltrados.map((examen) => (
-                        <CSSTransition key={examen.id} timeout={300} classNames="examen">
+                        <div key={examen.id} timeout={300} classNames="examen">
                             <div
                                 className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
                                 style={{
-                                    backgroundImage: `url(${examen.imagen})`,
+                                    backgroundImage: `url(${examen.imagenFondo})`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                 }}
@@ -280,7 +302,7 @@ function PanelExamenes() {
                                         message="Esta acción no se puede deshacer"
                                         confirmar="Eliminar"
                                         cancelar="Cancelar"
-                                        onConfirm={() => handleConfirm(examen.id)}
+                                        onConfirm={() => handleConfirm(examen)}
                                         onCancel={handleCancel}
                                     />
                                 )}
@@ -300,7 +322,7 @@ function PanelExamenes() {
                                         </button>
                                         {showDesplegable === examen.id && (
                                             <DesplegableConImagenes
-                                                onSelect={(urlImagen) => manejarSeleccionImagen(examen, urlImagen)}
+                                                onSelect={(urlImagen: string) => manejarSeleccionImagen(examen, urlImagen)}
                                             />
                                             )}
                                     </div>
@@ -309,7 +331,7 @@ function PanelExamenes() {
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
                                 <div className="examen-grupo-boton">
                                     <button onClick={() => editarExamen(examen)}>Editar</button>
-                                    <button onClick={() => verHistorial(examen.id)}>Historial</button>
+                                    
                                     <button onClick={() => copiarLinkExamen(examen.id)}>Copiar Link</button>
                                     <button
                                         className={`examen-boton ${examen.habilitado ? 'finalizar' : 'iniciar'}`}
@@ -319,7 +341,7 @@ function PanelExamenes() {
                                     </button>
                                 </div>
                             </div>
-                        </CSSTransition>
+                        </div>
                     ))}
                 </TransitionGroup>
             </div>

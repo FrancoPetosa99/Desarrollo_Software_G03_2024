@@ -18,7 +18,7 @@ function App() {
             <Route path="/misExamenes" element={<MisExamenes />} />
             <Route path="/nuevoExamen" element={<NuevoExamen />} />
             {/*<Route path="/editar/examen/:examenId" element={<EditarExamen />} />*/}
-            <Route path="/notas/:examenId" element={<Notas />} />
+            <Route path="/notas" element={<Notas />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registrarse" element={<Registrarse />} />
             <Route path="/examen/:examenId" element={<Examen />} />

@@ -27,7 +27,12 @@ function CargadorDeArchivos({ onChange }) {
         e.preventDefault();
         e.stopPropagation();
         setArrastrando(false);
-        manejarCambioArchivo(e);
+        const file = e.dataTransfer.files[0]; // Obtener archivo desde dataTransfer
+        if (file) {
+            setArchivo(file);
+            setPreview(URL.createObjectURL(file));
+            onChange(file);
+        }
     };
 
     const manejarArrastrarSalir = (e) => {
@@ -86,7 +91,7 @@ function CargadorDeArchivos({ onChange }) {
                         </div>
                     </>
                 )}
-                <input type="file" id="file" name="image/*" onChange={manejarCambioArchivo} />
+                <input type="file" id="file" name="image/*" disabled={!!preview} onChange={manejarCambioArchivo} />
             </label>
         </div>
     );
