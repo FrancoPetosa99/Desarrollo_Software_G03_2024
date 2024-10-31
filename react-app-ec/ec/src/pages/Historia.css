@@ -6,38 +6,94 @@
 .sidebar {
     width: 30%;
     max-width: 350px; /* Ajusta seg�n sea necesario */
+    margin-top: 87px;
     background-color: #f8f8f8; /* Color de fondo de la barra lateral */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra del sidebar */
-    height: 100vh; /* Altura completa de la ventana */
+    height: 90vh; /* Altura completa de la ventana */
     overflow-y: auto;
-    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
-    scrollbar-width: none
+    overflow-x: hidden
 }
 
     .sidebar::-webkit-scrollbar {
-        display: none; /* Oculta la barra de desplazamiento */
+         /* Oculta la barra de desplazamiento */
     }
+.sidebar::-webkit-scrollbar {
+    width: 4px;/* Oculta el scrollbar en Webkit (Chrome, Safari) */
+}
 
-/* Contenedor para el t�tulo del sidebar */
-.sidebar-title {
-    position: sticky;
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #4CCEC4; /* Color del thumb al pasar el mouse */
+}
+.sidebar-top {
+    position: absolute;
+    width: 30%;
+    max-width: 350px;
+    margin-top: 67px;
     top: 0; /* Lo mantiene al principio de la lista */
     z-index: 1;
-    padding: 30px;
+    background-color: white;
+    box-shadow: 0px 0px 5px #bdbdbd;
+}
+/* Contenedor para el t�tulo del sidebar */
+.sidebar-title {
+    margin: 5px;
+    margin-top: 0px;
+    margin-right: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
     background-color: inherit;
     height: 80px;
 }
 
 .indicadores {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    height: 250px;
+    gap: 40px;
     margin-bottom: 10px;
 }
 
 .indicador {
-    border: 1px solid #EEF7EE;
+    width: 250px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 1324px) and (min-width: 865px) {
+    .indicadores {
+        
+    }
+}
+.circular-progressbar{
+    padding: 20px;
+}
+
+.indicador-bar {
+    width: 350px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bar{
+    margin-top: 30px;
+    justify-self: center;
+    align-self: center;
 }
 
 .lista-examenes-historia {
@@ -53,32 +109,35 @@
 
 .examen-historia-container {
     width: 85%;
-    height: 170px;
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: 3px 4px 10px #444;
+    height: 172px;
+    border: 1px solid #74989A;
+    border-radius: 6px;
+    box-shadow: 6px 8px 10px #444;
     cursor: pointer;
+    transition: box-shadow 0.5s ease, transform 0.3s ease, opacity 0.3s ease-in-out;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-
-.examen-historia-container.seleccionado {
-    box-shadow: 6px 8px 10px #4CCEC4;
-}
+    .examen-historia-container.seleccionado {
+        box-shadow: 6px 8px 10px #4CCEC4;
+    }
 
 .historia-examen-grupo-info {
     width: 100%;
     height: 100%;
+    padding: 5px;
     margin: 10px;
     text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
-.examen-info h3 {
+.historia-examen-info h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 700;
 }
 
-.examen-info h6 {
+.historia-examen-info h6 {
     margin: 0;
     font-size: 14px;
     font-weight: 600;
@@ -94,12 +153,10 @@
     overflow-y: auto;
 }
 
-
 .historia-titulo {
     font-size: 2em;
     text-align: center;
 }
-
 
 .historia-inputIcon {
     position: relative;
@@ -132,6 +189,7 @@
     }
 
 .historia-lista-container {
+    margin: 5px;
     border-radius: 5px;
     flex: 1;
     overflow-y: auto;

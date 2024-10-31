@@ -3,61 +3,129 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Alert from '../components/Alerts';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 import 'react-circular-progressbar/dist/styles.css';
 import './Historia.css'
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 function Historial() {
     /*const [examenes, setExamenes] = useState(EXAMENES_INICIALES);*/
     const [examenSeleccionado, setExamenSeleccionado] = useState(null);
     /*const [resoluciones, setResoluciones] = useState([]);*/
     const [resolucionesFiltradas, setResolucionesFiltradas] = useState([]);
-    const { examenId } = useParams();
     const [filtro, setFiltro] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'nombre', direction: 'asc' });
 
     const resoluciones = [
-        { examenId: 1, nombre: "Juan", apellido: "Pérez", nota: 9.5, tiempo: "45 min", fecha: "2024-10-01" },
-        { examenId: 1, nombre: "Ana", apellido: "López", nota: 8.0, tiempo: "30 min", fecha: "2024-10-02" },
-        { examenId: 1, nombre: "Luis", apellido: "García", nota: 7.8, tiempo: "55 min", fecha: "2024-10-03" },
-        { examenId: 1, nombre: "Clara", apellido: "Martínez", nota: 9.0, tiempo: "35 min", fecha: "2024-10-04" },
-        { examenId: 1, nombre: "Pedro", apellido: "Sánchez", nota: 6.5, tiempo: "40 min", fecha: "2024-10-05" },
-        { examenId: 1, nombre: "Laura", apellido: "Ramírez", nota: 8.7, tiempo: "50 min", fecha: "2024-10-06" },
-        { examenId: 1, nombre: "Roberto", apellido: "Torres", nota: 7.0, tiempo: "60 min", fecha: "2024-10-07" },
-        { examenId: 1, nombre: "Sofía", apellido: "Díaz", nota: 9.2, tiempo: "45 min", fecha: "2024-10-08" },
-        { examenId: 1, nombre: "Marcos", apellido: "Fernández", nota: 8.5, tiempo: "55 min", fecha: "2024-10-09" },
-        { examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10" },
-        { examenId: 1, nombre: "Natalia", apellido: "Ruiz", nota: 9.3, tiempo: "35 min", fecha: "2024-10-11" },
-        { examenId: 1, nombre: "Andrés", apellido: "Gómez", nota: 7.6, tiempo: "45 min", fecha: "2024-10-12" },
-        { examenId: 1, nombre: "Patricia", apellido: "Herrera", nota: 8.4, tiempo: "50 min", fecha: "2024-10-13" },
-        { examenId: 1, nombre: "Esteban", apellido: "Molina", nota: 6.8, tiempo: "55 min", fecha: "2024-10-14" },
-        { examenId: 1, nombre: "Carla", apellido: "Moreno", nota: 9.0, tiempo: "40 min", fecha: "2024-10-15" },
-        { examenId: 1, nombre: "Adrián", apellido: "Cruz", nota: 7.3, tiempo: "45 min", fecha: "2024-10-16" },
-        { examenId: 1, nombre: "Elena", apellido: "Silva", nota: 8.6, tiempo: "30 min", fecha: "2024-10-17" },
-        { examenId: 1, nombre: "Fernando", apellido: "Castro", nota: 9.4, tiempo: "35 min", fecha: "2024-10-18" },
-        { examenId: 1, nombre: "Paula", apellido: "Rojas", nota: 7.7, tiempo: "60 min", fecha: "2024-10-19" },
-        { examenId: 1, nombre: "Gonzalo", apellido: "Vargas", nota: 8.2, tiempo: "55 min", fecha: "2024-10-20" },
-        { examenId: 1, nombre: "Inés", apellido: "Ortiz", nota: 6.9, tiempo: "45 min", fecha: "2024-10-21" },
-        { examenId: 1, nombre: "Manuel", apellido: "Luna", nota: 8.1, tiempo: "50 min", fecha: "2024-10-22" },
-        { examenId: 1, nombre: "Gabriela", apellido: "Soto", nota: 7.5, tiempo: "60 min", fecha: "2024-10-23" },
-        { examenId: 1, nombre: "Jorge", apellido: "Peña", nota: 8.9, tiempo: "55 min", fecha: "2024-10-24" },
-        { examenId: 1, nombre: "María", apellido: "Romero", nota: 9.1, tiempo: "35 min", fecha: "2024-10-25" },
-        { examenId: 1, nombre: "Lucas", apellido: "Delgado", nota: 6.7, tiempo: "45 min", fecha: "2024-10-26" },
-        { examenId: 1, nombre: "Carmen", apellido: "Flores", nota: 8.3, tiempo: "50 min", fecha: "2024-10-27" },
-        { examenId: 1, nombre: "Diego", apellido: "Medina", nota: 7.2, tiempo: "60 min", fecha: "2024-10-28" },
-        { examenId: 1, nombre: "Alicia", apellido: "Santana", nota: 8.8, tiempo: "40 min", fecha: "2024-10-29" },
-        { examenId: 1, nombre: "Ultimo", apellido: "Ultimo", nota: 9.0, tiempo: "35 min", fecha: "2024-10-30" },
+        {
+            examenId: 1, nombre: "Juan", apellido: "Pérez", nota: 9.5, tiempo: "45 min", fecha: "2024-10-01", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: true }
+            ] },
+        {
+            examenId: 1, nombre: "Ana", apellido: "López", nota: 8.0, tiempo: "30 min", fecha: "2024-10-02", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: true }
+            ] },
+        {
+            examenId: 1, nombre: "Luis", apellido: "García", nota: 7.8, tiempo: "55 min", fecha: "2024-10-03", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: true },
+                { pregunta: 3, correcta: false },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: false }
+            ] },
+        {
+            examenId: 1, nombre: "Clara", apellido: "Martínez", nota: 9.0, tiempo: "35 min", fecha: "2024-10-04", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: true }
+            ] },
+        {
+            examenId: 1, nombre: "Pedro", apellido: "Sánchez", nota: 6.5, tiempo: "40 min", fecha: "2024-10-05", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: true },
+                { pregunta: 3, correcta: false },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: false }
+            ] },
+        {
+            examenId: 1, nombre: "Laura", apellido: "Ramírez", nota: 8.7, tiempo: "50 min", fecha: "2024-10-06", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: true }
+            ] },
+        {
+            examenId: 1, nombre: "Roberto", apellido: "Torres", nota: 7.0, tiempo: "60 min", fecha: "2024-10-07", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: true },
+                { pregunta: 3, correcta: false },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: false }
+            ] },
+        {
+            examenId: 1, nombre: "Sofía", apellido: "Díaz", nota: 9.2, tiempo: "45 min", fecha: "2024-10-08", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: true },
+                { pregunta: 3, correcta: false },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: false }
+            ] },
+       {
+            examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10",
+            respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+                { pregunta: 4, correcta: true },
+                { pregunta: 5, correcta: true }
+            ]        },
+        
 
-        { examenId: 2, nombre: "Carlos", apellido: "Gómez", nota: 7.5, tiempo: "60 min", fecha: "2024-10-01" },
-        { examenId: 2, nombre: "María", apellido: "Martínez", nota: 9.0, tiempo: "50 min", fecha: "2024-10-03" },
-        { examenId: 2, nombre: "María", apellido: "Martínez", nota: 3.0, tiempo: "50 min", fecha: "2024-10-03" },
+        {
+            examenId: 2, nombre: "Carlos", apellido: "Gómez", nota: 6, tiempo: "60 min", fecha: "2024-10-01", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: true },
+            ] },
+        {
+            examenId: 2, nombre: "María", apellido: "Martínez", nota: 3.0, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: false },
+            ] },
+        {
+            examenId: 2, nombre: "María", apellido: "Martínez", nota: 10, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
+                { pregunta: 1, correcta: true },
+                { pregunta: 2, correcta: true },
+                { pregunta: 3, correcta: true },
+            ] },
 
-        { examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 1.5, tiempo: "40 min", fecha: "2024-10-02" },
+        {
+            examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 0, tiempo: "250 min", fecha: "2024-10-02", respuestas: [
+                { pregunta: 1, correcta: false },
+                { pregunta: 2, correcta: false },
+                { pregunta: 3, correcta: false },
+            ]
+        },
         
     ];
     const EXAMENES_INICIALES = [
-        { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
-        { id: 2, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
-        { id: 3, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: null },
+        { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo:60 },
+        { id: 2, titulo: 'Examen de Quimica', tema: 'Moleculas', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 70 },
+        { id: 3, titulo: 'Examen de Fisica', tema: 'Fuerza', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 250 },
+ 
         ];
 
     
@@ -82,11 +150,11 @@ function Historial() {
     //}, [examenId, endpoint]);
 
     
-    const manejarFiltro = (e) => {
+    const manejarFiltro = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setFiltro(e.target.value);
     };
 
-    const ordenarPor = (key) => {
+    const ordenarPor = (key: string) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
             direction = 'desc';
@@ -94,7 +162,7 @@ function Historial() {
         setSortConfig({ key, direction });
     };
 
-    const getIconoOrden = (key) => {
+    const getIconoOrden = (key: string) => {
         if (sortConfig.key === key) {
             return sortConfig.direction === 'asc' ? '↑' : '↓';
         }
@@ -115,7 +183,7 @@ function Historial() {
             return 0;
         });
 
-    const seleccionarExamen = (examenId) => {
+    const seleccionarExamen = (examenId: number | React.SetStateAction<null>) => {
         setExamenSeleccionado(examenId); 
         const resolucionesExamen = resoluciones.filter(resolucion => resolucion.examenId === examenId); 
         setResolucionesFiltradas(resolucionesExamen)
@@ -135,19 +203,37 @@ function Historial() {
 
     //indicadores scripts
 
-    const calcularIndicadores = (resolucionesExamen) => {
+    const calcularIndicadores = (resolucionesExamen: { respuestas?: { correcta: boolean }[]; nota: number; tiempo: string; }[]) => {
         const totalResueltos = resolucionesExamen.length;
-        const aprobados = resolucionesExamen.filter(r => r.nota >= 7).length;
+        const aprobados = resolucionesExamen.filter((r) => r.nota >= 7).length;
         const porcentajeAprobacion = totalResueltos ? (aprobados / totalResueltos) * 100 : 0;
 
         const tiempoTotal = resolucionesExamen.reduce((acc, curr) => acc + parseInt(curr.tiempo), 0);
         const tiempoPromedio = totalResueltos ? (tiempoTotal / totalResueltos) : 0;
 
-        const porcentajeAciertoPregunta = totalResueltos
-            ? (resolucionesExamen.reduce((acc, curr) => acc + curr.nota, 0) / totalResueltos) * 10
-            : 0;
+        const calcularPorcentajesPorPregunta = (resoluciones) => {
+            if (resoluciones.length === 0 || !resoluciones[0].respuestas) return [];
 
-        return { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta };
+            const totalPreguntas = resoluciones[0].respuestas.length;
+            const porcentajesPorPregunta = Array(totalPreguntas).fill(0);
+
+            // Recorremos cada pregunta para calcular su porcentaje de acierto
+            for (let i = 0; i < totalPreguntas; i++) {
+                const aciertos = resoluciones.reduce((acc, curr) => {
+                    if (curr.respuestas && curr.respuestas[i] && curr.respuestas[i].correcta) {
+                        return acc + 1;
+                    }
+                    return acc;
+                }, 0);
+                porcentajesPorPregunta[i] = (aciertos / totalResueltos) * 100; // Cambiar resoluciones.length por totalResueltos
+            }
+
+            return porcentajesPorPregunta;
+        };
+
+        const porcentajeAciertoPregunta = calcularPorcentajesPorPregunta(resolucionesExamen); // Llama a la función para obtener porcentajes
+
+        return { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta }; // Incluye porcentajeAciertoPregunta en el retorno
     };
 
     const { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta } = calcularIndicadores(resolucionesFiltradas);
@@ -166,7 +252,7 @@ function Historial() {
                     return porcentajeAprobacion;
                 }
             });
-        }, 10); // Incrementa cada 10 ms para una animación suave
+        }, 1); // Incrementa cada 10 ms para una animación suave
 
         // Animación para el tiempo promedio
         const tiempoObjetivo = (tiempoPromedio / 60) * 100;
@@ -179,19 +265,22 @@ function Historial() {
                     return tiempoObjetivo;
                 }
             });
-        }, 10);
+        }, 1);
 
         // Animación para el porcentaje de acierto
         const animarAcierto = setInterval(() => {
             setAnimacionAcierto((prev) => {
-                if (prev < porcentajeAciertoPregunta) {
-                    return prev + 1;
+                const target = parseFloat(porcentajeAciertoPregunta); // Asegúrate de que esto sea un número
+                if (prev < target) {
+                    // Incremento más controlado
+                    const increment = (target - prev) / 100; // Divide para que sea más suave
+                    return Math.min(prev + increment, target); // Asegúrate de no sobrepasar el objetivo
                 } else {
                     clearInterval(animarAcierto);
-                    return porcentajeAciertoPregunta;
+                    return target; // Establece el valor final al objetivo
                 }
             });
-        }, 10);
+        }, 1);
 
         // Limpiar los intervalos al desmontar
         return () => {
@@ -202,17 +291,46 @@ function Historial() {
     }, [porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta]);
 
     
-    const getColorByPercentageUp = (percentage) => {
+    const getColorByPercentageUp = (percentage: number) => {
         if (percentage >= 80) return "#4CCEC4"; // Verde para alto
         if (percentage >= 50) return "#FED16A"; // Amarillo para medio
         return "#FE6A6B"; // Rojo para bajo
     };
 
-    const getColorByPercentageDown = (percentage) => {
+    const getColorByPercentageDown = (percentage: number) => {
         if (percentage >= 90) return "#FE6A6B"; // Rojo para alto
         if (percentage >= 50) return "#FED16A"; // Amarillo para medio
         return "#4CCEC4"; // Verde para bajo
     };
+
+    const data = {
+        labels: porcentajeAciertoPregunta.map((_, index) => `Pregunta ${index + 1}`), // Cambia `porcentajeAciertoPorPregunta` a `porcentajeAciertoPregunta`
+        datasets: [
+            {
+                label: 'Porcentaje de Acierto',
+                data: porcentajeAciertoPregunta, // Asegúrate de que esta variable esté definida
+                backgroundColor: porcentajeAciertoPregunta.map(porcentaje => getColorByPercentageUp(porcentaje)),
+            }
+        ]
+    };
+
+    const options = {
+        responsive: true,
+        animation: {
+            duration: 50,
+            easing: 'easeInOut',
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    callback: (value: any) => `${value}%`
+                }
+            }
+        }
+    };
+
 
     //// Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     //const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
@@ -246,10 +364,13 @@ function Historial() {
     return (
         <Layout>
             <div className="historia">
-                <div className="sidebar">
+                <div className="sidebar-top">
                     <div className="sidebar-title">
-                        <h2>Exámenes</h2>
+                        <h3>Historial examen</h3>
                     </div>
+                </div>
+                <div className="sidebar">
+                   
                     <div className="lista-examenes-historia">
                         {EXAMENES_INICIALES.map((examen) => (
                             <div key={examen.id} className={`examen-historia-container ${examenSeleccionado === examen.id ? 'seleccionado' : ''}`}
@@ -271,12 +392,13 @@ function Historial() {
                     </div>
                 </div>
                 <div className="historia-container">
-                    <h1 className='historia-titulo'>Historial examen</h1>
                     {examenSeleccionado && (
                         <div className="indicadores">
+
                             <div className="indicador">
-                                <h6>Porcentaje de Aprobación</h6>
+                                <h6>Promedio de aprobación</h6>
                                 <CircularProgressbar
+                                    className='circular-progressbar'
                                     value={animacionAprobacion}
                                     text={`${porcentajeAprobacion.toFixed(1)}%`}
                                     styles={buildStyles({
@@ -288,30 +410,24 @@ function Historial() {
                             </div>
 
                             <div className="indicador">
-                                <h6>Tiempo Promedio de Resolución</h6>
+                                <h6>Promedio tiempo</h6>
                                 <CircularProgressbar
+                                    className='circular-progressbar'
                                     value={animacionTiempo} // Normalización para %
                                     text={`${tiempoPromedio.toFixed(1)} min`}
                                     styles={buildStyles({
-                                        textColor: getColorByPercentageDown(animacionAprobacion),
-                                        pathColor: getColorByPercentageDown(animacionAprobacion),
+                                        textColor: getColorByPercentageDown(animacionTiempo),
+                                        pathColor: getColorByPercentageDown(animacionTiempo),
                                         trailColor: "#d6d6d6"
                                     })}
                                 />
                             </div>
 
-                            <div className="indicador">
-                                <h6>Porcentaje de Acierto por Pregunta</h6>
-                                <CircularProgressbar
-                                    value={animacionAcierto}
-                                    text={`${porcentajeAciertoPregunta.toFixed(1)}%`}
-                                    styles={buildStyles({
-                                        textColor: getColorByPercentageUp(animacionAprobacion),
-                                        pathColor: getColorByPercentageUp(animacionAprobacion),
-                                        trailColor: "#d6d6d6"
-                                    })}
-                                />
+                            <div className="indicador-bar">
+                                <h6>Acierto por Pregunta</h6>
+                                <Bar className='bar' data={data} options={options} />
                             </div>
+
                         </div>
                     )}
                     <div className="historia-filtros">
@@ -327,7 +443,7 @@ function Historial() {
                         </svg>
                         <input
                             type="text"
-                            placeholder="Buscar"
+                            placeholder="Buscar resolución"
                             className="historia-inputField"
                             value={filtro}
                             onChange={manejarFiltro}

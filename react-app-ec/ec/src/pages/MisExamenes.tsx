@@ -108,7 +108,11 @@ function PanelExamenes() {
 
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
+        document.body.style.overflow = 'hidden';
         obtenerExamenes();
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
     }, []);
 
     // Funciones para manejar los filtros de búsqueda
