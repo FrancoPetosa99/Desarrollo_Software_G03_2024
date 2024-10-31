@@ -14,11 +14,12 @@ public class NuevoExamenDTO extends ExamenDTO {
             String titulo, 
             String tema, 
             String fechaLimite, 
-            int tiempoLimite, 
+            int tiempoLimite,
+            String imagenFondo,
             List<PreguntaDTO> preguntas
         ) {
 
-        super(titulo, tema, fechaLimite, tiempoLimite);
+        super(titulo, tema, fechaLimite, tiempoLimite, imagenFondo);
         this.preguntas = preguntas;
         
     }

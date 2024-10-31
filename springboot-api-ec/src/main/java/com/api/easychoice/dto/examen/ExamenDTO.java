@@ -7,6 +7,7 @@ public class ExamenDTO {
     private String tema;
     private String fechaLimite;
     private int tiempoLimite;
+    private String imagenFondo;
     
     public ExamenDTO() { };
 
@@ -15,13 +16,15 @@ public class ExamenDTO {
             String titulo, 
             String tema, 
             String fechaLimite, 
-            int tiempoLimite
+            int tiempoLimite,
+            String imagenFondo
         ) {
 
         this.titulo = titulo;
         this.tema = tema;
         this.fechaLimite = fechaLimite;
         this.tiempoLimite = tiempoLimite;
+        this.imagenFondo = imagenFondo;
     }
 
     public String getId() {
@@ -44,6 +47,10 @@ public class ExamenDTO {
         return tiempoLimite;
     }
 
+    public String getImagenFondo() {
+        return imagenFondo;
+    }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
@@ -62,6 +69,10 @@ public class ExamenDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setImagenFondo(String imagenFondo) {
+        this.imagenFondo = imagenFondo;
     }
 
 }

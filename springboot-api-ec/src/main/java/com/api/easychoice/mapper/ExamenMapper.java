@@ -23,6 +23,7 @@ public class ExamenMapper {
         dto.setTema(examen.getTema());
         dto.setFechaLimite(examen.getFechaLimite());
         dto.setTiempoLimite(examen.getTiempoLimite());
+        dto.setImagenFondo(examen.getImagenFondo());
         dto.setId(examen.getId());
 
         return dto;
@@ -36,6 +37,7 @@ public class ExamenMapper {
             dto.getTema(),
             dto.getFechaLimite(),
             dto.getTiempoLimite(),
+            dto.getImagenFondo(),
             profesor
         );
 
