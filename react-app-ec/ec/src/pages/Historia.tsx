@@ -194,7 +194,7 @@ function Historial() {
     useEffect(() => {
         // Desactiva el scroll
         document.body.style.overflow = 'hidden';
-
+        window.scrollTo(0, 0);
         // Vuelve a activar el scroll cuando el componente se desmonta
         return () => {
             document.body.style.overflow = 'auto';
@@ -318,7 +318,7 @@ function Historial() {
         responsive: true,
         animation: {
             duration: 50,
-            easing: 'easeInOut',
+            easing: 'easeIn',
         },
         scales: {
             y: {
