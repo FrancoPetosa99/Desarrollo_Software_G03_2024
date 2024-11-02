@@ -10,9 +10,7 @@ function NuevoExamen() {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
     const [showAlert, setShowAlert] = useState(false);
-    const profesorId = localStorage.getItem('professorId');
     const [formulario, setFormulario] = useState({
-        profesorId: profesorId,
         titulo: '',
         tema: '',
         tiempoLimite: 0,
@@ -189,12 +187,14 @@ function NuevoExamen() {
                     setShowAlert(true)
                     navigate('/misExamenes')
                 } else {
-                    console.error("Error al guardar el examen:", response.statusText);
-                    alert("Hubo un error al guardar el examen");
+                    setAlertMessage('Error al guardar examen')
+                    setAlertType('error')
+                    setShowAlert(true)
                 }
             } catch (error) {
-                console.error("Error en la solicitud:", error);
-                alert("Hubo un error al guardar el examen");
+                setAlertMessage('Error al guardar examen')
+                setAlertType('error')
+                setShowAlert(true);
             }
         };
     };

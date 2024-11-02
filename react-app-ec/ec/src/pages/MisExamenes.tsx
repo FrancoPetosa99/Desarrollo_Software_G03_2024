@@ -108,6 +108,7 @@ function PanelExamenes() {
 
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
+        window.scrollTo(0, 0);
         document.body.style.overflow = 'hidden';
         obtenerExamenes();
         return () => {
@@ -164,6 +165,11 @@ function PanelExamenes() {
 
     const verHistorial = () => {
         navigate(`/notas`);
+    };
+
+    const editarExamen = (examenId) => {
+        localStorage.setItem('examenId', examenId);
+        navigate(`/editar/examen`);
     };
 
     // Función para manejar la selección de la imagen y actualizar el estado
@@ -334,7 +340,7 @@ function PanelExamenes() {
 
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
                                 <div className="examen-grupo-boton">
-                                    <button onClick={() => editarExamen(examen)}>Editar</button>
+                                    <button onClick={() => editarExamen(examen.id)}>Editar</button>
                                     
                                     <button onClick={() => copiarLinkExamen(examen.id)}>Copiar Link</button>
                                     <button
