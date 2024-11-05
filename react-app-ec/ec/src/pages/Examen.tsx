@@ -91,7 +91,7 @@ const ResolucionExamen: React.FC = () => {
 
     // Efecto para manejar el temporizador del examen
     useEffect(() => {
-        if (!examenFinalizado && !enRevision) {
+        if (!examenFinalizado) {
             const id = window.setInterval(() => {
                 setTiempo((prev) => prev + 1);
             }, 1000);
@@ -190,20 +190,28 @@ const ResolucionExamen: React.FC = () => {
     if (enRevision) {
         return (
             <div className="review-container">
-                <h2>Revisión de Respuestas</h2>
+                <div className="timer">
+                    {formatearTiempo(tiempo)}
+                </div>
+                <h3>Revisión de Respuestas</h3>
                 <p>Puedes revisar tus respuestas y hacer cambios antes de finalizar el examen.</p>
                 {preguntas.map((pregunta, index) => (
                     <div key={index} className="question-review">
                         <p className="question-text">{pregunta.enunciado}</p>
-                        <p>Tu respuesta: {pregunta.opciones[selectedAnswers[index] || 0]?.respuesta}</p>
-                        <button className="change-answer-button" onClick={() => handleCambiarPregunta(index)}>
-                            Cambiar Respuesta
-                        </button>
+                        <label className='review-respuesta'>
+                            Tu respuesta:
+                            <span>{pregunta.opciones[selectedAnswers[index] || 0]?.respuesta}</span>
+                        </label>
                     </div>
                 ))}
-                <button className="finalize-button" onClick={handleConfirmarFinalizacion}>
-                    Finalizar Examen
-                </button>
+                <div className='review-button'>
+                    <button className="change-answer-button" onClick={() => handleCambiarPregunta(index)}>
+                        Cambiar Respuestas
+                    </button>
+                    <button className="review-finalize-button" onClick={handleConfirmarFinalizacion}>
+                        Finalizar Examen
+                    </button>
+                </div>
             </div>
         );
     }
@@ -215,6 +223,9 @@ const ResolucionExamen: React.FC = () => {
                 {formatearTiempo(tiempo)}
             </div>
             <header className="exam-header">
+                <button className="finalize-button" onClick={handleFinalizarExamen}>
+                    Finalizar
+                </button>
                 <p className="pregunta-numero">Pregunta {currentQuestion + 1}</p>
                 <div className="score-display">Puntaje: {preguntas[currentQuestion]?.puntaje}</div>
                 <p className="question-text">{preguntas[currentQuestion]?.enunciado}</p>
@@ -238,9 +249,11 @@ const ResolucionExamen: React.FC = () => {
             </div>
 
             <div className="pagination">
-                <button className="prev-button" onClick={handlePrev} disabled={currentQuestion === 0}>
-                    ←
-                </button>
+                {currentQuestion !== 0 && (
+                    <button className="move-button" onClick={handlePrev} disabled={currentQuestion === 0}>
+                        <svg fill="#19575F" height="50px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml: space="preserve" stroke="#19575F" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.859,0,0,114.837,0,256c0,141.141,114.859,256,256,256c141.163,0,256-114.859,256-256 C512,114.837,397.163,0,256,0z M403.691,264.149c-1.088,2.603-2.645,4.971-4.608,6.933l-85.333,85.333 c-4.16,4.16-9.621,6.251-15.083,6.251c-5.461,0-10.901-2.091-15.083-6.251c-8.32-8.341-8.32-21.845,0-30.165l48.917-48.917H128 c-11.776,0-21.333-9.557-21.333-21.333c0-11.797,9.557-21.333,21.333-21.333h204.501l-48.917-48.917 c-8.32-8.341-8.32-21.845,0-30.165c8.341-8.341,21.845-8.341,30.165,0l85.333,85.312c1.963,1.963,3.52,4.331,4.608,6.955 C405.845,253.056,405.845,258.923,403.691,264.149z"></path> </g> </g> </g></svg>
+                    </button>
+                )}
                 <div className="navigation-bar">
                     {preguntas.map((_, index) => (
                         <button
@@ -257,13 +270,9 @@ const ResolucionExamen: React.FC = () => {
                         </button>
                     ))}
                 </div>
-                {currentQuestion === preguntas.length - 1 ? (
-                    <button className="finalize-button" onClick={handleFinalizarExamen}>
-                        Finalizar
-                    </button>
-                ) : (
-                    <button className="next-button" onClick={handleNext}>
-                        →
+                {currentQuestion !== preguntas.length - 1 && (
+                    <button className="move-button" onClick={handleNext}>
+                        <svg fill="#19575F" height="50px" width="50px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml: space="preserve" stroke="#19575F"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.859,0,0,114.837,0,256c0,141.141,114.859,256,256,256c141.163,0,256-114.859,256-256 C512,114.837,397.163,0,256,0z M403.691,264.149c-1.088,2.603-2.645,4.971-4.608,6.933l-85.333,85.333 c-4.16,4.16-9.621,6.251-15.083,6.251c-5.461,0-10.901-2.091-15.083-6.251c-8.32-8.341-8.32-21.845,0-30.165l48.917-48.917H128 c-11.776,0-21.333-9.557-21.333-21.333c0-11.797,9.557-21.333,21.333-21.333h204.501l-48.917-48.917 c-8.32-8.341-8.32-21.845,0-30.165c8.341-8.341,21.845-8.341,30.165,0l85.333,85.312c1.963,1.963,3.52,4.331,4.608,6.955 C405.845,253.056,405.845,258.923,403.691,264.149z"></path> </g> </g> </g></svg>
                     </button>
                 )}
             </div>

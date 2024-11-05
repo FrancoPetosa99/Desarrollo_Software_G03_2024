@@ -71,10 +71,11 @@ body {
 	}
 
 .remove-answer-button {
-	width: 170px;
+	width: 135px;
+	font-size: 12px;
 	align-self: flex-end;
 	margin-top: 10px; /* Espacio entre las respuestas y el botón */
-	padding: 10px 20px; /* Espaciado interno */
+	padding: 7px 0px; /* Espaciado interno */
 	background-color: #FE6A6B; /* Color rojo */
 	color: white; /* Texto blanco */
 	border: none; /* Sin borde */
@@ -90,16 +91,21 @@ body {
 	display: flex; 
 	justify-content: space-between; 
 	align-items: center;
-	width: 100%;
+	align-self: center;
+	width: 80%;
 	max-width: 600px;
 	margin-top: auto;
 }
 
 .navigation-bar {
+	position: relative;
 	display: flex; /* Usamos flexbox para centrar los elementos */
 	flex: 1; /* Ocupa el espacio restante entre los botones */
 	justify-content: center; /* Centra la barra de navegación */
+	justify-self: center;
+	align-self: center;
 }
+
 .nav-button {
 	background: none; /* Elimina el fondo del botón */
 	border: none; /* Elimina el borde del botón */
@@ -126,9 +132,15 @@ body {
 	color: #333;
 }
 
-.prev-button,
-.next-button,
+.move-button{
+	border: none;
+	background-color: inherit;
+}
+
 .finalize-button {
+	position: absolute;
+	top: 30px;
+	align-self: flex-end;
 	width: 130px;
 	background-color: #19575F;
 	color: white;
@@ -137,12 +149,13 @@ body {
 	border-radius: 5px;
 	cursor: pointer;
 }
-	.prev-button.disabled,
-	.next-button.disabled {
+
+	.finalize-button:hover {
+		background-color: #FE6A6B;
+	}
+	.move-button.disabled {
 		visibility: hidden; /* Oculta el botón pero mantiene el espacio */
 	}
-
-
 
 .result-container {
 	display: flex;
@@ -217,7 +230,6 @@ body {
 .review-container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
 	padding: 20px;
 	max-width: 600px;
@@ -226,20 +238,52 @@ body {
 }
 
 .change-answer-button {
-	background-color: #6200ee;
+	background-color: #19575F;
 	color: white;
-	padding: 5px 10px;
+	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-top: 10px;
 }
 
 .question-review {
 	margin-bottom: 20px;
 }
 
+.review-respuesta{
+	font-size: 12px;
+	display:flex;
+	flex-direction: column;
+	text-align: left;
+}
+
+	.review-respuesta span {
+		font-size: 14px;
+		padding: 5px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: white;
+	}
+
+	.review-button{
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+	}
+
+.review-finalize-button {
+	width: 170px;
+	background-color: #19575F;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
 .timer {
+	align-self: center;
 	margin-top: 10px;
 	font-size: 1.2rem;
 	color: #19575F;
