@@ -1,6 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { QRCodeSVG } from 'qrcode.react';
 import Layout from '../components/Layout';
 import Warning from '../components/Warning';
 import Alert from '../components/Alerts';
@@ -8,6 +9,7 @@ import wallpaperIcon from '../icons/wallpaper.svg';
 import DesplegableConImagenes from '../components/DesplegableImagenes';
 import getBaseUrl from '../utils/getBaseUrl.js';
 import './MisExamenes.css';
+import QRCode from 'react-qr-code';
 
 // Exámenes iniciales de ejemplo para mostrar en el componente
 const EXAMENES_INICIALES = [
@@ -67,6 +69,8 @@ function PanelExamenes() {
     const [showDesplegable, setShowDesplegable] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
+    const [showQR, setShowQR] = useState(false);
+    const [link, setlink] = useState('')
     const navigate = useNavigate(); // Hook para redirigir a otras páginas
     //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
     const [showAlert, setShowAlert] = useState(false);
@@ -220,6 +224,8 @@ function PanelExamenes() {
     // Función que genera y copia el link del examen al portapapeles
     const copiarLinkExamen = (id: number) => {
         const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
+        setlink(link);
+        setShowQR(true);
         copiarAlPortapapeles(link); // Llama a la función para copiar el link al portapapeles
     };
 
@@ -246,6 +252,16 @@ function PanelExamenes() {
                 examen.id === id ? { ...examen, habilitado: !habilitado } : examen
             )
         );
+    };
+
+    const toggleshowQR = () => {
+        setShowQR(false);
+    };
+
+
+    const handleLinkClick = () => {
+        const formattedLink = link.startsWith('http://') || link.startsWith('https://') ? link : `https://${link}`;
+        window.location.href = formattedLink; // Esto abre la URL en una nueva ventana/tab
     };
 
     // Función para redirigir al usuario a la página de creación de un nuevo examen
@@ -293,10 +309,29 @@ function PanelExamenes() {
                         alertType={alertType}
                     />
                 )}
+
+                {showQR && (
+                    <div className='link'>
+                        <div className='link-container'>
+                            <button className='link-cerrar' onClick={toggleshowQR}>
+                                ❌
+                            </button>
+                            {showQR && (
+                                <div className='link-info'>
+                                    <p>
+                                        Link: <button onClick={handleLinkClick} style={{ color: '#4CCEC4', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}>{link}</button>
+                                    </p>
+                                    <QRCodeSVG value={link} />
+                                </div>
+                                )}
+                        </div>
+                    </div>
+                )}
+
                 {/* Animación de transición para la lista de exámenes */}
                 <TransitionGroup className="lista-examenes">
                     {examenesFiltrados.map((examen) => (
-                        <div key={examen.id} timeout={300} classNames="examen">
+                        <div key={examen.id} className="examen">
                             <div
                                 className={`examen ${examen.habilitado ? 'habilitado' : ''}`}
                                 style={{
@@ -342,7 +377,7 @@ function PanelExamenes() {
                                 <div className="examen-grupo-boton">
                                     <button onClick={() => editarExamen(examen.id)}>Editar</button>
                                     
-                                    <button onClick={() => copiarLinkExamen(examen.id)}>Copiar Link</button>
+                                    <button onClick={() => copiarLinkExamen(examen.id)}>Compartir</button>
                                     <button
                                         className={`examen-boton ${examen.habilitado ? 'finalizar' : 'iniciar'}`}
                                         onClick={() => cambiarEstadoExamen(examen.id, examen.habilitado)}
