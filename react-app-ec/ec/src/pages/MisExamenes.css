@@ -114,7 +114,7 @@ h1 {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 90%;
+    width: 80%;
     height: 50%;
     max-width: 600px;
     padding: 30px;
@@ -125,10 +125,23 @@ h1 {
     justify-content: center;
 }
 
-.link-info{
-    align-content: center;
-    flex: 1;
-    gap: 20px;
+.info-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.info-link a{
+    color: #4CCEC4;
+}
+
+.info-link button{
+    border: none;
+    background: none;
+    margin: 5px;
+    margin-bottom: 30px;
+    cursor: pointer;
 }
 
 .link-cerrar {
@@ -137,6 +150,13 @@ h1 {
     position: absolute;
     top: 15px;
     right: 15px;
+}
+
+.QRCodeSVG{
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
 .lista-examenes {

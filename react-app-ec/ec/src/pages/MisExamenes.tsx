@@ -113,10 +113,11 @@ function PanelExamenes() {
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
         window.scrollTo(0, 0);
-        document.body.style.overflow = 'hidden';
+       /* document.body.style.overflow = 'hidden';*/
         obtenerExamenes();
+        setShowQR(false);
         return () => {
-            document.body.style.overflow = 'auto';
+            /*document.body.style.overflow = 'auto';*/
         };
     }, []);
 
@@ -221,30 +222,6 @@ function PanelExamenes() {
         setShowDesplegable((prev) => (prev === examenId ? null : examenId)); // Alternar el estado de visibilidad del desplegable
     };
 
-    // Función que genera y copia el link del examen al portapapeles
-    const copiarLinkExamen = (id: number) => {
-        const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
-        setlink(link);
-        setShowQR(true);
-        copiarAlPortapapeles(link); // Llama a la función para copiar el link al portapapeles
-    };
-
-    // Función que copia un texto al portapapeles (como la URL de un examen)
-    const copiarAlPortapapeles = async (dato: string) => {
-        setShowAlert(false);
-        try {
-            await navigator.clipboard.writeText(dato); // Intenta copiar el texto al portapapeles
-            setAlertMessage('Url copiado al portapapeles')
-            setAlertType('info')
-            setShowAlert(true); // Muestra un mensaje de confirmación
-        }
-        catch (error) {
-            setAlertMessage('No se pudo copiar el url')
-            setAlertType('warning')
-            setShowAlert(true);
-        }
-    };
-
     // Función que cambia el estado de habilitación de un examen (Iniciar o Finalizar)
     const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
         setExamenes((prevExamenes) =>
@@ -254,10 +231,27 @@ function PanelExamenes() {
         );
     };
 
-    const toggleshowQR = () => {
-        setShowQR(false);
+    const toggleshowQR = (id) => {
+        const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
+        setlink(link);
+        setShowQR(!showQR);
     };
 
+    // Función que genera y copia el link del examen al portapapeles
+    const copiarLinkExamen = async () => {
+        setShowAlert(false);
+        try {
+            await navigator.clipboard.writeText(link); // Intenta copiar el texto al portapapeles
+            setAlertMessage('Url copiado al portapapeles')
+            setAlertType('info')
+            setShowAlert(true); 
+        }
+        catch (error) {
+            setAlertMessage('No se pudo copiar el url')
+            setAlertType('warning')
+            setShowAlert(true);
+        } 
+    };
 
     const handleLinkClick = () => {
         const formattedLink = link.startsWith('http://') || link.startsWith('https://') ? link : `https://${link}`;
@@ -316,14 +310,40 @@ function PanelExamenes() {
                             <button className='link-cerrar' onClick={toggleshowQR}>
                                 ❌
                             </button>
-                            {showQR && (
-                                <div className='link-info'>
-                                    <p>
-                                        Link: <button onClick={handleLinkClick} style={{ color: '#4CCEC4', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer' }}>{link}</button>
-                                    </p>
-                                    <QRCodeSVG value={link} />
+                            <div className='info-link'>
+                                <h4>Link:</h4>
+                                <div>
+                                    <a href={link}>
+                                        {link}
+                                    </a>
+                                    <button
+                                        onClick={copiarLinkExamen}
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                            height="24"
+                                            fill="none"
+                                        >
+                                            <path
+                                                d="M6 11C6 8.17157 6 6.75736 6.87868 5.87868C7.75736 5 9.17157 5 12 5H15C17.8284 5 19.2426 5 20.1213 5.87868C21 6.75736 21 8.17157 21 11V16C21 18.8284 21 20.2426 20.1213 21.1213C19.2426 22 17.8284 22 15 22H12C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V11Z"
+                                                stroke="#19575F"
+                                                strokeWidth="1.5"
+                                            ></path>
+                                            <path
+                                                opacity="0.5"
+                                                d="M6 19C4.34315 19 3 17.6569 3 16V10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H15C16.6569 2 18 3.34315 18 5"
+                                                stroke="#19575F"
+                                                strokeWidth="1.5"
+                                            ></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                )}
+                                <div className='QRCodeSVG'> 
+                                    <QRCodeSVG  value={link} />   
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -377,7 +397,7 @@ function PanelExamenes() {
                                 <div className="examen-grupo-boton">
                                     <button onClick={() => editarExamen(examen.id)}>Editar</button>
                                     
-                                    <button onClick={() => copiarLinkExamen(examen.id)}>Compartir</button>
+                                    <button onClick={() => toggleshowQR(examen.id)}>Compartir</button>
                                     <button
                                         className={`examen-boton ${examen.habilitado ? 'finalizar' : 'iniciar'}`}
                                         onClick={() => cambiarEstadoExamen(examen.id, examen.habilitado)}
