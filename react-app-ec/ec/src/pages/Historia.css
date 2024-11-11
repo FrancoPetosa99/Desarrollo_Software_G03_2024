@@ -56,10 +56,11 @@
     height: 250px;
     gap: 40px;
     margin-bottom: 10px;
+    overflow: auto;
 }
 
 .indicador {
-    width: 250px;
+    max-width: 250px;
     padding: 2rem;
     background-color: #fff;
     border-radius: 10px;
@@ -70,17 +71,36 @@
     align-items: center;
 }
 
-@media (max-width: 1324px) and (min-width: 865px) {
+@media (max-width: 1324px) and (min-width: 465px) {
     .indicadores {
-        
+        gap: 20px;
     }
+
+    .indicador {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+    }
+
+    .circular-progressbar{
+        padding: 0px;
+        position: relative;
+        align-self: flex-end;
+    }
+
+    .indicador-bar{
+        width: 300px;
+        padding: 0px;
+    }
+
 }
+
 .circular-progressbar{
     padding: 20px;
 }
 
 .indicador-bar {
-    width: 350px;
+    max-width: 350px;
     padding: 2rem;
     background-color: #fff;
     border-radius: 10px;
@@ -204,6 +224,7 @@
 .historia-lista {
     width: 100%;
     border-collapse: collapse;
+    white-space: nowrap;
 }
 
 .historia-lista-titulo {
@@ -218,7 +239,14 @@
     .historia-lista-titulo th {
         padding: 10px;
         cursor: pointer;
+        min-width: 150px;
     }
+
+        .historia-lista-titulo th:last-child {
+            user-select: none;
+            pointer-events: none;
+            min-width: 30px;
+        }
 
         .historia-lista-titulo th:hover {
             background-color: #4CCEC4;
@@ -227,6 +255,7 @@
 .historia-lista-notas {
     flex: 1;
     overflow-y: auto;
+    overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -239,7 +268,6 @@
         padding: 10px;
     }
 
-/* Estilo para las notas */
 .nota-alta {
     color: green;
 }
@@ -248,6 +276,107 @@
     color: red;
 }
 
-
 .historia-lista-notas tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+.respuestas-icon {
+    cursor: pointer;
+}
+
+.desplegable-pop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    display: flex;
+    z-index: 1000; /* Para asegurarse de que esté sobre otros elementos */
+}
+
+.desplegable {
+    background-color: #EEF7EE;
+    position: fixed;
+    right: 0;
+    top: 67px;
+    max-width: 500px;
+    width: 70%;
+    height: 100%;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    overflow: visible;
+    padding: 25px;
+    display: flex;
+    animation: slideIn 0.5s ease-out forwards; 
+}
+
+    .desplegable.slideOut {
+        animation: slideOut 0.5s ease-in forwards;
+    }
+
+
+@keyframes slideIn {
+    0% {
+        right: -100%; 
+    }
+
+    100% {
+        right: 0; 
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        right: 0; /* Empieza en la posición visible */
+    }
+
+    100% {
+        right: -100%; /* Se desliza hacia fuera de la pantalla */
+    }
+}
+
+.resolucion-info label{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap:5px;
+    margin-bottom: 20px;
+}
+
+.resolucion-info span{
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    width: 35px;
+    padding: 5px;
+    justify-items: center;
+    text-align: center;
+}
+
+.cerrar-desplegable {
+    border: none;
+    background-color: #EEF7EE;
+    padding: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+    top: 30px;
+    left: -45px;
+}
+
+.respuesta {
+    padding: 5px;
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.correcto {
+    background-color: #4CCEC4;
+}
+
+.incorrecto {
+    background-color: #FE6A6B;
+}

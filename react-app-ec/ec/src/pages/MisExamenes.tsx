@@ -106,14 +106,14 @@ function PanelExamenes() {
         } finally {
             setTimeout(() => {
                 setLoading(false); // Indicar que la carga ha finalizado
-            }, 0);; 
+            }, 0);;
         }
     };
 
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
         window.scrollTo(0, 0);
-       /* document.body.style.overflow = 'hidden';*/
+        /* document.body.style.overflow = 'hidden';*/
         obtenerExamenes();
         setShowQR(false);
         return () => {
@@ -202,7 +202,8 @@ function PanelExamenes() {
                 setAlertMessage('Error al seleccionar imagen')
                 setAlertType('error')
                 setShowAlert(true) // Mostrar un mensaje de error en la UI
-                examen.imagenFondo = urlImagen }
+                examen.imagenFondo = urlImagen
+            }
         } catch (error) {
             console.error('Error de red al actualizar la imagen del examen:', error); // Manejo de errores de red
             setAlertMessage('Imagen actualizada con exito')
@@ -242,15 +243,15 @@ function PanelExamenes() {
         setShowAlert(false);
         try {
             await navigator.clipboard.writeText(link); // Intenta copiar el texto al portapapeles
-            setAlertMessage('Url copiado al portapapeles')
+            setAlertMessage('Link copiado al portapapeles')
             setAlertType('info')
-            setShowAlert(true); 
+            setShowAlert(true);
         }
         catch (error) {
             setAlertMessage('No se pudo copiar el url')
             setAlertType('warning')
             setShowAlert(true);
-        } 
+        }
     };
 
     const handleLinkClick = () => {
@@ -340,8 +341,8 @@ function PanelExamenes() {
                                         </svg>
                                     </button>
                                 </div>
-                                <div className='QRCodeSVG'> 
-                                    <QRCodeSVG  value={link} />   
+                                <div className='QRCodeSVG'>
+                                    <QRCodeSVG value={link} />
                                 </div>
                             </div>
                         </div>
@@ -377,7 +378,7 @@ function PanelExamenes() {
                                         <h3>{examen.titulo}</h3>
                                         <h6>{examen.tema}</h6>
                                     </div>
-                                    <div className='examen-grupo-info-botones'> 
+                                    <div className='examen-grupo-info-botones'>
                                         <button className="boton-eliminar" onClick={() => handleDeleteClick(examen.id)}>
                                             ❌
                                         </button>
@@ -389,14 +390,14 @@ function PanelExamenes() {
                                             <DesplegableConImagenes
                                                 onSelect={(urlImagen: string) => manejarSeleccionImagen(examen, urlImagen)}
                                             />
-                                            )}
+                                        )}
                                     </div>
                                 </div>
 
                                 {/* Botones para editar, copiar link y cambiar el estado del examen */}
                                 <div className="examen-grupo-boton">
                                     <button onClick={() => editarExamen(examen.id)}>Editar</button>
-                                    
+
                                     <button onClick={() => toggleshowQR(examen.id)}>Compartir</button>
                                     <button
                                         className={`examen-boton ${examen.habilitado ? 'finalizar' : 'iniciar'}`}

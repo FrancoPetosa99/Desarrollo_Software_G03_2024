@@ -20,77 +20,94 @@ function Historial() {
     const resoluciones = [
         {
             examenId: 1, nombre: "Juan", apellido: "Pérez", nota: 9.5, tiempo: "45 min", fecha: "2024-10-01", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: true }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-1', correcta: true }
+            ]
+        },
         {
             examenId: 1, nombre: "Ana", apellido: "López", nota: 8.0, tiempo: "30 min", fecha: "2024-10-02", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: true }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: '2', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: '2', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: '2', correcta: true },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: '2', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-2', correcta: true }
+            ]
+        },
         {
             examenId: 1, nombre: "Luis", apellido: "García", nota: 7.8, tiempo: "55 min", fecha: "2024-10-03", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: true },
-                { pregunta: 3, correcta: false },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: false }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-3', correcta: false }
+            ]
+        },
         {
             examenId: 1, nombre: "Clara", apellido: "Martínez", nota: 9.0, tiempo: "35 min", fecha: "2024-10-04", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: true }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+            ]
+        },
         {
             examenId: 1, nombre: "Pedro", apellido: "Sánchez", nota: 6.5, tiempo: "40 min", fecha: "2024-10-05", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: true },
-                { pregunta: 3, correcta: false },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: false }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+            ]
+        },
         {
             examenId: 1, nombre: "Laura", apellido: "Ramírez", nota: 8.7, tiempo: "50 min", fecha: "2024-10-06", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: true }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+            ]
+        },
         {
             examenId: 1, nombre: "Roberto", apellido: "Torres", nota: 7.0, tiempo: "60 min", fecha: "2024-10-07", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: true },
-                { pregunta: 3, correcta: false },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: false }
-            ] },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+            ]
+        },
         {
             examenId: 1, nombre: "Sofía", apellido: "Díaz", nota: 9.2, tiempo: "45 min", fecha: "2024-10-08", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: true },
-                { pregunta: 3, correcta: false },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: false }
-            ] },
-       {
-            examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10",
-            respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-                { pregunta: 4, correcta: true },
-                { pregunta: 5, correcta: true }
-            ]        },
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+            ]
+        },
+        {
+            examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+            ]
+        },
+        {
+            examenId: 1, nombre: "Franco", apellido: "Cores", nota: 4, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
+                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: false },
+                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+            ]
+        },
         
 
         {
@@ -123,7 +140,7 @@ function Historial() {
     ];
     const EXAMENES_INICIALES = [
         { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo:60 },
-        { id: 2, titulo: 'Examen de Quimica', tema: 'Moleculas', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 70 },
+        { id: 2, titulo: 'Examen de Quimica', tema: 'Moleculas', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGears.png', tiempo: 70 },
         { id: 3, titulo: 'Examen de Fisica', tema: 'Fuerza', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 250 },
  
         ];
@@ -189,7 +206,6 @@ function Historial() {
         setResolucionesFiltradas(resolucionesExamen)
         calcularIndicadores(resolucionesFiltradas); 
     };
-
     
     useEffect(() => {
         // Desactiva el scroll
@@ -331,6 +347,22 @@ function Historial() {
         }
     };
 
+    const [mostrarPreguntas, setMostrarPreguntas] = useState(null);
+    const [abrirPreguntas, setAbrirPreguntas] = useState(false);
+    const [respuestas, setRespuestas] = useState([]);
+
+    const togglePreguntas = (resolucionIndex, resolucion) => {
+        if (mostrarPreguntas === resolucionIndex) {
+            setMostrarPreguntas(null);
+            setAbrirPreguntas(false);// Si la misma resolución se vuelve a seleccionar, ocultar las respuestas
+            setRespuestas([]);
+        } else {
+            setAbrirPreguntas(true);
+            setMostrarPreguntas(resolucionIndex);
+            setRespuestas(resolucion.respuestas);
+        }
+    };
+
 
     //// Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     //const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
@@ -410,7 +442,7 @@ function Historial() {
                             </div>
 
                             <div className="indicador">
-                                <h6>Promedio tiempo</h6>
+                                <h6>Promedio de tiempo</h6>
                                 <CircularProgressbar
                                     className='circular-progressbar'
                                     value={animacionTiempo} // Normalización para %
@@ -460,23 +492,57 @@ function Historial() {
                                             <th onClick={() => ordenarPor('nota')}>Nota {getIconoOrden('nota')}</th>
                                             <th onClick={() => ordenarPor('tiempo')}>Tiempo {getIconoOrden('tiempo')}</th>
                                             <th onClick={() => ordenarPor('fecha')}>Fecha {getIconoOrden('fecha')}</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody className='historia-lista-notas'>
                                         {elementosFiltrados.map((resolucion, index) => (
-                                            <tr key={index}>
-                                                <td>{resolucion.nombre}</td>
-                                                <td>{resolucion.apellido}</td>
-                                                <td className={resolucion.nota >= 7 ? 'nota-alta' : 'nota-baja'}>
-                                                    {resolucion.nota}
-                                                </td>
-                                                <td>{resolucion.tiempo}</td>
-                                                <td>{resolucion.fecha}</td>
-                                            </tr>
+                                            <React.Fragment key={index}>
+                                                <tr>
+                                                    <td>{resolucion.nombre}</td>
+                                                    <td>{resolucion.apellido}</td>
+                                                    <td className={resolucion.nota >= 7 ? 'nota-alta' : 'nota-baja'}>
+                                                        {resolucion.nota}
+                                                    </td>
+                                                    <td>{resolucion.tiempo}</td>
+                                                    <td>{resolucion.fecha}</td>
+                                                    <td
+                                                        className={`respuestas-icon ${mostrarPreguntas ? 'icono-activo' : ''}`}
+                                                        onClick={() => togglePreguntas(index, resolucion)}
+                                                    >
+                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M2 5.75C2 5.33579 2.33579 5 2.75 5H20.75C21.1642 5 21.5 5.33579 21.5 5.75C21.5 6.16421 21.1642 6.5 20.75 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75ZM2 9.75C2 9.33579 2.33579 9 2.75 9H20.75C21.1642 9 21.5 9.33579 21.5 9.75C21.5 10.1642 21.1642 10.5 20.75 10.5H2.75C2.33579 10.5 2 10.1642 2 9.75ZM2 13.75C2 13.3358 2.33579 13 2.75 13H9.75C10.1642 13 10.5 13.3358 10.5 13.75C10.5 14.1642 10.1642 14.5 9.75 14.5H2.75C2.33579 14.5 2 14.1642 2 13.75ZM2 17.75C2 17.3358 2.33579 17 2.75 17H9.75C10.1642 17 10.5 17.3358 10.5 17.75C10.5 18.1642 10.1642 18.5 9.75 18.5H2.75C2.33579 18.5 2 18.1642 2 17.75Z" fill="#1C274C"></path> <path d="M20.2113 12.6587C20.5379 12.9134 20.5961 13.3847 20.3414 13.7113L16.4414 18.7113C16.3022 18.8898 16.0899 18.9958 15.8636 18.9999C15.6373 19.004 15.4213 18.9057 15.2757 18.7324L13.1757 16.2324C12.9093 15.9153 12.9505 15.4422 13.2676 15.1758C13.5848 14.9093 14.0579 14.9505 14.3243 15.2676L15.8284 17.0583L19.1586 12.7888C19.4134 12.4622 19.8847 12.4039 20.2113 12.6587Z" fill="#1C274C"></path> </g></svg>
+
+                                                    </td>
+                                                </tr>
+                                                {mostrarPreguntas === index && (
+                                                    <div className="desplegable-pop">
+                                                        <div className={`desplegable ${abrirPreguntas ? '' : 'slideOut'}`}>
+                                                            <div className="resolucion-info">
+                                                                <h5>{resolucion.nombre} {resolucion.apellido}</h5>
+                                                                <label>Nota:
+                                                                    <span className={resolucion.nota >= 7 ? 'nota-alta' : 'nota-baja'}>{resolucion.nota}</span>
+                                                                </label>
+                                                                {respuestas.map((respuesta, respuestaIndex) => (
+                                                                    <div key={respuestaIndex} className="respuesta-item">
+                                                                        <p>{respuesta.pregunta}</p>
+                                                                        <p className={`respuesta ${respuesta.correcta ? 'correcto' : 'incorrecto'}`}>{respuesta.respuesta}</p>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            <button className="cerrar-desplegable" onClick={() => togglePreguntas(index, resolucion)}>
+                                                                <svg fill="#19575F" height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml: space="preserve" stroke="#19575F"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.859,0,0,114.837,0,256c0,141.141,114.859,256,256,256c141.163,0,256-114.859,256-256 C512,114.837,397.163,0,256,0z M403.691,264.149c-1.088,2.603-2.645,4.971-4.608,6.933l-85.333,85.333 c-4.16,4.16-9.621,6.251-15.083,6.251c-5.461,0-10.901-2.091-15.083-6.251c-8.32-8.341-8.32-21.845,0-30.165l48.917-48.917H128 c-11.776,0-21.333-9.557-21.333-21.333c0-11.797,9.557-21.333,21.333-21.333h204.501l-48.917-48.917 c-8.32-8.341-8.32-21.845,0-30.165c8.341-8.341,21.845-8.341,30.165,0l85.333,85.312c1.963,1.963,3.52,4.331,4.608,6.955 C405.845,253.056,405.845,258.923,403.691,264.149z"></path> </g> </g> </g></svg>
+                                                            </button>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                )}
+                                            </React.Fragment>
                                         ))}
                                     </tbody>
+
                                     </table>
                             </div>
+                            
                         </>
                     ) : (
                     <h1 className='historia-titulo'>Selecciona un examen para ver el historial</h1>
