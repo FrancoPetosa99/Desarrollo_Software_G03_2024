@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Alert from '../components/Alerts';
 import './Registrarse.css';
@@ -13,9 +13,8 @@ function Registrarse() {
     const [passwordError, setPasswordError] = useState(''); // Almacena errores de contraseña
     const [showPassword, setShowPassword] = useState(false); // Controla la visibilidad de la contraseña
     const [error, setError] = useState('');          // Almacena mensajes de error generales
-    const [alertMessage, setAlertMessage] = useState('x');
-    const [alertType, setAlertType] = useState('x');
-    const navigate = useNavigate();                   // Hook para redirigir al usuario
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');                  // Hook para redirigir al usuario
     const [nombre, setNombre] = useState('');        // Almacena el nombre del usuario
     const [apellido, setApellido] = useState('');    // Almacena el apellido del usuario
     const [showAlert, setShowAlert] = useState(false);
@@ -51,20 +50,20 @@ function Registrarse() {
 
             if (response.ok) {
                 // Si la respuesta es exitosa, redirigir a la página de exámenes
-                navigate('/misExamenes');
+                setAlertMessage('Registro exitoso')
+                setAlertType('info')
+                setShowAlert(true);
             } else {
                 // Manejar el error en la respuesta
                 setError('Error al registrar, por favor intenta nuevamente.');
-                setAlertMessage('Ocurrió un error en el servidor')
+                setAlertMessage('Error en el registro')
                 setAlertType('error')
                 setShowAlert(true);
                 return;
             }
         } catch (error) {
             // Manejar errores de conexión o del servidor
-            console.error('Error en la solicitud:', error);
-            setError('Ocurrió un error en el servidor.');
-            setAlertMessage('Ocurrió un error en el servidor')
+            setAlertMessage('Error en el registro')
             setAlertType('error')
             setShowAlert(true);
             return;

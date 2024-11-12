@@ -148,7 +148,7 @@ const Footer = () => (
             <div className="footer-bottom">
                 <div className="footer-logo">
                     <img src={logo2} alt="Easy Choice Logo" className="footer-logo-image" />
-                    <span className="footer-logo-text">© 2023 Easy Choice. Todos los derechos reservados.</span>
+                    <span className="footer-logo-text">© 2024 Easy Choice. Todos los derechos reservados.</span>
                 </div>
                 <div className="social-links">
                     <a href="https://twitter.com" className="social-link">

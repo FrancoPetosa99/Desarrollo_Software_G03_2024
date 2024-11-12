@@ -7,8 +7,8 @@ body {
 	background-color: #EEF7EE;
 	display: flex;
 	flex-direction: column;
-	align-items: center;/* Mantiene el contenido en columnas */
-	height: 100vh; /* Usa toda la altura de la ventana */
+	align-items: center;
+	height: 100vh; 
 	padding: 20px;
 	font-family: Arial, sans-serif;
 }
@@ -19,9 +19,14 @@ body {
 	align-items: flex-start;
 	width: 100%;
 	max-width: 600px;
+	user-select: none;
 }
 
+.pregunta-numero {
+	font-weight: bold;
+}
 .question-text {
+	height: 40px;
 	font-size: 1.2rem;
 	margin: 10px 0;
 	text-align: left;
@@ -43,7 +48,7 @@ body {
 }
 
 .answer {
-	background-color: #f0f0f0;
+	background-color: white;
 	padding: 15px;
 	margin: 5px 0;
 	border-radius: 8px;
@@ -61,39 +66,81 @@ body {
 	}
 
 	.answer:hover {
-		background-color: #19575F;
+		background-color: #4CCEC4;
 		color: white;
+	}
+
+.remove-answer-button {
+	width: 135px;
+	font-size: 12px;
+	align-self: flex-end;
+	margin-top: 10px; /* Espacio entre las respuestas y el botón */
+	padding: 7px 0px; /* Espaciado interno */
+	background-color: #FE6A6B; /* Color rojo */
+	color: white; /* Texto blanco */
+	border: none; /* Sin borde */
+	border-radius: 5px; /* Bordes redondeados */
+	cursor: pointer; /* Cursor en forma de mano */
+}
+
+	.remove-answer-button:hover {
+		background-color: #d32f2f; /* Color más oscuro al pasar el mouse */
 	}
 
 .pagination {
 	display: flex; 
 	justify-content: space-between; 
 	align-items: center;
-	width: 100%;
+	align-self: center;
+	width: 80%;
 	max-width: 600px;
 	margin-top: auto;
 }
+
 .navigation-bar {
+	position: relative;
 	display: flex; /* Usamos flexbox para centrar los elementos */
 	flex: 1; /* Ocupa el espacio restante entre los botones */
 	justify-content: center; /* Centra la barra de navegación */
+	justify-self: center;
+	align-self: center;
 }
+
 .nav-button {
 	background: none; /* Elimina el fondo del botón */
 	border: none; /* Elimina el borde del botón */
 	padding: 5px;
 	color: #FED16A; /* Espaciado alrededor del contenido */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 	.nav-button.active {
 		/* Estilos para el botón activo */
-		color: #4CCEC4; /* Color de fondo para el botón activo */
+		color: #FE6A6B; /* Color de fondo para el botón activo */
 		border-radius: 5px; /* Bordes redondeados */
 	}
 
-.prev-button,
-.next-button,
+	.nav-button.selected {
+		color: #19575F;
+	}
+
+.question-number {
+	font-size: 12px;
+	margin-top: 4px;
+	color: #333;
+}
+
+.move-button{
+	border: none;
+	background-color: inherit;
+}
+
 .finalize-button {
+	position: absolute;
+	top: 30px;
+	align-self: flex-end;
 	width: 130px;
 	background-color: #19575F;
 	color: white;
@@ -102,12 +149,13 @@ body {
 	border-radius: 5px;
 	cursor: pointer;
 }
-	.prev-button.disabled,
-	.next-button.disabled {
+
+	.finalize-button:hover {
+		background-color: #FE6A6B;
+	}
+	.move-button.disabled {
 		visibility: hidden; /* Oculta el botón pero mantiene el espacio */
 	}
-
-
 
 .result-container {
 	display: flex;
@@ -151,11 +199,7 @@ body {
 		color: white;
 	}
 
-.question-text {
-	font-size: 1.2rem;
-	margin-bottom: 10px;
-	text-align: center;
-}
+
 
 .restart-button {
 	background-color: #19575F;
@@ -186,7 +230,6 @@ body {
 .review-container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	justify-content: center;
 	padding: 20px;
 	max-width: 600px;
@@ -195,23 +238,56 @@ body {
 }
 
 .change-answer-button {
-	background-color: #6200ee;
+	background-color: #19575F;
 	color: white;
-	padding: 5px 10px;
+	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-top: 10px;
 }
 
 .question-review {
 	margin-bottom: 20px;
 }
 
+.review-respuesta{
+	font-size: 12px;
+	display:flex;
+	flex-direction: column;	
+	text-align: left;
+}
+
+	.review-respuesta span {
+		font-size: 14px;
+		padding: 5px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		background-color: white;
+	}
+
+	.review-button{
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+	}
+
+.review-finalize-button {
+	width: 170px;
+	background-color: #19575F;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
 .timer {
+	align-self: center;
 	margin-top: 10px;
 	font-size: 1.2rem;
 	color: #19575F;
+	user-select: none;
 }
 
 		

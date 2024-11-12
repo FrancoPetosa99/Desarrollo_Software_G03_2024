@@ -3,7 +3,7 @@ import CargadorDeArchivos from '../components/CargadorArchivo';
 import './DesplegableImagenes.css';
 const DesplegableConImagenes = ({ onSelect }) => {
     const [imagenSeleccionada, setImagenSeleccionada] = useState('');
-    const [imagenConfirmada, setImagenConfirmada] = useState(null);
+    const [imagenConfirmada, setImagenConfirmada] = useState('');
     const [visible, setVisible] = useState(true);
     // Las imágenes y sus nombres correspondientes
     const imagenes = [

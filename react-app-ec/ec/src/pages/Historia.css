@@ -6,26 +6,112 @@
 .sidebar {
     width: 30%;
     max-width: 350px; /* Ajusta seg�n sea necesario */
+    margin-top: 87px;
     background-color: #f8f8f8; /* Color de fondo de la barra lateral */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Sombra del sidebar */
-    height: 100vh; /* Altura completa de la ventana */
+    height: 90vh; /* Altura completa de la ventana */
     overflow-y: auto;
-    -ms-overflow-style: none; /* Oculta la barra de desplazamiento en IE y Edge */
-    scrollbar-width: none
+    overflow-x: hidden
 }
 
-    .sidebar::-webkit-scrollbar {
-        display: none; /* Oculta la barra de desplazamiento */
-    }
+.sidebar::-webkit-scrollbar {
+    width: 4px;/* Oculta el scrollbar en Webkit (Chrome, Safari) */
+}
 
-/* Contenedor para el t�tulo del sidebar */
-.sidebar-title {
-    position: sticky;
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Color del thumb */
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #4CCEC4; /* Color del thumb al pasar el mouse */
+}
+.sidebar-top {
+    position: absolute;
+    width: 30%;
+    max-width: 350px;
+    margin-top: 67px;
     top: 0; /* Lo mantiene al principio de la lista */
     z-index: 1;
-    padding: 30px;
+    background-color: white;
+    box-shadow: 0px 0px 5px #bdbdbd;
+}
+/* Contenedor para el t�tulo del sidebar */
+.sidebar-title {
+    margin: 5px;
+    margin-top: 0px;
+    margin-right: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
     background-color: inherit;
     height: 80px;
+}
+
+.indicadores {
+    display: flex;
+    justify-content: center;
+    height: 250px;
+    gap: 40px;
+    margin-bottom: 10px;
+    overflow: visible;
+}
+
+.indicador {
+    max-width: 250px;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    overflow: visible;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 1324px) and (min-width: 465px) {
+    .indicadores {
+        gap: 20px;
+    }
+
+    .indicador {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+    }
+
+    .circular-progressbar{
+        padding: 0px;
+        position: relative;
+        align-self: flex-end;
+    }
+
+    .indicador-bar{
+        width: 300px;
+        padding: 0px;
+    }
+
+}
+
+.circular-progressbar{
+    padding: 20px;
+}
+
+.indicador-bar {
+    max-width: 350px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bar{
+    margin-top: 30px;
+    justify-self: center;
+    align-self: center;
 }
 
 .lista-examenes-historia {
@@ -41,32 +127,35 @@
 
 .examen-historia-container {
     width: 85%;
-    height: 170px;
-    border: 1px solid black;
-    border-radius: 5px;
-    box-shadow: 3px 4px 10px #444;
+    height: 172px;
+    border: 1px solid #74989A;
+    border-radius: 6px;
+    box-shadow: 6px 8px 10px #444;
     cursor: pointer;
+    transition: box-shadow 0.5s ease, transform 0.3s ease, opacity 0.3s ease-in-out;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
-
-.examen-historia-container.seleccionado {
-    box-shadow: 6px 8px 10px #4CCEC4;
-}
+    .examen-historia-container.seleccionado {
+        box-shadow: 6px 8px 10px #4CCEC4;
+    }
 
 .historia-examen-grupo-info {
     width: 100%;
     height: 100%;
+    padding: 5px;
     margin: 10px;
     text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 
-.examen-info h3 {
+.historia-examen-info h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 700;
 }
 
-.examen-info h6 {
+.historia-examen-info h6 {
     margin: 0;
     font-size: 14px;
     font-weight: 600;
@@ -82,12 +171,10 @@
     overflow-y: auto;
 }
 
-
 .historia-titulo {
     font-size: 2em;
     text-align: center;
 }
-
 
 .historia-inputIcon {
     position: relative;
@@ -96,7 +183,7 @@
 
 .historia-inputField {
     height: 40px;
-    background-color: transparent;
+    background-color: white;
     border: none;
     border-bottom: 2px solid rgb(173, 173, 173);
     border-radius: 30px;
@@ -120,6 +207,7 @@
     }
 
 .historia-lista-container {
+    margin: 5px;
     border-radius: 5px;
     flex: 1;
     overflow-y: auto;
@@ -134,6 +222,7 @@
 .historia-lista {
     width: 100%;
     border-collapse: collapse;
+    white-space: nowrap;
 }
 
 .historia-lista-titulo {
@@ -148,7 +237,14 @@
     .historia-lista-titulo th {
         padding: 10px;
         cursor: pointer;
+        min-width: 150px;
     }
+
+        .historia-lista-titulo th:last-child {
+            user-select: none;
+            pointer-events: none;
+            min-width: 30px;
+        }
 
         .historia-lista-titulo th:hover {
             background-color: #4CCEC4;
@@ -157,6 +253,7 @@
 .historia-lista-notas {
     flex: 1;
     overflow-y: auto;
+    overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -169,7 +266,6 @@
         padding: 10px;
     }
 
-/* Estilo para las notas */
 .nota-alta {
     color: green;
 }
@@ -178,6 +274,133 @@
     color: red;
 }
 
-
 .historia-lista-notas tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+.respuestas-icon {
+    cursor: pointer;
+}
+
+.desplegable-pop {
+    position: fixed;
+    top: 66px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    z-index: 1000;
+    animation: slideOut 0s ease-in-out forwards;
+}
+
+.desplegable {
+    background-color: #EEF7EE;
+    position: fixed;
+    right: 0;
+    top: 66px;
+    max-width: 450px;
+    width: 70%;
+    height: 100%;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    overflow: visible;
+    padding: 25px;
+    display: flex;
+    animation: slideIn 0.5s ease-in-out forwards; 
+}
+
+    .desplegable.slideOut {
+        animation: slideOut 0.5s ease-in-out forwards;
+    }
+
+
+@keyframes slideIn {
+    0% {
+        right: -100%; 
+    }
+
+    100% {
+        right: 0; 
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        right: 0; /* Empieza en la posición visible */
+    }
+
+    100% {
+        right: -100%; /* Se desliza hacia fuera de la pantalla */
+    }
+}
+
+.resolucion-info label{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    gap:5px;
+    margin-bottom: 20px;
+}
+
+.resolucion-info span {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    width: 35px;
+    padding: 5px;
+    font-weight: 500;
+    justify-items: center;
+    text-align: center;
+}
+
+.resolucion-info span.nota-alta{
+    border:3px solid #4CCEC4;
+}
+
+    .resolucion-info span.nota-baja {
+        border: 3px solid #FE6A6B;
+    }
+
+.cerrar-desplegable {
+    border: none;
+    background-color: #EEF7EE;
+    position: absolute;
+    justify-self: center;
+    align-self: center;
+    width: 30px;
+    height: 100vh;
+    left: -15px;
+    align-content: center;
+}
+.cerrar-desplegable-boton {
+    border: none;
+    background-color: #EEF7EE;
+    position: absolute;
+    left: 2px;
+    top: 45%;
+    justify-self: center;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.5s ease;
+}
+
+    .cerrar-desplegable button:hover {
+        transform: scaleX(-1);
+    }
+
+
+.respuesta {
+    padding: 5px;
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.correcto {
+    background-color: #4CCEC4;
+}
+
+.incorrecto {
+    background-color: #FE6A6B;
+}
