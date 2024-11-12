@@ -14,9 +14,6 @@
     overflow-x: hidden
 }
 
-    .sidebar::-webkit-scrollbar {
-         /* Oculta la barra de desplazamiento */
-    }
 .sidebar::-webkit-scrollbar {
     width: 4px;/* Oculta el scrollbar en Webkit (Chrome, Safari) */
 }
@@ -56,17 +53,18 @@
     height: 250px;
     gap: 40px;
     margin-bottom: 10px;
-    overflow: auto;
+    overflow: visible;
 }
 
 .indicador {
     max-width: 250px;
-    padding: 2rem;
+    padding: 25px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
+    overflow: visible;
     flex-direction: column;
     align-items: center;
 }
@@ -286,21 +284,22 @@
 
 .desplegable-pop {
     position: fixed;
-    top: 0;
+    top: 66px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    z-index: 1000; /* Para asegurarse de que esté sobre otros elementos */
+    z-index: 1000;
+    animation: slideOut 0s ease-in-out forwards;
 }
 
 .desplegable {
     background-color: #EEF7EE;
     position: fixed;
     right: 0;
-    top: 67px;
-    max-width: 500px;
+    top: 66px;
+    max-width: 450px;
     width: 70%;
     height: 100%;
     transition: right 0.3s ease;
@@ -308,11 +307,11 @@
     overflow: visible;
     padding: 25px;
     display: flex;
-    animation: slideIn 0.5s ease-out forwards; 
+    animation: slideIn 0.5s ease-in-out forwards; 
 }
 
     .desplegable.slideOut {
-        animation: slideOut 0.5s ease-in forwards;
+        animation: slideOut 0.5s ease-in-out forwards;
     }
 
 
@@ -344,28 +343,53 @@
     margin-bottom: 20px;
 }
 
-.resolucion-info span{
+.resolucion-info span {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 50px;
     width: 35px;
     padding: 5px;
+    font-weight: 500;
     justify-items: center;
     text-align: center;
 }
 
+.resolucion-info span.nota-alta{
+    border:3px solid #4CCEC4;
+}
+
+    .resolucion-info span.nota-baja {
+        border: 3px solid #FE6A6B;
+    }
+
 .cerrar-desplegable {
     border: none;
     background-color: #EEF7EE;
-    padding: 10px;
-    border-top-left-radius: 25px;
-    border-bottom-left-radius: 25px;
     position: absolute;
     justify-self: center;
     align-self: center;
-    top: 30px;
-    left: -45px;
+    width: 30px;
+    height: 100vh;
+    left: -15px;
+    align-content: center;
 }
+.cerrar-desplegable-boton {
+    border: none;
+    background-color: #EEF7EE;
+    position: absolute;
+    left: 2px;
+    top: 45%;
+    justify-self: center;
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    transition: transform 0.5s ease;
+}
+
+    .cerrar-desplegable button:hover {
+        transform: scaleX(-1);
+    }
+
 
 .respuesta {
     padding: 5px;

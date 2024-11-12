@@ -350,11 +350,12 @@ function Historial() {
     const [mostrarPreguntas, setMostrarPreguntas] = useState(null);
     const [abrirPreguntas, setAbrirPreguntas] = useState(false);
     const [respuestas, setRespuestas] = useState([]);
-
-    const togglePreguntas = (resolucionIndex, resolucion) => {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const togglePreguntas = async (resolucionIndex, resolucion) => {
         if (mostrarPreguntas === resolucionIndex) {
+            setAbrirPreguntas(false);
+            await sleep(400);
             setMostrarPreguntas(null);
-            setAbrirPreguntas(false);// Si la misma resolución se vuelve a seleccionar, ocultar las respuestas
             setRespuestas([]);
         } else {
             setAbrirPreguntas(true);
@@ -529,9 +530,27 @@ function Historial() {
                                                                     </div>
                                                                 ))}
                                                             </div>
-                                                            <button className="cerrar-desplegable" onClick={() => togglePreguntas(index, resolucion)}>
-                                                                <svg fill="#19575F" height="40px" width="40px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml: space="preserve" stroke="#19575F"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M256,0C114.859,0,0,114.837,0,256c0,141.141,114.859,256,256,256c141.163,0,256-114.859,256-256 C512,114.837,397.163,0,256,0z M403.691,264.149c-1.088,2.603-2.645,4.971-4.608,6.933l-85.333,85.333 c-4.16,4.16-9.621,6.251-15.083,6.251c-5.461,0-10.901-2.091-15.083-6.251c-8.32-8.341-8.32-21.845,0-30.165l48.917-48.917H128 c-11.776,0-21.333-9.557-21.333-21.333c0-11.797,9.557-21.333,21.333-21.333h204.501l-48.917-48.917 c-8.32-8.341-8.32-21.845,0-30.165c8.341-8.341,21.845-8.341,30.165,0l85.333,85.312c1.963,1.963,3.52,4.331,4.608,6.955 C405.845,253.056,405.845,258.923,403.691,264.149z"></path> </g> </g> </g></svg>
-                                                            </button>
+                                                            <div className="cerrar-desplegable" >
+                                                                <button className="cerrar-desplegable-boton"
+                                                                    onClick={() => togglePreguntas(index, resolucion)}>
+                                                                <svg
+                                                                    fill="#19575F"
+                                                                    version="1.1"
+                                                                    viewBox="0 0 20 26"
+                                                                    stroke="#19575F"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <g strokeWidth="0"></g>
+                                                                    <g strokeLinecap="round" strokeLinejoin="round"></g>
+                                                                    <g>
+                                                                        <style type="text/css"> {`.st0 { fill: none; }`} </style>
+                                                                        <path d="M15,6l-7,6l7,6V6z"></path>
+                                                                        </g>
+                                                                </svg>
+                                                                </button>
+
+
+                                                            </div>
                                                         </div>
                                                         
                                                     </div>
