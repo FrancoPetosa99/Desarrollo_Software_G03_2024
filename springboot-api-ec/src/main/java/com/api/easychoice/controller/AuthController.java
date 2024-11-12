@@ -12,7 +12,6 @@ import com.api.easychoice.service.AuthService;
 import com.api.easychoice.service.ProfesorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
