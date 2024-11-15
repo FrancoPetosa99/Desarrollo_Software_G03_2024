@@ -91,42 +91,67 @@ const ResolucionExamen: React.FC = () => {
     const minutos = Math.floor(tiempoRestante / 60);
     const segundos = tiempoRestante % 60;
 
+    const handleForm = async (e) => {
+        const camposRequeridos = document.querySelectorAll('input[required], textarea[required]');
+        let todosCompletos = true;
+
+        // Verificar si todos los campos requeridos están completados
+        camposRequeridos.forEach(campo => {
+            if (campo instanceof HTMLInputElement || campo instanceof HTMLTextAreaElement) {
+                if (!campo.value) {
+                    todosCompletos = false;
+                    campo.classList.add('is-invalid'); // Agregar clase para mostrar error
+                } else {
+                    campo.classList.remove('is-invalid'); // Eliminar clase si el campo está completo
+                }
+            }
+        });
+        if(todosCompletos) {
+            setCargandoDatos(false);
+            setResolviendo(true);
+        }
+    }
 
     const handleSubmit = async (e) => {
+        
+        
         e.preventDefault();
-        const fecha = new Date();
-        const dia = fecha.getDate().toString().padStart(2, '0'); // Día con dos dígitos
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Mes con dos dígitos (0-11)
-        const año = fecha.getFullYear();
-        const fechaFormateada = `${dia}/${mes}/${año}`;
-        const alumnoData = {
-            fecha: fechaFormateada,
-            nombre,
-            apellido,
-            email,
-            tiempo: tiempo,
-            resultado: calcularResultado(selectedAnswers),
-            respuestas: selectedAnswers
-        };
+            
+            const fecha = new Date();
+            const dia = fecha.getDate().toString().padStart(2, '0'); // Día con dos dígitos
+            const mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Mes con dos dígitos (0-11)
+            const año = fecha.getFullYear();
+            const fechaFormateada = `${dia}/${mes}/${año}`;
+            const alumnoData = {
+                fecha: fechaFormateada,
+                nombre,
+                apellido,
+                email,
+                tiempo: tiempo,
+                resultado: calcularResultado(selectedAnswers),
+                respuestas: selectedAnswers
+            };
+            
+            try {
+                console.log(alumnoData)
+                const response = await fetch(`${endpoint}/api/examenes/${examId}/alumnos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(alumnoData),
+                });
 
-        try {
-            console.log(alumnoData)
-            const response = await fetch(`${endpoint}/api/examenes/${examId}/alumnos`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(alumnoData),
-            });
-
-            if (response.status === 200) {
-                console.log("exito")
-            } else {
+                if (response.status === 200) {
+                    
+                    console.log("exito")
+                } else {
+                    console.log("fallo");
+                }
+            } catch (error) {
                 console.log("fallo");
             }
-        } catch (error) {
-            console.log("fallo");
-        }
+        
     };
 
 
@@ -182,33 +207,26 @@ const ResolucionExamen: React.FC = () => {
 
     if (cargandoDatos) {
         return (
-            <div className="form-container">
+            <div className="className='template d-flex justify-content-center aling-items-center 100-w 100-vh '>">
                 <div className="form-card">
                     <div className="form-logo">
-                        <div className="footer-logo">
-                            <img src={logo2} alt="Easy Choice Logo" className="footer-logo-image" />
-                            <span className="footer-logo-text">© 2024 Easy Choice. Todos los derechos reservados.</span>
-                        </div></div>
+                        <img src={logo2} alt="Easy Choice Logo" className="logo-image" />
+                    </div>
                     <h2 className="form-title">{tituloExamen}</h2>
                     <p className="form-subtitle">{temaExamen}</p>
-                    <form onSubmit={handleSubmit}>
+                    <form className='form-main' onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Nombre:</label>
-                            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+                            <input type="text" placeholder='Ingresar Nombre'  value={nombre} onChange={(e) => setNombre(e.target.value)} required />
                         </div>
                         <div className="form-group">
-                            <label>Apellido:</label>
-                            <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
+                            <input type="text" placeholder='Ingresar Apellido' value={apellido} onChange={(e) => setApellido(e.target.value)} required />
                         </div>
                         <div className="form-group">
-                            <label>Email:</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <input type="email" placeholder='Ingresar Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </div>
-                        <button type="submit" onClick={() => {
-                            setCargandoDatos(false);
-                            setResolviendo(true)
-                        }} className="submit-button">Comenzar Examen</button>
                     </form>
+                    <button type="submit" onClick={handleForm} className="submit-button">Comenzar Examen</button>
+
                 </div>
             </div>
         );

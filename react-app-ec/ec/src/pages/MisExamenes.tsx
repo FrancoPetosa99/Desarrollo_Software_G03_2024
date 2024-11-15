@@ -185,7 +185,7 @@ function PanelExamenes() {
     //};
 
     const toggleshowQR = (id) => {
-        const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
+        const link = `http://${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
         setlink(link);
         setShowQR(!showQR);
     };
