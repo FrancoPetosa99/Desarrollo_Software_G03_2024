@@ -7,48 +7,7 @@ import './Examen.css';
 const ResolucionExamen: React.FC = () => {
     const endpoint = getBaseUrl(); // Obtener la URL base de la API
     // Estados para almacenar las preguntas, respuestas seleccionadas, estado del examen, etc.
-    const [preguntas, setPreguntas] = useState<any[]>([
-        {
-            enunciado: "¿Cuál es la capital de Francia?",
-            puntaje: 5,
-            opciones: [
-                { respuesta: "Madrid", correcta: false },
-                { respuesta: "París", correcta: true },
-                { respuesta: "Londres", correcta: false },
-                { respuesta: "Roma", correcta: false },
-            ]
-        },
-        {
-            enunciado: "¿Qué lenguaje se utiliza principalmente para el desarrollo web frontend?",
-            puntaje: 5,
-            opciones: [
-                { respuesta: "Python", correcta: false },
-                { respuesta: "JavaScript", correcta: true },
-                { respuesta: "Java", correcta: false },
-                { respuesta: "C#", correcta: false },
-            ]
-        },
-        {
-            enunciado: "¿Quién escribió 'Cien años de soledad'?",
-            puntaje: 5,
-            opciones: [
-                { respuesta: "Gabriel García Márquez", correcta: true },
-                { respuesta: "Pablo Neruda", correcta: false },
-                { respuesta: "Mario Vargas Llosa", correcta: false },
-                { respuesta: "Julio Cortázar", correcta: false },
-            ]
-        },
-        {
-            enunciado: "¿Cuál es el planeta más cercano al Sol?",
-            puntaje: 5,
-            opciones: [
-                { respuesta: "Venus", correcta: false },
-                { respuesta: "Tierra", correcta: false },
-                { respuesta: "Mercurio", correcta: true },
-                { respuesta: "Marte", correcta: false },
-            ]
-        }
-    ]);
+    const [preguntas, setPreguntas] = useState([])
 
 
     const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>([]);

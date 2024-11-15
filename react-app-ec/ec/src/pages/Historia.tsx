@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Alert from '../components/Alerts';
+import getBaseUrl from '../utils/getBaseUrl.js';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
@@ -10,163 +10,303 @@ import './Historia.css'
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 function Historial() {
-    /*const [examenes, setExamenes] = useState(EXAMENES_INICIALES);*/
+    const [examenes, setExamenes] = useState([]);
     const [examenSeleccionado, setExamenSeleccionado] = useState(null);
-    /*const [resoluciones, setResoluciones] = useState([]);*/
+    const [resoluciones, setResoluciones] = useState([]);
     const [resolucionesFiltradas, setResolucionesFiltradas] = useState([]);
     const [filtro, setFiltro] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: 'nombre', direction: 'asc' });
-
-    const resoluciones = [
-        {
-            examenId: 1, nombre: "Juan", apellido: "Pérez", nota: 9.5, tiempo: "45 min", fecha: "2024-10-01", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-1', correcta: true }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Ana", apellido: "López", nota: 8.0, tiempo: "30 min", fecha: "2024-10-02", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: '2', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: '2', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: '2', correcta: true },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: '2', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-2', correcta: true }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Luis", apellido: "García", nota: 7.8, tiempo: "55 min", fecha: "2024-10-03", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-3', correcta: false }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Clara", apellido: "Martínez", nota: 9.0, tiempo: "35 min", fecha: "2024-10-04", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Pedro", apellido: "Sánchez", nota: 6.5, tiempo: "40 min", fecha: "2024-10-05", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Laura", apellido: "Ramírez", nota: 8.7, tiempo: "50 min", fecha: "2024-10-06", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Roberto", apellido: "Torres", nota: 7.0, tiempo: "60 min", fecha: "2024-10-07", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Sofía", apellido: "Díaz", nota: 9.2, tiempo: "45 min", fecha: "2024-10-08", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
-            ]
-        },
-        {
-            examenId: 1, nombre: "Franco", apellido: "Cores", nota: 4, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
-                { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: false },
-                { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
-                { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
-                { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
-                { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
-            ]
-        },
-        
-
-        {
-            examenId: 2, nombre: "Carlos", apellido: "Gómez", nota: 6, tiempo: "60 min", fecha: "2024-10-01", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: true },
-            ] },
-        {
-            examenId: 2, nombre: "María", apellido: "Martínez", nota: 3.0, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: false },
-            ] },
-        {
-            examenId: 2, nombre: "María", apellido: "Martínez", nota: 10, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
-                { pregunta: 1, correcta: true },
-                { pregunta: 2, correcta: true },
-                { pregunta: 3, correcta: true },
-            ] },
-
-        {
-            examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 0, tiempo: "250 min", fecha: "2024-10-02", respuestas: [
-                { pregunta: 1, correcta: false },
-                { pregunta: 2, correcta: false },
-                { pregunta: 3, correcta: false },
-            ]
-        },
-        
-    ];
-    const EXAMENES_INICIALES = [
-        { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo:60 },
-        { id: 2, titulo: 'Examen de Quimica', tema: 'Moleculas', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGears.png', tiempo: 70 },
-        { id: 3, titulo: 'Examen de Fisica', tema: 'Fuerza', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 250 },
- 
-        ];
-
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
+    const endpoint = getBaseUrl();
     
-    //useEffect(() => {
-    //    // Función para obtener las resoluciones desde el servidor
-    //    const fetchResoluciones = async () => {
-    //        try {
-    //            const response = await fetch(`${endpoint}/api/resoluciones?examenId=${examenId}`);
-    //            if (!response.ok) {
-    //                throw new Error('Error al obtener las resoluciones');
+    //const resoluciones2 = [
+    //    {
+    //        "id": "1dba5956-79c1-4d5c-8530-bc716b76b401",
+    //        "fecha": "12/11/2024",
+    //        "resultado": 100.0,
+    //        "tiempo": 20,
+    //        "nombre": "Franco",
+    //        "apellido": "Petosa Ayala",
+    //        "email": "franco.petosa15@gmail.com",
+    //        "examenId": "eebd2122-8c87-4780-b548-f6149eec664b",
+    //        "respuestas": [
+    //            {
+    //                "id": "0b8efe07-93e3-40d6-8ec7-2eb7d3566f89",
+    //                "enunciado": "¿Cuál es la función principal de un bucle `for`?",
+    //                "opcion": "Ejecutar un bloque de código varias veces según una condición definida.",
+    //                "opcionCorrecta": "Ejecutar un bloque de código varias veces según una condición definida.",
+    //                "puntaje": 10.0
+    //            },
+    //            {
+    //                "id": "c76923df-2703-451b-8666-655f0e86c193",
+    //                "enunciado": "¿Qué es una variable en programación?",
+    //                "opcion": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+    //                "opcionCorrecta": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+    //                "puntaje": 10.0
     //            }
-    //            const data = await response.json(); // Asume que el servidor retorna un JSON
-    //            setResoluciones(data);
-    //        } catch (error) {
-    //            setError(error.message);
-    //        } finally {
-    //            setLoading(false);
-    //        }
-    //    };
+    //        ]
+    //    },
+    //    {
+    //        "id": "37bbd009-9372-4ebf-8f45-a231d782a88f",
+    //        "fecha": "12/11/2024",
+    //        "resultado": 100.0,
+    //        "tiempo": 20,
+    //        "nombre": "Isabella",
+    //        "apellido": "Bresciani",
+    //        "email": "isabella.bresciani@gmail.com",
+    //        "examenId": "eebd2122-8c87-4780-b548-f6149eec664b",
+    //        "respuestas": [
+    //            {
+    //                "id": "843ca989-6f32-4af3-81ca-69056406741d",
+    //                "enunciado": "¿Cuál es la función principal de un bucle `for`?",
+    //                "opcion": "Ejecutar un bloque de código varias veces según una condición definida.",
+    //                "opcionCorrecta": "Ejecutar un bloque de código varias veces según una condición definida.",
+    //                "puntaje": 10.0
+    //            },
+    //            {
+    //                "id": "8856404a-6b90-4a18-97d3-b14bd1442721",
+    //                "enunciado": "¿Qué es una variable en programación?",
+    //                "opcion": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+    //                "opcionCorrecta": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+    //                "puntaje": 10.0
+    //            }
+    //        ]
+    //    }
+    //];
 
-    //    fetchResoluciones();
-    //}, [examenId, endpoint]);
 
+    //const resoluciones = [
+    //    {
+    //        examenId: 1, nombre: "Juan", apellido: "Pérez", nota: 9.5, tiempo: "45 min", fecha: "2024-10-01", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-1', correcta: true }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Ana", apellido: "López", nota: 8.0, tiempo: "30 min", fecha: "2024-10-02", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: '2', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: '2', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: '2', correcta: true },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: '2', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-2', correcta: true }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Luis", apellido: "García", nota: 7.8, tiempo: "55 min", fecha: "2024-10-03", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-3', correcta: false }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Clara", apellido: "Martínez", nota: 9.0, tiempo: "35 min", fecha: "2024-10-04", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Pedro", apellido: "Sánchez", nota: 6.5, tiempo: "40 min", fecha: "2024-10-05", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Laura", apellido: "Ramírez", nota: 8.7, tiempo: "50 min", fecha: "2024-10-06", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Roberto", apellido: "Torres", nota: 7.0, tiempo: "60 min", fecha: "2024-10-07", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Sofía", apellido: "Díaz", nota: 9.2, tiempo: "45 min", fecha: "2024-10-08", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: true },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: false }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Daniel", apellido: "Jiménez", nota: 7.9, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: true },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: true },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+    //        ]
+    //    },
+    //    {
+    //        examenId: 1, nombre: "Franco", apellido: "Cores", nota: 4, tiempo: "40 min", fecha: "2024-10-10", respuestas: [
+    //            { pregunta: 'Lenguaje de una base de datos', respuesta: 'SQL', correcta: false },
+    //            { pregunta: 'Principal lenguaje de frontend', respuesta: 'JavaScript', correcta: false },
+    //            { pregunta: 'Protocolo seguro para transferir datos en la web', respuesta: 'HTTPS', correcta: false },
+    //            { pregunta: 'Comando para listar archivos en Linux', respuesta: 'ls', correcta: true },
+    //            { pregunta: 'Función de hashing comúnmente usada en ciberseguridad', respuesta: 'SHA-256', correcta: true }
+    //        ]
+    //    },
+
+
+    //    {
+    //        examenId: 2, nombre: "Carlos", apellido: "Gómez", nota: 6, tiempo: "60 min", fecha: "2024-10-01", respuestas: [
+    //            { pregunta: 1, correcta: true },
+    //            { pregunta: 2, correcta: false },
+    //            { pregunta: 3, correcta: true },
+    //        ] },
+    //    {
+    //        examenId: 2, nombre: "María", apellido: "Martínez", nota: 3.0, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
+    //            { pregunta: 1, correcta: true },
+    //            { pregunta: 2, correcta: false },
+    //            { pregunta: 3, correcta: false },
+    //        ] },
+    //    {
+    //        examenId: 2, nombre: "María", apellido: "Martínez", nota: 10, tiempo: "50 min", fecha: "2024-10-03", respuestas: [
+    //            { pregunta: 1, correcta: true },
+    //            { pregunta: 2, correcta: true },
+    //            { pregunta: 3, correcta: true },
+    //        ] },
+
+    //    {
+    //        examenId: 3, nombre: "Luis", apellido: "Fernández", nota: 0, tiempo: "250 min", fecha: "2024-10-02", respuestas: [
+    //            { pregunta: 1, correcta: false },
+    //            { pregunta: 2, correcta: false },
+    //            { pregunta: 3, correcta: false },
+    //        ]
+    //    },
+
+    //];
+
+
+    //const EXAMENES_INICIALES = [
+    //    { id: 1, titulo: 'Examen de Matemática', tema: 'Álgebra', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo:60 },
+    //    { id: 2, titulo: 'Examen de Quimica', tema: 'Moleculas', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGears.png', tiempo: 70 },
+    //    { id: 3, titulo: 'Examen de Fisica', tema: 'Fuerza', imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg', tiempo: 250 },
+ 
+    //];
     
+    const inputData = {
+        "status": "Success",
+        "statusCode": 200,
+        "message": "Se han encontrado los examenes de los alumnos con id: eebd2122-8c87-4780-b548-f6149eec664b",
+        "data": [
+            {
+                "id": "1dba5956-79c1-4d5c-8530-bc716b76b401",
+                "fecha": "12/11/2024",
+                "resultado": 100.0,
+                "tiempo": 20,
+                "nombre": "Franco",
+                "apellido": "Petosa Ayala",
+                "email": "franco.petosa15@gmail.com",
+                "examenId": "eebd2122-8c87-4780-b548-f6149eec664b",
+                "respuestas": [
+                    {
+                        "id": "0b8efe07-93e3-40d6-8ec7-2eb7d3566f89",
+                        "enunciado": "¿Cuál es la función principal de un bucle `for`?",
+                        "opcion": "Ejecutar un bloque de código varias veces según una condición definida.",
+                        "opcionCorrecta": "Ejecutar un bloque de código varias veces según una condición definida.",
+                        "puntaje": 10.0
+                    },
+                    {
+                        "id": "c76923df-2703-451b-8666-655f0e86c193",
+                        "enunciado": "¿Qué es una variable en programación?",
+                        "opcion": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+                        "opcionCorrecta": "Un espacio en memoria que almacena un valor que puede cambiar durante la ejecución del programa.",
+                        "puntaje": 10.0
+                    }
+                ]
+            }
+        ],
+        "timestamp": 1731436841854,
+        "path": null,
+        "userFriendlyMessage": null
+    };
+
+    const parseData = (input) => {
+        return input.data.map(exam => ({
+            examenId: exam.examenId,
+            nombre: exam.nombre,
+            apellido: exam.apellido,
+            nota: exam.resultado / 10, // Convertir a escala de 0-10
+            tiempo: `${exam.tiempo} min`,
+            fecha: exam.fecha.split('/').reverse().join('-'), // Formato "YYYY-MM-DD"
+            respuestas: exam.respuestas.map(respuesta => ({
+                pregunta: respuesta.enunciado,
+                respuesta: respuesta.opcion,
+                correcta: respuesta.opcion === respuesta.opcionCorrecta
+            }))
+        }));
+    };
+
+    const fetchResoluciones = async (examenID: number | React.SetStateAction<null>) => {
+        try {
+            const response = await fetch(`${endpoint}/api/examenes/${examenID}/alumnos`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const parsedData = parseData(data);
+                setResoluciones(parsedData);
+                console.log(resoluciones)
+            }
+        } catch (error) {
+            setAlertMessage('Error al cargar notas')
+            setAlertType('error')
+            setShowAlert(true);
+        }
+    };
+
+    const obtenerExamenes = async () => {
+        try {
+            const response = await fetch(`${endpoint}/api/examenes`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json(); // Parsear la respuesta JSON
+                setExamenes(data.data); // Actualizar los exámenes en el estado
+            } else {
+                const errorData = await response.json(); // Parsear la respuesta de error
+                setAlertMessage('Error al cargar exámenes');
+                setAlertType('error');
+                setShowAlert(true); // Mostrar un mensaje de error en la UI
+            }
+        } catch (error) {
+            console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
+            setAlertMessage('Error al cargar exámenes');
+            setAlertType('error');
+            setShowAlert(true); // Mostrar un mensaje de error en la UI
+        };
+    };
+
+
     const manejarFiltro = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setFiltro(e.target.value);
     };
@@ -201,23 +341,24 @@ function Historial() {
         });
 
     const seleccionarExamen = (examenId: number | React.SetStateAction<null>) => {
-        setExamenSeleccionado(examenId); 
-        const resolucionesExamen = resoluciones.filter(resolucion => resolucion.examenId === examenId); 
-        setResolucionesFiltradas(resolucionesExamen)
-        calcularIndicadores(resolucionesFiltradas); 
+        setExamenSeleccionado(examenId);
+        fetchResoluciones(examenId);
+
+        const resolucionesExamen = resoluciones.filter(resolucion => resolucion.examenId === examenId);
+        setResolucionesFiltradas(resolucionesExamen);
+
+        calcularIndicadores(resolucionesExamen);
     };
     
     useEffect(() => {
-        // Desactiva el scroll
+        obtenerExamenes();
         document.body.style.overflow = 'hidden';
         window.scrollTo(0, 0);
-        // Vuelve a activar el scroll cuando el componente se desmonta
         return () => {
             document.body.style.overflow = 'auto';
         };
     }, []);
 
-    //indicadores scripts
 
     const calcularIndicadores = (resolucionesExamen: { respuestas?: { correcta: boolean }[]; nota: number; tiempo: string; }[]) => {
         const totalResueltos = resolucionesExamen.length;
@@ -227,29 +368,28 @@ function Historial() {
         const tiempoTotal = resolucionesExamen.reduce((acc, curr) => acc + parseInt(curr.tiempo), 0);
         const tiempoPromedio = totalResueltos ? (tiempoTotal / totalResueltos) : 0;
 
-        const calcularPorcentajesPorPregunta = (resoluciones) => {
+        const calcularPorcentajesPorPregunta = (resoluciones: any[]) => {
             if (resoluciones.length === 0 || !resoluciones[0].respuestas) return [];
 
             const totalPreguntas = resoluciones[0].respuestas.length;
             const porcentajesPorPregunta = Array(totalPreguntas).fill(0);
 
-            // Recorremos cada pregunta para calcular su porcentaje de acierto
             for (let i = 0; i < totalPreguntas; i++) {
-                const aciertos = resoluciones.reduce((acc, curr) => {
+                const aciertos = resoluciones.reduce((acc: number, curr: { respuestas: { correcta: any; }[]; }) => {
                     if (curr.respuestas && curr.respuestas[i] && curr.respuestas[i].correcta) {
                         return acc + 1;
                     }
                     return acc;
                 }, 0);
-                porcentajesPorPregunta[i] = (aciertos / totalResueltos) * 100; // Cambiar resoluciones.length por totalResueltos
+                porcentajesPorPregunta[i] = (aciertos / totalResueltos) * 100; 
             }
 
             return porcentajesPorPregunta;
         };
 
-        const porcentajeAciertoPregunta = calcularPorcentajesPorPregunta(resolucionesExamen); // Llama a la función para obtener porcentajes
+        const porcentajeAciertoPregunta = calcularPorcentajesPorPregunta(resolucionesExamen); 
 
-        return { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta }; // Incluye porcentajeAciertoPregunta en el retorno
+        return { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta }; 
     };
 
     const { porcentajeAprobacion, tiempoPromedio, porcentajeAciertoPregunta } = calcularIndicadores(resolucionesFiltradas);
@@ -258,7 +398,7 @@ function Historial() {
     const [animacionAcierto, setAnimacionAcierto] = useState(0);
 
     useEffect(() => {
-        // Animación para el porcentaje de aprobación
+        
         const animarAprobacion = setInterval(() => {
             setAnimacionAprobacion((prev) => {
                 if (prev < porcentajeAprobacion) {
@@ -268,9 +408,9 @@ function Historial() {
                     return porcentajeAprobacion;
                 }
             });
-        }, 1); // Incrementa cada 10 ms para una animación suave
+        }, 1); 
 
-        // Animación para el tiempo promedio
+        
         const tiempoObjetivo = (tiempoPromedio / 60) * 100;
         const animarTiempo = setInterval(() => {
             setAnimacionTiempo((prev) => {
@@ -283,22 +423,22 @@ function Historial() {
             });
         }, 1);
 
-        // Animación para el porcentaje de acierto
+        
         const animarAcierto = setInterval(() => {
             setAnimacionAcierto((prev) => {
-                const target = parseFloat(porcentajeAciertoPregunta); // Asegúrate de que esto sea un número
+                const target = parseFloat(porcentajeAciertoPregunta); 
                 if (prev < target) {
-                    // Incremento más controlado
-                    const increment = (target - prev) / 100; // Divide para que sea más suave
-                    return Math.min(prev + increment, target); // Asegúrate de no sobrepasar el objetivo
+                    
+                    const increment = (target - prev) / 100; 
+                    return Math.min(prev + increment, target); 
                 } else {
                     clearInterval(animarAcierto);
-                    return target; // Establece el valor final al objetivo
+                    return target;
                 }
             });
         }, 1);
 
-        // Limpiar los intervalos al desmontar
+        
         return () => {
             clearInterval(animarAprobacion);
             clearInterval(animarTiempo);
@@ -308,23 +448,23 @@ function Historial() {
 
     
     const getColorByPercentageUp = (percentage: number) => {
-        if (percentage >= 80) return "#4CCEC4"; // Verde para alto
-        if (percentage >= 50) return "#FED16A"; // Amarillo para medio
-        return "#FE6A6B"; // Rojo para bajo
+        if (percentage >= 80) return "#4CCEC4"; 
+        if (percentage >= 50) return "#FED16A";
+        return "#FE6A6B";
     };
 
     const getColorByPercentageDown = (percentage: number) => {
-        if (percentage >= 90) return "#FE6A6B"; // Rojo para alto
-        if (percentage >= 50) return "#FED16A"; // Amarillo para medio
-        return "#4CCEC4"; // Verde para bajo
+        if (percentage >= 90) return "#FE6A6B"; 
+        if (percentage >= 50) return "#FED16A"; 
+        return "#4CCEC4";
     };
 
     const data = {
-        labels: porcentajeAciertoPregunta.map((_, index) => `Pregunta ${index + 1}`), // Cambia `porcentajeAciertoPorPregunta` a `porcentajeAciertoPregunta`
+        labels: porcentajeAciertoPregunta.map((_, index) => `Pregunta ${index + 1}`),
         datasets: [
             {
                 label: 'Porcentaje de Acierto',
-                data: porcentajeAciertoPregunta, // Asegúrate de que esta variable esté definida
+                data: porcentajeAciertoPregunta, 
                 backgroundColor: porcentajeAciertoPregunta.map(porcentaje => getColorByPercentageUp(porcentaje)),
             }
         ]
@@ -350,8 +490,8 @@ function Historial() {
     const [mostrarPreguntas, setMostrarPreguntas] = useState(null);
     const [abrirPreguntas, setAbrirPreguntas] = useState(false);
     const [respuestas, setRespuestas] = useState([]);
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    const togglePreguntas = async (resolucionIndex, resolucion) => {
+    const sleep = (ms: number | undefined) => new Promise(resolve => setTimeout(resolve, ms));
+    const togglePreguntas = async (resolucionIndex: number | React.SetStateAction<null>, resolucion: never) => {
         if (mostrarPreguntas === resolucionIndex) {
             setAbrirPreguntas(false);
             await sleep(400);
@@ -365,37 +505,15 @@ function Historial() {
     };
 
 
-    //// Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
-    //const obtenerExamenes = async ({ profesorId }: { profesorId: string; }) => {
-    //    // Indica que la carga ha comenzado
-
-    //    try {
-    //        const response = await fetch(`${endpoint}/api/examenes/profesores/${profesorId}`);
-
-    //        if (response.ok) {
-    //            const data = await response.json(); // Parsear la respuesta JSON
-    //            setExamenes(data); // Actualizar los exámenes en el estado
-    //        } else {
-    //            const errorData = await response.json(); // Parsear la respuesta de error
-    //            console.error('Error al obtener los exámenes:', errorData); // Loguear el error en consola
-    //            setShowAlert(true); // Mostrar un mensaje de error en la UI
-    //        }
-    //    } catch (error) {
-    //        console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
-    //        setShowAlert(true); // Mostrar un mensaje de error en la UI
-    //    } finally {
-    //        setTimeout(() => {
-    //            setLoading(false); // Indicar que la carga ha finalizado
-    //        }, 0);;
-    //    }
-    //};
-
-    
-    
-
 
     return (
         <Layout>
+            {showAlert && (
+                <Alert
+                    message={alertMessage}
+                    alertType={alertType}
+                />
+            )}
             <div className="historia">
                 <div className="sidebar-top">
                     <div className="sidebar-title">
@@ -405,7 +523,7 @@ function Historial() {
                 <div className="sidebar">
                    
                     <div className="lista-examenes-historia">
-                        {EXAMENES_INICIALES.map((examen) => (
+                        {examenes.map((examen) => (
                             <div key={examen.id} className={`examen-historia-container ${examenSeleccionado === examen.id ? 'seleccionado' : ''}`}
                                 style={{
                                     backgroundImage: `url(${examen.imagenFondo})`,
@@ -446,7 +564,7 @@ function Historial() {
                                 <h6>Promedio de tiempo</h6>
                                 <CircularProgressbar
                                     className='circular-progressbar'
-                                    value={animacionTiempo} // Normalización para %
+                                    value={animacionTiempo} 
                                     text={`${tiempoPromedio.toFixed(1)} min`}
                                     styles={buildStyles({
                                         textColor: getColorByPercentageDown(animacionTiempo),

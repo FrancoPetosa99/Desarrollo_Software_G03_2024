@@ -23,6 +23,10 @@
         animation: slideOut 0.5s ease forwards;
     }
 
+.alert-warning.slide-out {
+    animation: slideOut 0.5s ease forwards;
+}
+
 .alert_message {
     font-weight: 500;
     font-size: 14px;
@@ -115,6 +119,6 @@
     }
 
     to {
-        transform: translateX(-110%);
+        transform: translateX(-100%);
     }
 }

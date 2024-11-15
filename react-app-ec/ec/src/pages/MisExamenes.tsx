@@ -9,7 +9,6 @@ import wallpaperIcon from '../icons/wallpaper.svg';
 import DesplegableConImagenes from '../components/DesplegableImagenes';
 import getBaseUrl from '../utils/getBaseUrl.js';
 import './MisExamenes.css';
-import QRCode from 'react-qr-code';
 
 // Exámenes iniciales de ejemplo para mostrar en el componente
 const EXAMENES_INICIALES = [
@@ -62,23 +61,21 @@ const EXAMENES_INICIALES = [
 ];
 
 function PanelExamenes() {
-    const [examenes, setExamenes] = useState(EXAMENES_INICIALES); // Estado para almacenar los exámenes
-    const [loading, setLoading] = useState(true); // Estado para controlar si los datos están cargando
-    const [filtroBusqueda, setFiltroBusqueda] = useState(''); // Filtro de búsqueda por tema
-    const [showDialog, setShowDialog] = useState({ id: null, visible: false }); // Estado para mostrar u ocultar el diálogo de confirmación
+    const [examenes, setExamenes] = useState(EXAMENES_INICIALES); 
+    const [loading, setLoading] = useState(true); 
+    const [filtroBusqueda, setFiltroBusqueda] = useState(''); 
+    const [showDialog, setShowDialog] = useState({ id: null, visible: false }); 
     const [showDesplegable, setShowDesplegable] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
     const [showQR, setShowQR] = useState(false);
     const [link, setlink] = useState('')
-    const navigate = useNavigate(); // Hook para redirigir a otras páginas
-    //const endpoint = getBaseUrl(); // Obtener la URL base del servidor
+    const navigate = useNavigate(); 
+    const endpoint = getBaseUrl(); 
     const [showAlert, setShowAlert] = useState(false);
 
     // Función que obtiene los exámenes desde un API usando el ID del profesor almacenado en localStorage
     const obtenerExamenes = async () => {
-        // Indica que la carga ha comenzado
-        const endpoint = getBaseUrl()
         try {
             const response = await fetch(`${endpoint}/api/examenes`, {
                 method: 'GET',
@@ -97,12 +94,18 @@ function PanelExamenes() {
                 setAlertMessage('Error al cargar exámenes')
                 setAlertType('error')
                 setShowAlert(true); // Mostrar un mensaje de error en la UI
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 9000);;
             }
         } catch (error) {
             console.error('Error de red al obtener los exámenes:', error); // Manejo de errores de red
             setAlertMessage('Error al cargar exámenes')
             setAlertType('error')
             setShowAlert(true); // Mostrar un mensaje de error en la UI
+            setTimeout(() => {
+                setShowAlert(false);
+            }, 9000);;
         } finally {
             setTimeout(() => {
                 setLoading(false); // Indicar que la carga ha finalizado
@@ -113,7 +116,6 @@ function PanelExamenes() {
     // Hook de efecto que se ejecuta al montar el componente (solo una vez)
     useEffect(() => {
         window.scrollTo(0, 0);
-        /* document.body.style.overflow = 'hidden';*/
         obtenerExamenes();
         setShowQR(false);
         return () => {
@@ -224,13 +226,13 @@ function PanelExamenes() {
     };
 
     // Función que cambia el estado de habilitación de un examen (Iniciar o Finalizar)
-    const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
-        setExamenes((prevExamenes) =>
-            prevExamenes.map((examen) =>
-                examen.id === id ? { ...examen, habilitado: !habilitado } : examen
-            )
-        );
-    };
+    //const cambiarEstadoExamen = (id: number, habilitado: boolean) => {
+    //    setExamenes((prevExamenes) =>
+    //        prevExamenes.map((examen) =>
+    //            examen.id === id ? { ...examen, habilitado: !habilitado } : examen
+    //        )
+    //    );
+    //};
 
     const toggleshowQR = (id) => {
         const link = `${window.location.hostname}:${window.location.port}/examen/${id}`; // Genera el link del examen
