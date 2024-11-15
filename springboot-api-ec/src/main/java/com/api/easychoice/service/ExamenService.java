@@ -3,11 +3,15 @@ package com.api.easychoice.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.api.easychoice.exception.BadRequestException;
 import com.api.easychoice.exception.NotFoundException;
 import com.api.easychoice.model.Examen;
+import com.api.easychoice.model.InstanciaExamen;
 import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.repository.ExamenRepository;
+import com.api.easychoice.repository.InstanciaExamenRepository;
 import com.api.easychoice.repository.ProfesorRepository;
 
 @Service
@@ -18,6 +22,9 @@ public class ExamenService {
 
     @Autowired
     private ProfesorRepository profesorRepository;
+
+    @Autowired
+    private InstanciaExamenRepository instanciaExamenRepository;
 
     public Examen crearExamen(Examen examen) {
         examenRepository.save(examen);
@@ -46,5 +53,21 @@ public class ExamenService {
         List<Pregunta> preguntas = examen.getPreguntas();
 
         return preguntas;
+    }
+
+    public List<InstanciaExamen> getExamenesById(String id) {
+        List<InstanciaExamen> examenes = instanciaExamenRepository.findByExamenId(id);
+        return examenes;
+    }
+
+    public InstanciaExamen crearInstanciaExamen(InstanciaExamen examen) throws BadRequestException {
+
+        String email = examen.getEmail();
+        String examenId = examen.getExamenId();
+
+        if (instanciaExamenRepository.existsByEmailAndExamenId(email, examenId)) 
+            throw new BadRequestException("Alumno ya rindio examen con ID: " + examenId);
+
+        return instanciaExamenRepository.save(examen);
     }
 }

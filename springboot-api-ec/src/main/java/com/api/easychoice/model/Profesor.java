@@ -5,6 +5,7 @@ import com.api.easychoice.model.Examen;
 import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -29,7 +30,7 @@ public class Profesor {
     private String password;
 
     // un Profesor posee muchos Examenes
-    @OneToMany(mappedBy = "profesor")
+    @OneToMany(mappedBy = "profesor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Examen> examenes;
     
 
