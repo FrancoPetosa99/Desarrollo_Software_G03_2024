@@ -1,7 +1,7 @@
 package com.api.easychoice.dto;
 
 import java.util.List;
-import com.api.easychoice.dto.OpcionDTO;
+
 
 public class PreguntaDTO {
 

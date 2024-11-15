@@ -2,7 +2,6 @@ package com.api.easychoice.dto.examen;
 
 import java.util.List;
 import com.api.easychoice.dto.PreguntaDTO;
-import com.api.easychoice.dto.examen.ExamenDTO;
 
 
 public class NuevoExamenDTO extends ExamenDTO {

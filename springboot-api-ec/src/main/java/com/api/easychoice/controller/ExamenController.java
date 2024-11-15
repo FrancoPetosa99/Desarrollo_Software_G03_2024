@@ -14,7 +14,6 @@ import com.api.easychoice.jwt.JwtToken;
 import com.api.easychoice.mapper.ExamenMapper;
 import com.api.easychoice.model.Examen;
 import com.api.easychoice.model.InstanciaExamen;
-import com.api.easychoice.model.Pregunta;
 import com.api.easychoice.model.Profesor;
 import com.api.easychoice.model.Respuesta;
 import com.api.easychoice.response.HttpBodyResponse;
