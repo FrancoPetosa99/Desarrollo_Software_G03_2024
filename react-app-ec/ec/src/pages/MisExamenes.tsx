@@ -10,58 +10,8 @@ import DesplegableConImagenes from '../components/DesplegableImagenes';
 import getBaseUrl from '../utils/getBaseUrl.js';
 import './MisExamenes.css';
 
-// Exámenes iniciales de ejemplo para mostrar en el componente
-const EXAMENES_INICIALES = [
-    {
-        id: 1,
-        titulo: 'Examen de Matemática',
-        tema: 'Álgebra',
-        tiempo: '30 min',
-        fecha: new Date().toISOString().split('T')[0],
-        habilitado: true,
-        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
-    },
-    {
-        id: 2,
-        titulo: 'Examen de Arte',
-        tema: 'Renacimiento',
-        tiempo: '45 min',
-        fecha: new Date().toISOString().split('T')[0],
-        habilitado: false,
-        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/david.jpg',
-    },
-    {
-        id: 1,
-        titulo: 'Examen de Matemática',
-        tema: 'Álgebra',
-        tiempo: '30 min',
-        fecha: new Date().toISOString().split('T')[0],
-        habilitado: true,
-        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
-    },
-    {
-        id: 3,
-        titulo: 'Examen de Matemática',
-        tema: 'Álgebra',
-        tiempo: '30 min',
-        fecha: new Date().toISOString().split('T')[0],
-        habilitado: true,
-        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
-    },
-    {
-        id: 4,
-        titulo: 'Examen de Matemática',
-        tema: 'Álgebra',
-        tiempo: '30 min',
-        fecha: new Date().toISOString().split('T')[0],
-        habilitado: false,
-        imagenFondo: 'https://raw.githubusercontent.com/Kleos-ops/Imagenes/c1ee3fa4b868350b1ba1f2b4e35c29fda081fc37/fondoGenerico.jpg',
-    },
-    // Más exámenes...
-];
-
 function PanelExamenes() {
-    const [examenes, setExamenes] = useState(EXAMENES_INICIALES); 
+    const [examenes, setExamenes] = useState([]); 
     const [loading, setLoading] = useState(true); 
     const [filtroBusqueda, setFiltroBusqueda] = useState(''); 
     const [showDialog, setShowDialog] = useState({ id: null, visible: false }); 

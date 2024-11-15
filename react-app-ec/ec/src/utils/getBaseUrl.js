@@ -1,6 +1,6 @@
 function getBaseUrl() {
-    return 'https://e427-200-10-126-116.ngrok-free.app';
+    return 'https://b4d1-186-138-223-158.ngrok-free.app';
 }
-//99649b61-1839-4541-bf6d-659aafb57595
+
 export default getBaseUrl;
     

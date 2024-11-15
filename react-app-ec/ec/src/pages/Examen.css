@@ -290,4 +290,73 @@ body {
 	user-select: none;
 }
 
+.form-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #fdf5e6; /* Fondo blanco hueso */
+}
+
+.form-card {
+	background-color: white;
+	padding: 2rem;
+	border-radius: 12px;
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+	width: 400px;
+	text-align: center;
+}
+
+.form-logo {
+	font-size: 2rem;
+	color: #333;
+	margin-bottom: 1rem;
+}
+
+.form-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin: 0;
+}
+
+.form-subtitle {
+	font-size: 1rem;
+	color: #666;
+	margin-bottom: 1.5rem;
+}
+
+.form-group {
+	text-align: center;
+}
+
+	.form-group label {
+		display: block;
+		font-size: 0.9rem;
+		color: #333;
+		text-align: center;
+	}
+
+	.form-group input {
+		width: 100%;
+		padding: 0.5rem;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		font-size: 1rem;
+	}
+
+.submit-button {
+	background-color: #2e7d32;
+	color: white;
+	border: none;
+	padding: 0.75rem;
+	font-size: 1rem;
+	border-radius: 8px;
+	cursor: pointer;
+	width: 100%;
+	margin-top: 20px;
+}
+
+	.submit-button:hover {
+		background-color: #1b5e20;
+	}
 		
