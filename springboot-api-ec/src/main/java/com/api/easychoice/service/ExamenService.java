@@ -42,7 +42,7 @@ public class ExamenService {
         return examenes;
     }
 
-    public List<Pregunta> getPreguntas(String examenId) throws NotFoundException{
+    public Examen getPreguntas(String examenId) throws NotFoundException{
 
         // recuperar examen por id
         Examen examen = examenRepository.findExamenById(examenId);
@@ -50,9 +50,9 @@ public class ExamenService {
         // verificar que existe el examen
         if (examen == null) throw new NotFoundException("No existe examen con id: " + examenId);
 
-        List<Pregunta> preguntas = examen.getPreguntas();
+        // List<Pregunta> preguntas = examen.getPreguntas();
 
-        return preguntas;
+        return examen;
     }
 
     public List<InstanciaExamen> getExamenesById(String id) {

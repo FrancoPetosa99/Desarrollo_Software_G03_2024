@@ -99,7 +99,7 @@ public class ExamenController {
             if (id == null) throw new BadRequestException("El id del examen es requerido");
 
             // invocar servicio para obtener los examenes
-            List<Pregunta> preguntas = examenService.getPreguntas(id);
+            Examen examen = examenService.getPreguntas(id);
 
             // construir la respuesta al cliente
             HttpBodyResponse data = new HttpBodyResponse
@@ -107,7 +107,7 @@ public class ExamenController {
             .status("Success")
             .statusCode(200)
             .message("Se han encontrado las preguntas del examen con id:", id)
-            .data(preguntas)
+            .data(examen)
             .build();
 
             // devolver respuesta al cliente
@@ -209,14 +209,9 @@ public class ExamenController {
 
     @PostMapping("/{id}/alumnos")
     public ResponseEntity<Object> crearInstanciaExamen(
-                @RequestHeader(value = "Authorization", required = true) String authToken,
                 @PathVariable("id") String id,
                 @RequestBody NuevaInstanciaExamenDTO instanciaExamenDTO) {
         try {
-                
-                authToken = authToken.substring(7);
-                Map<String, Object> payload = JwtToken.getPayload(authToken);
-                String profesorId = payload.get("id").toString();
 
                 InstanciaExamen examen = new InstanciaExamen(
                         instanciaExamenDTO.getFecha(),
@@ -244,8 +239,6 @@ public class ExamenController {
 
                 examenService.crearInstanciaExamen(examen);
 
-                // verificar que exista el id del profesor
-                if (profesorId == null) throw new BadRequestException("El id del profesor es requerido");
                 // construir la respuesta al cliente
                 HttpBodyResponse data = new HttpBodyResponse
                 .Builder()
