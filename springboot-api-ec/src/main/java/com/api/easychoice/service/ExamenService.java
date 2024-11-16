@@ -63,7 +63,7 @@ public class ExamenService {
     public InstanciaExamen crearInstanciaExamen(InstanciaExamen examen) throws BadRequestException {
 
         String email = examen.getEmail();
-        String examenId = examen.getExamenId();
+        String examenId = examen.getExamen().getId();
 
         if (instanciaExamenRepository.existsByEmailAndExamenId(email, examenId)) 
             throw new BadRequestException("Alumno ya rindio examen con ID: " + examenId);

@@ -4,11 +4,16 @@ import java.util.List;
 import com.api.easychoice.utils.UUIDGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import com.api.easychoice.model.Examen;
 import lombok.Data;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
@@ -37,14 +42,19 @@ public class InstanciaExamen {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "examenId")
-    private String examenId;
 
     // una InstanciaExamen posee muchas Respuestas
     // una Respuesta posee una InstanciaExamen
     @OneToMany(mappedBy = "instanciaExamen", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Respuesta> respuestas ;
+
+
+    @ManyToOne
+    @JoinColumn(name = "examenId", nullable = false)
+    @JsonBackReference
+    private Examen examen;
+
 
     public InstanciaExamen() {
         this.id = new UUIDGenerator().generate(); 
@@ -59,6 +69,6 @@ public class InstanciaExamen {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.examenId = examenId;
+
     }
 }

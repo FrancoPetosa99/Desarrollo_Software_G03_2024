@@ -46,6 +46,9 @@ public class Examen {
     @OneToMany(mappedBy = "examen", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pregunta> preguntas;
 
+    @OneToMany(mappedBy = "examen", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InstanciaExamen> instanciaExamen;
+
     public Examen() {
         this.id = new UUIDGenerator().generate(); 
     }
