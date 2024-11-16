@@ -13,11 +13,18 @@ Esta herramienta intuitiva permite a los profesores crear exámenes personalizad
 
 ## Características
 
-- Interfaz de usuario intuitiva: Los profesores pueden registrarse fácilmente y acceder a su panel de control.
-- Creación de exámenes: Los docentes pueden diseñar exámenes con diferentes tipos de preguntas multiple choice.
-- Acceso para estudiantes: Los alumnos pueden ingresar a los exámenes a través de un enlace único o código QR proporcionado por el profesor.
-- Seguimiento de resultados: Los profesores pueden revisar y analizar los resultados de los exámenes de sus estudiantes de manera efectiva.
-- Utilización de métricas: Permiten detectar temas o habilidades que necesitan mayor refuerzo, tanto para alumnos como para el profesor en su metodología.
+- **Interfaz de usuario intuitiva**: Los profesores pueden registrarse fácilmente y acceder a su panel de control.
+- **Creación de exámenes**: Los docentes pueden diseñar exámenes con diferentes tipos de preguntas multiple choice.
+- **Acceso para estudiantes**: Los alumnos pueden ingresar a los exámenes a través de un enlace único o código QR proporcionado por el profesor.
+- **Seguimiento de resultados**: Los profesores pueden revisar y analizar los resultados de los exámenes de sus estudiantes de manera efectiva.
+- **Utilización de métricas**: Permiten detectar temas o habilidades que necesitan mayor refuerzo, tanto para alumnos como para el profesor en su metodología.
+
+## Tecnologías Utilizadas
+Este proyecto utiliza las siguientes tecnologías:
+
+- **Frontend:** React.js
+- **Backend:** Java con Spring Boot
+- **Base de Datos:** MySQL
 
 ## Integrates
 1. Petosa Ayala Franco
